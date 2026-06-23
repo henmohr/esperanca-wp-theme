@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class('content'); ?>>
     <div class="hero <?php echo has_post_thumbnail() ? '' : 'hero--noimage'; ?>">
-        <header class="hero__content">
+        <header class="hero__content hero__content--centered">
             <div class="wrapper">
                 <h1><?php the_title(); ?></h1>
                 <div class="feed__meta content__meta">

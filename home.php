@@ -13,7 +13,7 @@ if ($news_title === '') {
 ?>
 <main class="posts">
     <div class="hero hero--noimage">
-        <header class="hero__content">
+        <header class="hero__content hero__content--centered">
             <div class="wrapper">
                 <h1><?php echo esc_html($news_title); ?></h1>
                 <p class="page__desc"><?php esc_html_e('Atualizações, anúncios e matérias recentes da FEICOOP.', 'feicoop'); ?></p>

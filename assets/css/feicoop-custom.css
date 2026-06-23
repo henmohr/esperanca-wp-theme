@@ -969,6 +969,14 @@ p {
   gap: 0.4rem;
 }
 
+.page .hero__content .wrapper,
+.post .hero__content .wrapper,
+.page .hero__content.hero__content--centered .wrapper,
+.post .hero__content.hero__content--centered .wrapper {
+  justify-items: center;
+  text-align: center;
+}
+
 blockquote {
   background: rgba(176, 170, 92, 0.12);
 }
