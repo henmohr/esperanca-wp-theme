@@ -93,28 +93,28 @@ function feicoop_home_hero_fields(): array {
 }
 
 function feicoop_home_banner_height(): int {
-    $height = (int) get_theme_mod('feicoop_home_banner_height', 320);
+    $height = (int) get_theme_mod('feicoop_home_banner_height', 130);
 
-    if ($height < 180) {
-        return 180;
+    if ($height < 100) {
+        return 100;
     }
 
-    if ($height > 600) {
-        return 600;
+    if ($height > 150) {
+        return 150;
     }
 
     return $height;
 }
 
 function feicoop_home_banner_mobile_height(): int {
-    $height = (int) get_theme_mod('feicoop_home_banner_mobile_height', 220);
+    $height = (int) get_theme_mod('feicoop_home_banner_mobile_height', 100);
 
-    if ($height < 140) {
-        return 140;
+    if ($height < 80) {
+        return 80;
     }
 
-    if ($height > 480) {
-        return 480;
+    if ($height > 110) {
+        return 110;
     }
 
     return $height;
@@ -493,35 +493,35 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
     ]);
 
     $wp_customize->add_setting('feicoop_home_banner_height', [
-        'default' => 320,
+        'default' => 130,
         'sanitize_callback' => 'absint',
     ]);
 
     $wp_customize->add_control('feicoop_home_banner_height', [
         'label' => __('Altura do banner', 'feicoop'),
-        'description' => __('Use um valor em pixels. Ex.: 320, 380, 420.', 'feicoop'),
+        'description' => __('Use um valor em pixels. Ex.: 110, 130, 150.', 'feicoop'),
         'section' => 'feicoop_home_banner',
         'type' => 'number',
         'input_attrs' => [
-            'min' => 180,
-            'max' => 600,
+            'min' => 100,
+            'max' => 150,
             'step' => 10,
         ],
     ]);
 
     $wp_customize->add_setting('feicoop_home_banner_mobile_height', [
-        'default' => 220,
+        'default' => 100,
         'sanitize_callback' => 'absint',
     ]);
 
     $wp_customize->add_control('feicoop_home_banner_mobile_height', [
         'label' => __('Altura do banner no mobile', 'feicoop'),
-        'description' => __('Use um valor em pixels. Ex.: 180, 220, 260.', 'feicoop'),
+        'description' => __('Use um valor em pixels. Ex.: 80, 100, 110.', 'feicoop'),
         'section' => 'feicoop_home_banner',
         'type' => 'number',
         'input_attrs' => [
-            'min' => 140,
-            'max' => 480,
+            'min' => 80,
+            'max' => 110,
             'step' => 10,
         ],
     ]);
