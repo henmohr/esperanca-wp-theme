@@ -176,9 +176,7 @@ get_header();
                         if (!$featured_rendered) {
                             ?>
                             <article id="post-<?php the_ID(); ?>" <?php post_class('news-featured'); ?>>
-                                <?php if (has_post_thumbnail()) : ?>
-                                    <a class="news-featured__image" href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1"><?php the_post_thumbnail('feicoop-card'); ?></a>
-                                <?php endif; ?>
+                                <a class="news-featured__image" href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1"><?php echo wp_kses_post(feicoop_post_feature_image_html(get_the_ID(), 'feicoop-card')); ?></a>
                                 <div class="news-featured__content">
                                     <div class="feed__meta">
                                         <time class="feed__date" datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date()); ?></time>

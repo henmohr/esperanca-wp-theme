@@ -61,6 +61,30 @@ function feicoop_banner_fallback_slide(): array {
     ];
 }
 
+function feicoop_post_feature_image_html(?int $post_id = null, string $size = 'feicoop-card', string $class = ''): string {
+    $post_id = $post_id !== null ? $post_id : (int) get_the_ID();
+    $post_id = $post_id > 0 ? $post_id : 0;
+
+    if ($post_id > 0 && has_post_thumbnail($post_id)) {
+        $thumbnail_id = get_post_thumbnail_id($post_id);
+        $src = wp_get_attachment_image_url($thumbnail_id, $size);
+
+        if ($src) {
+            $alt = (string) get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true);
+
+            if ($alt === '') {
+                $alt = get_the_title($thumbnail_id);
+            }
+
+            $classes = trim($class);
+
+            return '<img src="' . esc_url($src) . '" alt="' . esc_attr($alt !== '' ? $alt : get_the_title($post_id)) . '"' . ($classes !== '' ? ' class="' . esc_attr($classes) . '"' : '') . ' loading="lazy" decoding="async">';
+        }
+    }
+
+    return '<img src="' . esc_url(feicoop_asset_url('assets/img/Card_Home_Projeto_Esperanca_Cooesperanca_FEICOOP_Santa_Maria_RS-3.png')) . '" alt="' . esc_attr(get_the_title($post_id) !== '' ? get_the_title($post_id) : get_bloginfo('name')) . '"' . ($class !== '' ? ' class="' . esc_attr($class) . '"' : '') . ' loading="lazy" decoding="async">';
+}
+
 function feicoop_get_home_banner_slides(): array {
     $front_page_id = (int) get_option('page_on_front');
 
