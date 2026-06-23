@@ -3,6 +3,24 @@
   --headings-weight: 700;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.quicklink strong,
+.hero__panel h2,
+.homepage-registration__content h2,
+.project-card__content h3,
+.feed__title,
+.content__entry h2,
+.content__entry h3 {
+  font-family: 'Maven Pro', sans-serif;
+  font-variation-settings: "wght" 700;
+  font-weight: 700;
+}
+
 :root {
   --accent-soft: #4a8779;
 }
