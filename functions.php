@@ -92,6 +92,20 @@ function feicoop_home_hero_fields(): array {
     ];
 }
 
+function feicoop_home_banner_height(): int {
+    $height = (int) get_theme_mod('feicoop_home_banner_height', 320);
+
+    if ($height < 180) {
+        return 180;
+    }
+
+    if ($height > 600) {
+        return 600;
+    }
+
+    return $height;
+}
+
 function feicoop_post_feature_image_html(?int $post_id = null, string $size = 'feicoop-card', string $class = ''): string {
     $post_id = $post_id !== null ? $post_id : (int) get_the_ID();
     $post_id = $post_id > 0 ? $post_id : 0;
@@ -154,9 +168,12 @@ function feicoop_get_home_banner_slides(): array {
 }
 
 function feicoop_render_site_banner(): void {
+    $banner_height = feicoop_home_banner_height();
+    $banner_style = ' style="--site-banner-height: ' . esc_attr((string) $banner_height) . 'px;"';
+
     if (!is_front_page()) {
         $slide = feicoop_banner_fallback_slide();
-        echo '<a class="site-banner" href="' . esc_url(home_url('/')) . '" aria-label="' . esc_attr(get_bloginfo('name')) . '">';
+        echo '<a class="site-banner" href="' . esc_url(home_url('/')) . '" aria-label="' . esc_attr(get_bloginfo('name')) . '"' . $banner_style . '>';
         echo '<img src="' . esc_url($slide['src']) . '" alt="' . esc_attr($slide['alt']) . '" width="720" height="320" loading="eager" fetchpriority="high">';
         echo '</a>';
         return;
@@ -165,7 +182,7 @@ function feicoop_render_site_banner(): void {
     $slides = feicoop_get_home_banner_slides();
     $slide_count = count($slides);
 
-    echo '<div class="site-banner-carousel js-banner-carousel" data-autoplay="true" data-interval="6000" data-slide-count="' . esc_attr((string) $slide_count) . '" aria-roledescription="carousel" aria-label="' . esc_attr__('Banner principal', 'feicoop') . '">';
+    echo '<div class="site-banner-carousel js-banner-carousel"' . $banner_style . ' data-autoplay="true" data-interval="6000" data-slide-count="' . esc_attr((string) $slide_count) . '" aria-roledescription="carousel" aria-label="' . esc_attr__('Banner principal', 'feicoop') . '">';
     echo '<div class="site-banner-carousel__viewport">';
     echo '<div class="site-banner-carousel__track">';
 
@@ -444,37 +461,68 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
 
     $wp_customize->add_section('feicoop_home_registration', [
         'title' => __('FEICOOP Inscrições', 'feicoop'),
+        'description' => __('Mostra ou oculta a seção de inscrições da home e permite editar seus textos e botão.', 'feicoop'),
         'priority' => 35,
     ]);
 
     $wp_customize->add_section('feicoop_home_hero', [
         'title' => __('FEICOOP Hero', 'feicoop'),
+        'description' => __('Edita a chamada principal do topo da home e o texto do painel lateral.', 'feicoop'),
         'priority' => 30,
+    ]);
+
+    $wp_customize->add_section('feicoop_home_banner', [
+        'title' => __('FEICOOP Banner', 'feicoop'),
+        'description' => __('Ajusta a altura do carrossel principal e da imagem do cabeçalho nas páginas internas.', 'feicoop'),
+        'priority' => 25,
+    ]);
+
+    $wp_customize->add_setting('feicoop_home_banner_height', [
+        'default' => 320,
+        'sanitize_callback' => 'absint',
+    ]);
+
+    $wp_customize->add_control('feicoop_home_banner_height', [
+        'label' => __('Altura do banner', 'feicoop'),
+        'description' => __('Use um valor em pixels. Ex.: 320, 380, 420.', 'feicoop'),
+        'section' => 'feicoop_home_banner',
+        'type' => 'number',
+        'input_attrs' => [
+            'min' => 180,
+            'max' => 600,
+            'step' => 10,
+        ],
     ]);
 
     $home_hero_fields = [
         'eyebrow' => [
             'label' => __('Legenda principal', 'feicoop'),
+            'description' => __('Texto pequeno acima do título principal.', 'feicoop'),
             'default' => '32ª FEICOOP',
         ],
         'title' => [
             'label' => __('Título principal', 'feicoop'),
+            'description' => __('Título grande exibido na coluna principal da hero.', 'feicoop'),
             'default' => __('Feira Internacional do Cooperativismo e da Economia Solidária', 'feicoop'),
         ],
         'text' => [
             'label' => __('Texto principal', 'feicoop'),
+            'description' => __('Descrição curta da home, abaixo do título principal.', 'feicoop'),
             'default' => __('Portal institucional do Projeto Esperança/Cooesperança para divulgar a feira, suas redes, a memória do movimento e as novidades da programação.', 'feicoop'),
         ],
         'panel_kicker' => [
             'label' => __('Legenda do painel', 'feicoop'),
+            'description' => __('Texto pequeno no painel lateral da hero.', 'feicoop'),
             'default' => '32ª FEICOOP',
         ],
         'panel_title' => [
             'label' => __('Título do painel', 'feicoop'),
+            'description' => __('Chamada principal do painel lateral.', 'feicoop'),
             'default' => __('A maior feira de economia solidária da América Latina', 'feicoop'),
         ],
         'panel_text' => [
             'label' => __('Texto do painel', 'feicoop'),
+            'description' => __('Resumo de apoio mostrado abaixo do título do painel.', 'feicoop'),
             'default' => __('Encontro anual de articulação, formação, comercialização solidária e troca de experiências entre grupos, redes, cooperativas e comunidades.', 'feicoop'),
         ],
     ];
@@ -489,6 +537,7 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
 
         $wp_customize->add_control($setting_id, [
             'label' => $config['label'],
+            'description' => $config['description'] ?? '',
             'section' => 'feicoop_home_hero',
             'type' => 'text',
         ]);
@@ -497,32 +546,39 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
     $home_registration_fields = [
         'kicker' => [
             'label' => __('Legenda', 'feicoop'),
+            'description' => __('Texto curto acima do título da seção.', 'feicoop'),
             'default' => __('Inscrições', 'feicoop'),
         ],
         'title' => [
             'label' => __('Título', 'feicoop'),
+            'description' => __('Título principal mostrado na seção.', 'feicoop'),
             'default' => __('Abertura das inscrições em 1º de maio', 'feicoop'),
         ],
         'text' => [
             'label' => __('Texto', 'feicoop'),
+            'description' => __('Parágrafo explicando a chamada para inscrições.', 'feicoop'),
             'default' => __('Reserve a data e acompanhe os canais oficiais para acessar o formulário.', 'feicoop'),
         ],
         'button_label' => [
             'label' => __('Texto do botão', 'feicoop'),
+            'description' => __('Texto exibido no botão da hero e da seção.', 'feicoop'),
             'default' => __('Ir para inscrições', 'feicoop'),
         ],
         'button_url' => [
             'label' => __('URL do botão', 'feicoop'),
+            'description' => __('Destino do botão de inscrições.', 'feicoop'),
             'default' => 'https://inscricoes.esperancacooesperanca.org.br/',
             'type' => 'url',
             'sanitize_callback' => 'esc_url_raw',
         ],
         'date_label' => [
             'label' => __('Legenda da data', 'feicoop'),
+            'description' => __('Texto pequeno acima da data de abertura.', 'feicoop'),
             'default' => __('Data de abertura', 'feicoop'),
         ],
         'date_value' => [
             'label' => __('Valor da data', 'feicoop'),
+            'description' => __('Data ou prazo em destaque na caixa lateral.', 'feicoop'),
             'default' => __('1º de maio', 'feicoop'),
         ],
     ];
@@ -532,11 +588,12 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'sanitize_callback' => 'feicoop_sanitize_checkbox',
     ]);
 
-    $wp_customize->add_control('feicoop_home_registration_enabled', [
-        'label' => __('Mostrar seção de inscrições', 'feicoop'),
-        'section' => 'feicoop_home_registration',
-        'type' => 'checkbox',
-    ]);
+        $wp_customize->add_control('feicoop_home_registration_enabled', [
+            'label' => __('Mostrar seção de inscrições', 'feicoop'),
+            'description' => __('Desmarque para ocultar completamente a seção na home.', 'feicoop'),
+            'section' => 'feicoop_home_registration',
+            'type' => 'checkbox',
+        ]);
 
     foreach ($home_registration_fields as $key => $config) {
         $setting_id = "feicoop_home_registration_{$key}";
@@ -549,6 +606,7 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
 
         $wp_customize->add_control($setting_id, [
             'label' => $config['label'],
+            'description' => $config['description'] ?? '',
             'section' => 'feicoop_home_registration',
             'type' => $config['type'] ?? 'text',
         ]);

@@ -91,7 +91,8 @@ main {
 .site-banner > img {
   display: block;
   width: 100%;
-  height: auto;
+  height: var(--site-banner-height, auto);
+  object-fit: cover;
   border-radius: calc(var(--border-radius) * 1.1);
   box-shadow: 0 16px 36px rgba(38, 73, 46, 0.08);
 }
@@ -107,6 +108,7 @@ main {
   border-radius: calc(var(--border-radius) * 1.1);
   box-shadow: 0 16px 36px rgba(38, 73, 46, 0.08);
   background: rgba(255, 255, 255, 0.94);
+  height: var(--site-banner-height, auto);
 }
 
 .site-banner-carousel__track {
@@ -124,7 +126,8 @@ main {
 .site-banner-carousel__slide img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
 .site-banner-carousel__control {
