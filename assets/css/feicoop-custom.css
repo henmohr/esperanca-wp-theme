@@ -218,6 +218,14 @@ p {
     padding-top: 0.15rem;
   }
 
+  .site-banner > img {
+    height: var(--site-banner-height-mobile, var(--site-banner-height, auto));
+  }
+
+  .site-banner-carousel__viewport {
+    height: var(--site-banner-height-mobile, var(--site-banner-height, auto));
+  }
+
   .site-banner-carousel__control {
     display: none;
   }

@@ -106,6 +106,20 @@ function feicoop_home_banner_height(): int {
     return $height;
 }
 
+function feicoop_home_banner_mobile_height(): int {
+    $height = (int) get_theme_mod('feicoop_home_banner_mobile_height', 220);
+
+    if ($height < 140) {
+        return 140;
+    }
+
+    if ($height > 480) {
+        return 480;
+    }
+
+    return $height;
+}
+
 function feicoop_post_feature_image_html(?int $post_id = null, string $size = 'feicoop-card', string $class = ''): string {
     $post_id = $post_id !== null ? $post_id : (int) get_the_ID();
     $post_id = $post_id > 0 ? $post_id : 0;
@@ -169,7 +183,8 @@ function feicoop_get_home_banner_slides(): array {
 
 function feicoop_render_site_banner(): void {
     $banner_height = feicoop_home_banner_height();
-    $banner_style = ' style="--site-banner-height: ' . esc_attr((string) $banner_height) . 'px;"';
+    $banner_mobile_height = feicoop_home_banner_mobile_height();
+    $banner_style = ' style="--site-banner-height: ' . esc_attr((string) $banner_height) . 'px; --site-banner-height-mobile: ' . esc_attr((string) $banner_mobile_height) . 'px;"';
 
     if (!is_front_page()) {
         $slide = feicoop_banner_fallback_slide();
@@ -490,6 +505,23 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'input_attrs' => [
             'min' => 180,
             'max' => 600,
+            'step' => 10,
+        ],
+    ]);
+
+    $wp_customize->add_setting('feicoop_home_banner_mobile_height', [
+        'default' => 220,
+        'sanitize_callback' => 'absint',
+    ]);
+
+    $wp_customize->add_control('feicoop_home_banner_mobile_height', [
+        'label' => __('Altura do banner no mobile', 'feicoop'),
+        'description' => __('Use um valor em pixels. Ex.: 180, 220, 260.', 'feicoop'),
+        'section' => 'feicoop_home_banner',
+        'type' => 'number',
+        'input_attrs' => [
+            'min' => 140,
+            'max' => 480,
             'step' => 10,
         ],
     ]);
