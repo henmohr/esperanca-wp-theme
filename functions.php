@@ -130,6 +130,18 @@ function feicoop_add_body_classes(array $classes): array {
 add_filter('body_class', 'feicoop_add_body_classes');
 
 function feicoop_nav_menu_css_class(array $classes, WP_Post $item, $args, int $depth): array {
+    if (is_string($item->url) && str_contains($item->url, '#')) {
+        return array_values(array_diff($classes, [
+            'current-menu-item',
+            'current_page_item',
+            'current-menu-ancestor',
+            'current-menu-parent',
+            'current_page_parent',
+            'current_page_ancestor',
+            'menu-item-home',
+        ]));
+    }
+
     if (!empty($item->current) || !empty($item->current_item_ancestor) || !empty($item->current_item_parent)) {
         $classes[] = 'current-menu-item';
     }
@@ -141,6 +153,39 @@ function feicoop_nav_menu_css_class(array $classes, WP_Post $item, $args, int $d
     return array_values(array_unique($classes));
 }
 add_filter('nav_menu_css_class', 'feicoop_nav_menu_css_class', 10, 4);
+
+function feicoop_nav_menu_objects(array $items, $args): array {
+    foreach ($items as $item) {
+        if (!isset($item->url) || !is_string($item->url) || !str_contains($item->url, '#')) {
+            continue;
+        }
+
+        $item->current = false;
+        $item->current_item_ancestor = false;
+        $item->current_item_parent = false;
+        $item->classes = array_values(array_diff((array) $item->classes, [
+            'current-menu-item',
+            'current_page_item',
+            'current-menu-ancestor',
+            'current-menu-parent',
+            'current_page_parent',
+            'current_page_ancestor',
+            'menu-item-home',
+        ]));
+    }
+
+    return $items;
+}
+add_filter('wp_nav_menu_objects', 'feicoop_nav_menu_objects', 10, 2);
+
+function feicoop_nav_menu_link_attributes(array $atts, WP_Post $item, $args, int $depth): array {
+    if (isset($item->url) && is_string($item->url) && str_contains($item->url, '#')) {
+        unset($atts['aria-current']);
+    }
+
+    return $atts;
+}
+add_filter('nav_menu_link_attributes', 'feicoop_nav_menu_link_attributes', 10, 4);
 
 function feicoop_nav_menu_submenu_css_class(array $classes, $args, int $depth): array {
     $classes = ['navbar__submenu'];

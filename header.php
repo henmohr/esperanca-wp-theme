@@ -18,7 +18,13 @@ if (!defined('ABSPATH')) {
         </a>
     </div>
     <div class="wrapper top__inner">
-        <nav class="navbar" aria-label="<?php esc_attr_e('Primary menu', 'feicoop'); ?>">
+        <button class="navbar__toggle js-toggle" aria-label="<?php esc_attr_e('Menu', 'feicoop'); ?>" aria-haspopup="true" aria-expanded="false">
+            <span class="navbar__toggle-box">
+                <span class="navbar__toggle-inner"><?php esc_html_e('Menu', 'feicoop'); ?></span>
+            </span>
+        </button>
+
+        <nav class="navbar js-navbar" aria-label="<?php esc_attr_e('Primary menu', 'feicoop'); ?>">
             <?php
             wp_nav_menu([
                 'theme_location' => 'mainMenu',
