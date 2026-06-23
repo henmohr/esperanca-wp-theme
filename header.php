@@ -13,9 +13,7 @@ if (!defined('ABSPATH')) {
 <?php wp_body_open(); ?>
 <header class="top js-header">
     <div class="wrapper site-banner-wrap">
-        <a class="site-banner" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr(get_bloginfo('name')); ?>">
-            <img src="<?php echo esc_url(feicoop_asset_url('assets/img/cabecalho-site-feicoop.png')); ?>" alt="32a FEICOOP - Projeto Esperanca/Cooesperanca" width="720" height="320" loading="eager" fetchpriority="high">
-        </a>
+        <?php feicoop_render_site_banner(); ?>
     </div>
     <div class="wrapper top__inner">
         <button class="navbar__toggle js-toggle" aria-label="<?php esc_attr_e('Menu', 'feicoop'); ?>" aria-haspopup="true" aria-expanded="false">

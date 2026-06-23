@@ -17,7 +17,7 @@ function feicoop_setup(): void {
         'flex-height' => true,
         'flex-width' => true,
     ]);
-add_theme_support('html5', ['comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script', 'search-form']);
+    add_theme_support('html5', ['comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script', 'search-form']);
     add_theme_support('align-wide');
     add_theme_support('responsive-embeds');
     add_theme_support('editor-styles');
@@ -54,6 +54,85 @@ function feicoop_document_title_separator(string $separator): string {
 }
 add_filter('document_title_separator', 'feicoop_document_title_separator');
 
+function feicoop_banner_fallback_slide(): array {
+    return [
+        'src' => feicoop_asset_url('assets/img/cabecalho-site-feicoop.png'),
+        'alt' => get_bloginfo('name'),
+    ];
+}
+
+function feicoop_get_home_banner_slides(): array {
+    $front_page_id = (int) get_option('page_on_front');
+
+    if ($front_page_id <= 0) {
+        return [feicoop_banner_fallback_slide()];
+    }
+
+    $raw_ids = (string) get_post_meta($front_page_id, '_feicoop_banner_carousel_ids', true);
+    $ids = array_values(array_filter(array_map('absint', preg_split('/\s*,\s*/', $raw_ids) ?: [])));
+    $slides = [];
+
+    foreach ($ids as $attachment_id) {
+        $src = wp_get_attachment_image_url($attachment_id, 'feicoop-hero');
+
+        if (!$src) {
+            continue;
+        }
+
+        $alt = (string) get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
+
+        if ($alt === '') {
+            $alt = get_the_title($attachment_id);
+        }
+
+        $slides[] = [
+            'src' => $src,
+            'alt' => $alt !== '' ? $alt : get_bloginfo('name'),
+        ];
+    }
+
+    if (empty($slides)) {
+        $slides[] = feicoop_banner_fallback_slide();
+    }
+
+    return $slides;
+}
+
+function feicoop_render_site_banner(): void {
+    if (!is_front_page()) {
+        $slide = feicoop_banner_fallback_slide();
+        echo '<a class="site-banner" href="' . esc_url(home_url('/')) . '" aria-label="' . esc_attr(get_bloginfo('name')) . '">';
+        echo '<img src="' . esc_url($slide['src']) . '" alt="' . esc_attr($slide['alt']) . '" width="720" height="320" loading="eager" fetchpriority="high">';
+        echo '</a>';
+        return;
+    }
+
+    $slides = feicoop_get_home_banner_slides();
+    $slide_count = count($slides);
+
+    echo '<div class="site-banner-carousel js-banner-carousel" data-autoplay="true" data-interval="6000" data-slide-count="' . esc_attr((string) $slide_count) . '" aria-roledescription="carousel" aria-label="' . esc_attr__('Banner principal', 'feicoop') . '">';
+    echo '<div class="site-banner-carousel__viewport">';
+    echo '<div class="site-banner-carousel__track">';
+
+    foreach ($slides as $index => $slide) {
+        $active = $index === 0 ? ' is-active' : '';
+        echo '<a class="site-banner-carousel__slide' . esc_attr($active) . '" href="' . esc_url(home_url('/')) . '" aria-label="' . esc_attr(get_bloginfo('name')) . '">';
+        echo '<img src="' . esc_url($slide['src']) . '" alt="' . esc_attr($slide['alt']) . '" width="720" height="320" loading="' . ($index === 0 ? 'eager' : 'lazy') . '" fetchpriority="' . ($index === 0 ? 'high' : 'auto') . '">';
+        echo '</a>';
+    }
+
+    echo '</div>';
+    echo '</div>';
+
+    if ($slide_count > 1) {
+        echo '<button class="site-banner-carousel__control site-banner-carousel__control--prev" type="button" data-carousel-prev aria-label="' . esc_attr__('Imagem anterior', 'feicoop') . '">&#10094;</button>';
+        echo '<button class="site-banner-carousel__control site-banner-carousel__control--next" type="button" data-carousel-next aria-label="' . esc_attr__('Próxima imagem', 'feicoop') . '">&#10095;</button>';
+        echo '<div class="site-banner-carousel__dots" data-carousel-dots></div>';
+    }
+
+    echo '</div>';
+}
+
 function feicoop_enqueue_assets(): void {
     $theme = wp_get_theme();
 
@@ -67,6 +146,7 @@ function feicoop_enqueue_assets(): void {
     wp_enqueue_style('feicoop-main', feicoop_asset_url('assets/css/main.css'), [], $theme->get('Version'));
     wp_enqueue_style('feicoop-custom', feicoop_asset_url('assets/css/feicoop-custom.css'), ['feicoop-main'], $theme->get('Version'));
 
+    wp_enqueue_script('feicoop-banner-carousel', feicoop_asset_url('assets/js/banner-carousel.js'), [], $theme->get('Version'), true);
     wp_enqueue_script('feicoop-scripts', feicoop_asset_url('assets/js/scripts.min.js'), [], $theme->get('Version'), true);
 
     wp_localize_script('feicoop-scripts', 'publiiThemeMenuConfig', [
@@ -84,6 +164,84 @@ function feicoop_enqueue_assets(): void {
     ]);
 }
 add_action('wp_enqueue_scripts', 'feicoop_enqueue_assets');
+
+function feicoop_admin_enqueue_assets(string $hook): void {
+    if (!in_array($hook, ['post.php', 'post-new.php'], true)) {
+        return;
+    }
+
+    $screen = get_current_screen();
+
+    if (!$screen || $screen->post_type !== 'page') {
+        return;
+    }
+
+    wp_enqueue_media();
+    wp_enqueue_script('feicoop-admin-carousel', feicoop_asset_url('assets/js/admin-carousel.js'), ['jquery'], wp_get_theme()->get('Version'), true);
+}
+add_action('admin_enqueue_scripts', 'feicoop_admin_enqueue_assets');
+
+function feicoop_register_banner_carousel_metabox(WP_Post $post): void {
+    if ((int) $post->ID !== (int) get_option('page_on_front')) {
+        return;
+    }
+
+    add_meta_box(
+        'feicoop_banner_carousel',
+        __('Carrossel do topo', 'feicoop'),
+        'feicoop_render_banner_carousel_metabox',
+        'page',
+        'side',
+        'high'
+    );
+}
+add_action('add_meta_boxes_page', 'feicoop_register_banner_carousel_metabox');
+
+function feicoop_render_banner_carousel_metabox(WP_Post $post): void {
+    $raw_ids = (string) get_post_meta($post->ID, '_feicoop_banner_carousel_ids', true);
+    $ids = array_values(array_filter(array_map('absint', preg_split('/\s*,\s*/', $raw_ids) ?: [])));
+    wp_nonce_field('feicoop_banner_carousel_save', 'feicoop_banner_carousel_nonce');
+    ?>
+    <p><?php esc_html_e('Selecione as imagens que vão aparecer no topo da home. A primeira imagem padrão é usada apenas quando a lista está vazia.', 'feicoop'); ?></p>
+    <input type="hidden" id="feicoop_banner_carousel_ids" name="feicoop_banner_carousel_ids" value="<?php echo esc_attr(implode(',', $ids)); ?>">
+    <p>
+        <button type="button" class="button button-primary" id="feicoop_banner_carousel_select"><?php esc_html_e('Selecionar imagens', 'feicoop'); ?></button>
+        <button type="button" class="button" id="feicoop_banner_carousel_clear"><?php esc_html_e('Limpar', 'feicoop'); ?></button>
+    </p>
+    <ul class="feicoop-banner-carousel-preview" id="feicoop_banner_carousel_preview">
+        <?php foreach ($ids as $attachment_id) : ?>
+            <li data-id="<?php echo esc_attr((string) $attachment_id); ?>">
+                <?php echo wp_get_attachment_image($attachment_id, 'thumbnail'); ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <p class="description"><?php esc_html_e('Você pode ordenar as imagens novamente no seletor da biblioteca de mídia.', 'feicoop'); ?></p>
+    <?php
+}
+
+function feicoop_save_banner_carousel_meta(int $post_id, WP_Post $post, bool $update): void {
+    if ((int) $post->ID !== (int) get_option('page_on_front')) {
+        return;
+    }
+
+    if (!isset($_POST['feicoop_banner_carousel_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['feicoop_banner_carousel_nonce'])), 'feicoop_banner_carousel_save')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_page', $post_id)) {
+        return;
+    }
+
+    $raw_ids = isset($_POST['feicoop_banner_carousel_ids']) ? (string) wp_unslash($_POST['feicoop_banner_carousel_ids']) : '';
+    $ids = array_values(array_filter(array_map('absint', preg_split('/\s*,\s*/', sanitize_text_field($raw_ids)) ?: [])));
+
+    update_post_meta($post_id, '_feicoop_banner_carousel_ids', implode(',', $ids));
+}
+add_action('save_post_page', 'feicoop_save_banner_carousel_meta', 10, 3);
 
 function feicoop_add_body_classes(array $classes): array {
     $classes[] = 'feicoop-theme';
