@@ -175,13 +175,13 @@ function feicoop_programacao_format_date(string $date): string {
         return '';
     }
 
-    $timestamp = strtotime($date);
+    $datetime = DateTimeImmutable::createFromFormat('!Y-m-d', $date, wp_timezone());
 
-    if ($timestamp === false) {
+    if ($datetime === false) {
         return $date;
     }
 
-    return wp_date('j \\d\\e F \\d\\e Y', $timestamp);
+    return wp_date('j \\d\\e F \\d\\e Y', $datetime->getTimestamp(), wp_timezone());
 }
 
 function feicoop_programacao_format_time(string $time): string {
@@ -189,13 +189,13 @@ function feicoop_programacao_format_time(string $time): string {
         return '';
     }
 
-    $timestamp = strtotime($time);
+    $datetime = DateTimeImmutable::createFromFormat('!H:i', $time, wp_timezone());
 
-    if ($timestamp === false) {
+    if ($datetime === false) {
         return $time;
     }
 
-    return wp_date('H\\hi', $timestamp);
+    return $datetime->format('H\\hi');
 }
 
 function feicoop_post_feature_image_html(?int $post_id = null, string $size = 'feicoop-card', string $class = ''): string {
