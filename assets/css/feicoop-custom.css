@@ -45,6 +45,9 @@ main {
   grid-template-columns: minmax(0, 1.2fr) minmax(20rem, 0.8fr);
   align-items: center;
   justify-items: center;
+  max-width: 62rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .home-template .hero__grid {
@@ -54,6 +57,9 @@ main {
 .section__grid {
   grid-template-columns: minmax(18rem, 0.9fr) minmax(0, 1.1fr);
   justify-items: center;
+  max-width: 62rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .top {
@@ -484,6 +490,9 @@ p {
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: 2rem;
   padding: 2rem;
+  max-width: 62rem;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: calc(var(--border-radius) * 1.2);
   background:
     linear-gradient(180deg, rgba(176, 170, 92, 0.18), rgba(255, 255, 255, 0.88)),
@@ -498,6 +507,9 @@ p {
   gap: 1.5rem;
   align-items: center;
   padding: clamp(1.4rem, 1.1rem + 1vw, 2.2rem);
+  max-width: 62rem;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: calc(var(--border-radius) * 1.2);
   background:
     linear-gradient(135deg, rgba(255, 199, 0, 0.2), rgba(255, 255, 255, 0.96) 48%),
@@ -564,6 +576,9 @@ p {
   display: grid;
   gap: 1.25rem;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 62rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .project-card {
@@ -613,6 +628,9 @@ p {
 
 .feed--cards {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 62rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .feed__item--card {
@@ -763,6 +781,9 @@ p {
 .contact-block {
   display: grid;
   gap: 1.5rem;
+  max-width: 62rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .contact-block__grid {
