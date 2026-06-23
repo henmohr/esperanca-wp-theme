@@ -3,6 +3,11 @@
   --headings-weight: 700;
 }
 
+:root {
+  --page-width: 76rem;
+  --entry-width: 42rem;
+}
+
 h1,
 h2,
 h3,
@@ -39,6 +44,7 @@ main {
 .hero__grid {
   grid-template-columns: minmax(0, 1.2fr) minmax(20rem, 0.8fr);
   align-items: center;
+  justify-items: center;
 }
 
 .home-template .hero__grid {
@@ -47,6 +53,7 @@ main {
 
 .section__grid {
   grid-template-columns: minmax(18rem, 0.9fr) minmax(0, 1.1fr);
+  justify-items: center;
 }
 
 .top {
@@ -163,8 +170,8 @@ p {
 .hero__content {
   padding: 0.5rem 0;
   width: 100%;
-  max-width: 44rem;
-  justify-self: start;
+  max-width: 40rem;
+  justify-self: center;
 }
 
 .home-template .hero__content {
@@ -240,8 +247,8 @@ p {
 .hero__panel {
   padding: 1.55rem;
   width: 100%;
-  max-width: 28rem;
-  justify-self: end;
+  max-width: 26rem;
+  justify-self: center;
   border-radius: calc(var(--border-radius) * 1.2);
   background:
     linear-gradient(160deg, rgba(16, 23, 18, 0.12), rgba(16, 23, 18, 0) 42%),
@@ -416,7 +423,7 @@ p {
 }
 
 .section__text {
-  max-width: 42rem;
+  max-width: 38rem;
   color: var(--gray);
 }
 
