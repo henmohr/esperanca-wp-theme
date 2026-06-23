@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
     <div class="wrapper top__inner">
         <button class="navbar__toggle js-toggle" aria-label="<?php esc_attr_e('Menu', 'feicoop'); ?>" aria-haspopup="true" aria-expanded="false">
             <span class="navbar__toggle-box">
-                <span class="navbar__toggle-inner"><?php esc_html_e('Menu', 'feicoop'); ?></span>
+                <span class="navbar__toggle-inner" aria-hidden="true"></span>
             </span>
         </button>
 
