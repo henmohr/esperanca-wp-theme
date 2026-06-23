@@ -1,0 +1,42 @@
+name: Package theme
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build ZIP package
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          zip -r dist/feicoop-wp-template.zip . \
+            -x ".git/*" \
+               ".github/*" \
+               "dist/*" \
+               ".DS_Store" \
+               "*.zip"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: feicoop-wp-template
+          path: dist/feicoop-wp-template.zip
+          if-no-files-found: error
+
+      - name: Publish release asset
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/feicoop-wp-template.zip
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
