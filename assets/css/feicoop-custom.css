@@ -172,7 +172,12 @@ p {
 }
 
 .hero__content--centered {
-  text-align: left;
+  text-align: center;
+}
+
+.hero__content--centered > * {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hero__content > p:not(.hero__eyebrow) {
@@ -185,6 +190,7 @@ p {
   flex-wrap: wrap;
   gap: 0.85rem;
   align-items: center;
+  justify-content: center;
   margin-top: 0.85rem;
 }
 
@@ -197,6 +203,8 @@ p {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.8rem;
   margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0;
   list-style: none;
 }
