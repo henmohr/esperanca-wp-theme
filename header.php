@@ -18,24 +18,7 @@ if (!defined('ABSPATH')) {
         </a>
     </div>
     <div class="wrapper top__inner">
-        <div class="site-branding">
-            <?php
-            if (has_custom_logo()) {
-                $logo = get_custom_logo();
-                echo $logo ? str_replace('custom-logo-link', 'custom-logo-link logo', $logo) : '';
-            } else {
-                echo '<a class="logo" href="' . esc_url(home_url('/')) . '" rel="home">' . esc_html(get_bloginfo('name')) . '</a>';
-            }
-            ?>
-        </div>
-
-        <button class="navbar__toggle js-toggle" aria-label="<?php esc_attr_e('Menu', 'feicoop'); ?>" aria-haspopup="true" aria-expanded="false">
-            <span class="navbar__toggle-box">
-                <span class="navbar__toggle-inner"><?php esc_html_e('Menu', 'feicoop'); ?></span>
-            </span>
-        </button>
-
-        <nav class="navbar js-navbar" aria-label="<?php esc_attr_e('Primary menu', 'feicoop'); ?>">
+        <nav class="navbar" aria-label="<?php esc_attr_e('Primary menu', 'feicoop'); ?>">
             <?php
             wp_nav_menu([
                 'theme_location' => 'mainMenu',

@@ -11,7 +11,6 @@ get_header();
                 <h2 class="hero__eyebrow">32ª FEICOOP</h2>
                 <h2>Feira Internacional do Cooperativismo e da Economia Solidária</h2>
                 <p>Portal institucional do Projeto Esperança/Cooesperança para divulgar a feira, suas redes, a memória do movimento e as novidades da programação.</p>
-                <p>&nbsp;</p>
                 <p class="hero__actions">
                     <a href="<?php echo esc_url(feicoop_posts_page_url()); ?>" class="btn">Ver publicações</a>
                     <a href="https://inscricoes.esperancacooesperanca.org.br/" class="btn btn--ghost">Ir para inscrições</a>
@@ -25,7 +24,7 @@ get_header();
             <aside class="hero__panel">
                 <p class="hero__panel-kicker">32ª FEICOOP</p>
                 <h2>A maior feira de economia solidária da América Latina</h2>
-                <p>Encontro anual de articulação, formação, comercialização solidária e troca de expêriencias entre grupos, redes, cooperativas e comunidades.</p>
+                <p>Encontro anual de articulação, formação, comercialização solidária e troca de experiências entre grupos, redes, cooperativas e comunidades.</p>
                 <a href="<?php echo esc_url(feicoop_posts_page_url()); ?>" class="btn">Acompanhar notícias</a>
             </aside>
         </div>
@@ -142,7 +141,7 @@ get_header();
                 <h2>Um espaço para reunir história, programação, redes parceiras e notícias da feira</h2>
             </div>
             <div class="section__text section__text--lead">
-                <p></p>
+                <p>A FEICOOP reúne iniciativas do campo e da cidade em torno da cooperação, da comercialização solidária e da troca de saberes entre grupos e comunidades.</p>
             </div>
         </div>
     </section>
