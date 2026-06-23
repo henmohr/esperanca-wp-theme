@@ -158,19 +158,54 @@ get_header();
                     <a class="btn btn--ghost" href="<?php echo esc_url(feicoop_posts_page_url()); ?>">Ir para notícias</a>
                 </div>
             </div>
-            <div class="feed feed--cards">
+            <div class="news-grid">
                 <?php
                 $latest = new WP_Query([
                     'post_type' => 'post',
-                    'posts_per_page' => 3,
+                    'posts_per_page' => 4,
                     'post_status' => 'publish',
                 ]);
 
                 if ($latest->have_posts()) {
+                    $featured_rendered = false;
+                    $news_list_open = false;
+
                     while ($latest->have_posts()) {
                         $latest->the_post();
+
+                        if (!$featured_rendered) {
+                            ?>
+                            <article id="post-<?php the_ID(); ?>" <?php post_class('news-featured'); ?>>
+                                <?php if (has_post_thumbnail()) : ?>
+                                    <a class="news-featured__image" href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1"><?php the_post_thumbnail('feicoop-card'); ?></a>
+                                <?php endif; ?>
+                                <div class="news-featured__content">
+                                    <div class="feed__meta">
+                                        <time class="feed__date" datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date()); ?></time>
+                                        <span class="feed__author"><?php echo esc_html(get_the_author()); ?></span>
+                                    </div>
+                                    <h3 class="news-featured__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                                    <div class="news-featured__excerpt"><?php echo wp_kses_post(feicoop_excerpt()); ?></div>
+                                    <a class="btn" href="<?php the_permalink(); ?>"><?php esc_html_e('Ler notícia', 'feicoop'); ?></a>
+                                </div>
+                            </article>
+                            <?php
+                            $featured_rendered = true;
+                            continue;
+                        }
+
+                        if (!$news_list_open) {
+                            echo '<div class="news-grid__list feed feed--cards">';
+                            $news_list_open = true;
+                        }
+
                         get_template_part('template-parts/content', 'card');
                     }
+
+                    if ($news_list_open) {
+                        echo '</div>';
+                    }
+
                     wp_reset_postdata();
                 } else {
                     get_template_part('template-parts/content', 'none');
