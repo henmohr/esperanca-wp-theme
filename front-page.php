@@ -4,15 +4,22 @@ if (!defined('ABSPATH')) {
 }
 get_header();
 
+$home_hero = feicoop_home_hero_fields();
 $home_registration = feicoop_home_registration_fields();
 ?>
 <main class="home-template">
     <section class="hero hero--noimage">
         <div class="wrapper hero__grid">
             <header class="hero__content hero__content--centered">
-                <h2 class="hero__eyebrow">32ª FEICOOP</h2>
-                <h2>Feira Internacional do Cooperativismo e da Economia Solidária</h2>
-                <p>Portal institucional do Projeto Esperança/Cooesperança para divulgar a feira, suas redes, a memória do movimento e as novidades da programação.</p>
+                <?php if ($home_hero['eyebrow'] !== '') : ?>
+                    <h2 class="hero__eyebrow"><?php echo esc_html($home_hero['eyebrow']); ?></h2>
+                <?php endif; ?>
+                <?php if ($home_hero['title'] !== '') : ?>
+                    <h2><?php echo esc_html($home_hero['title']); ?></h2>
+                <?php endif; ?>
+                <?php if ($home_hero['text'] !== '') : ?>
+                    <p><?php echo esc_html($home_hero['text']); ?></p>
+                <?php endif; ?>
                 <p class="hero__actions">
                     <a href="<?php echo esc_url(feicoop_posts_page_url()); ?>" class="btn">Ver notícias</a>
                     <?php if ($home_registration['button_url'] !== '' && $home_registration['button_label'] !== '') : ?>
@@ -26,9 +33,15 @@ $home_registration = feicoop_home_registration_fields();
                 </ul>
             </header>
             <aside class="hero__panel">
-                <p class="hero__panel-kicker">32ª FEICOOP</p>
-                <h2>A maior feira de economia solidária da América Latina</h2>
-                <p>Encontro anual de articulação, formação, comercialização solidária e troca de experiências entre grupos, redes, cooperativas e comunidades.</p>
+                <?php if ($home_hero['panel_kicker'] !== '') : ?>
+                    <p class="hero__panel-kicker"><?php echo esc_html($home_hero['panel_kicker']); ?></p>
+                <?php endif; ?>
+                <?php if ($home_hero['panel_title'] !== '') : ?>
+                    <h2><?php echo esc_html($home_hero['panel_title']); ?></h2>
+                <?php endif; ?>
+                <?php if ($home_hero['panel_text'] !== '') : ?>
+                    <p><?php echo esc_html($home_hero['panel_text']); ?></p>
+                <?php endif; ?>
                 <a href="<?php echo esc_url(feicoop_posts_page_url()); ?>" class="btn">Acompanhar notícias</a>
             </aside>
         </div>

@@ -81,6 +81,17 @@ function feicoop_home_registration_fields(): array {
     ];
 }
 
+function feicoop_home_hero_fields(): array {
+    return [
+        'eyebrow' => (string) get_theme_mod('feicoop_home_hero_eyebrow', '32ª FEICOOP'),
+        'title' => (string) get_theme_mod('feicoop_home_hero_title', __('Feira Internacional do Cooperativismo e da Economia Solidária', 'feicoop')),
+        'text' => (string) get_theme_mod('feicoop_home_hero_text', __('Portal institucional do Projeto Esperança/Cooesperança para divulgar a feira, suas redes, a memória do movimento e as novidades da programação.', 'feicoop')),
+        'panel_kicker' => (string) get_theme_mod('feicoop_home_hero_panel_kicker', '32ª FEICOOP'),
+        'panel_title' => (string) get_theme_mod('feicoop_home_hero_panel_title', __('A maior feira de economia solidária da América Latina', 'feicoop')),
+        'panel_text' => (string) get_theme_mod('feicoop_home_hero_panel_text', __('Encontro anual de articulação, formação, comercialização solidária e troca de experiências entre grupos, redes, cooperativas e comunidades.', 'feicoop')),
+    ];
+}
+
 function feicoop_post_feature_image_html(?int $post_id = null, string $size = 'feicoop-card', string $class = ''): string {
     $post_id = $post_id !== null ? $post_id : (int) get_the_ID();
     $post_id = $post_id > 0 ? $post_id : 0;
@@ -435,6 +446,53 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'title' => __('FEICOOP Inscrições', 'feicoop'),
         'priority' => 35,
     ]);
+
+    $wp_customize->add_section('feicoop_home_hero', [
+        'title' => __('FEICOOP Hero', 'feicoop'),
+        'priority' => 30,
+    ]);
+
+    $home_hero_fields = [
+        'eyebrow' => [
+            'label' => __('Legenda principal', 'feicoop'),
+            'default' => '32ª FEICOOP',
+        ],
+        'title' => [
+            'label' => __('Título principal', 'feicoop'),
+            'default' => __('Feira Internacional do Cooperativismo e da Economia Solidária', 'feicoop'),
+        ],
+        'text' => [
+            'label' => __('Texto principal', 'feicoop'),
+            'default' => __('Portal institucional do Projeto Esperança/Cooesperança para divulgar a feira, suas redes, a memória do movimento e as novidades da programação.', 'feicoop'),
+        ],
+        'panel_kicker' => [
+            'label' => __('Legenda do painel', 'feicoop'),
+            'default' => '32ª FEICOOP',
+        ],
+        'panel_title' => [
+            'label' => __('Título do painel', 'feicoop'),
+            'default' => __('A maior feira de economia solidária da América Latina', 'feicoop'),
+        ],
+        'panel_text' => [
+            'label' => __('Texto do painel', 'feicoop'),
+            'default' => __('Encontro anual de articulação, formação, comercialização solidária e troca de experiências entre grupos, redes, cooperativas e comunidades.', 'feicoop'),
+        ],
+    ];
+
+    foreach ($home_hero_fields as $key => $config) {
+        $setting_id = "feicoop_home_hero_{$key}";
+
+        $wp_customize->add_setting($setting_id, [
+            'default' => $config['default'],
+            'sanitize_callback' => 'sanitize_text_field',
+        ]);
+
+        $wp_customize->add_control($setting_id, [
+            'label' => $config['label'],
+            'section' => 'feicoop_home_hero',
+            'type' => 'text',
+        ]);
+    }
 
     $home_registration_fields = [
         'kicker' => [
