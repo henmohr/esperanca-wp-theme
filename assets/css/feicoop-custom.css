@@ -1114,6 +1114,36 @@ p {
   text-align: center;
 }
 
+.programacao-archive .hero__content h1 {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.programacao-archive .hero__content .page__desc {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.programacao-archive .hero__content {
+  justify-self: stretch;
+  max-width: none;
+}
+
+.programacao-archive .hero__content .wrapper {
+  display: grid;
+  width: 100%;
+  max-width: 48rem;
+  justify-items: center;
+  text-align: center;
+}
+
+.programacao-archive .hero__content .wrapper > * {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 blockquote {
   background: rgba(176, 170, 92, 0.12);
 }
