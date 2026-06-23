@@ -3,13 +3,20 @@ if (!defined('ABSPATH')) {
     exit;
 }
 get_header();
+
+$posts_page_id = (int) get_option('page_for_posts');
+$news_title = $posts_page_id > 0 ? get_the_title($posts_page_id) : '';
+
+if ($news_title === '') {
+    $news_title = __('Notícias', 'feicoop');
+}
 ?>
 <main class="posts">
     <div class="hero hero--noimage">
         <header class="hero__content">
             <div class="wrapper">
-                <h1><?php single_post_title(); ?></h1>
-                <p class="page__desc"><?php echo esc_html(get_bloginfo('description')); ?></p>
+                <h1><?php echo esc_html($news_title); ?></h1>
+                <p class="page__desc"><?php esc_html_e('Atualizações, anúncios e matérias recentes da FEICOOP.', 'feicoop'); ?></p>
             </div>
         </header>
     </div>

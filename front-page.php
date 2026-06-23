@@ -12,7 +12,7 @@ get_header();
                 <h2>Feira Internacional do Cooperativismo e da Economia Solidária</h2>
                 <p>Portal institucional do Projeto Esperança/Cooesperança para divulgar a feira, suas redes, a memória do movimento e as novidades da programação.</p>
                 <p class="hero__actions">
-                    <a href="<?php echo esc_url(feicoop_posts_page_url()); ?>" class="btn">Ver publicações</a>
+                    <a href="<?php echo esc_url(feicoop_posts_page_url()); ?>" class="btn">Ver notícias</a>
                     <a href="https://inscricoes.esperancacooesperanca.org.br/" class="btn btn--ghost">Ir para inscrições</a>
                 </p>
                 <ul class="hero__facts">
@@ -83,7 +83,7 @@ get_header();
         </div>
     </section>
 
-    <section class="section" id="publicacoes">
+    <section class="section" id="noticias">
         <div class="wrapper">
             <div class="section__header">
                 <p class="section__kicker">Projetos e redes</p>
@@ -149,8 +149,8 @@ get_header();
     <section class="section">
         <div class="wrapper">
             <div class="section__header">
-                <p class="section__kicker">Publicações</p>
-                <h2>Conteúdos recentes</h2>
+                <p class="section__kicker">Notícias</p>
+                <h2>Últimas publicações</h2>
             </div>
             <div class="feed feed--cards">
                 <?php
