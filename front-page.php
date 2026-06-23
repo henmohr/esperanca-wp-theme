@@ -83,7 +83,7 @@ get_header();
         </div>
     </section>
 
-    <section class="section" id="noticias">
+    <section class="section" id="projetos">
         <div class="wrapper">
             <div class="section__header">
                 <p class="section__kicker">Projetos e redes</p>
@@ -146,11 +146,17 @@ get_header();
         </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="noticias">
         <div class="wrapper">
-            <div class="section__header">
-                <p class="section__kicker">Notícias</p>
-                <h2>Últimas publicações</h2>
+            <div class="news-summary">
+                <div class="section__header">
+                    <p class="section__kicker">Notícias</p>
+                    <h2>Últimas publicações</h2>
+                </div>
+                <div class="news-summary__actions">
+                    <p class="section__text section__text--lead">Acompanhe as atualizações mais recentes da feira, os comunicados oficiais e as matérias que também aparecem na página completa de notícias.</p>
+                    <a class="btn btn--ghost" href="<?php echo esc_url(feicoop_posts_page_url()); ?>">Ir para notícias</a>
+                </div>
             </div>
             <div class="feed feed--cards">
                 <?php

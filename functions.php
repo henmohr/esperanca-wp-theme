@@ -318,6 +318,10 @@ function feicoop_nav_menu_objects(array $items, $args): array {
             continue;
         }
 
+        if (str_contains($item->url, '#publicacoes')) {
+            $item->url = str_replace('#publicacoes', '#noticias', $item->url);
+        }
+
         $item->current = false;
         $item->current_item_ancestor = false;
         $item->current_item_parent = false;
