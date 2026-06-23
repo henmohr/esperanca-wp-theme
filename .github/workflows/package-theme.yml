@@ -33,7 +33,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: feicoop-wp-template
+          name: feicoop-wp-template-${{ github.sha }}
           path: dist/feicoop-wp-template.zip
           if-no-files-found: error
 

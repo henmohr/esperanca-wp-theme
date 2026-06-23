@@ -2,6 +2,9 @@
 
 WordPress theme ported from the Publii FEICOOP theme.
 
+[![Package theme](https://github.com/henmohr/feicoop-wp-template/actions/workflows/package-theme.yml/badge.svg?branch=main)](https://github.com/henmohr/feicoop-wp-template/actions/workflows/package-theme.yml)
+[![Releases](https://img.shields.io/github/v/release/henmohr/feicoop-wp-template?label=release)](https://github.com/henmohr/feicoop-wp-template/releases)
+
 ## Download
 
 To get a ZIP package ready to upload in WordPress:
