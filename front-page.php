@@ -22,6 +22,7 @@ $home_registration = feicoop_home_registration_fields();
                 <?php endif; ?>
                 <p class="hero__actions">
                     <a href="<?php echo esc_url(feicoop_posts_page_url()); ?>" class="btn">Ver notícias</a>
+                    <a href="<?php echo esc_url(feicoop_programacao_archive_url()); ?>" class="btn btn--ghost">Ver programação</a>
                     <?php if ($home_registration['button_url'] !== '' && $home_registration['button_label'] !== '') : ?>
                         <a href="<?php echo esc_url($home_registration['button_url']); ?>" class="btn btn--ghost"><?php echo esc_html($home_registration['button_label']); ?></a>
                     <?php endif; ?>

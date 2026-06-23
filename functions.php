@@ -120,6 +120,84 @@ function feicoop_home_banner_mobile_height(): int {
     return $height;
 }
 
+function feicoop_register_programacao_cpt(): void {
+    register_post_type('programacao', [
+        'labels' => [
+            'name' => __('Programação', 'feicoop'),
+            'singular_name' => __('Item de programação', 'feicoop'),
+            'add_new_item' => __('Adicionar item de programação', 'feicoop'),
+            'edit_item' => __('Editar item de programação', 'feicoop'),
+            'new_item' => __('Novo item de programação', 'feicoop'),
+            'view_item' => __('Ver item de programação', 'feicoop'),
+            'search_items' => __('Buscar itens de programação', 'feicoop'),
+            'not_found' => __('Nenhum item de programação encontrado', 'feicoop'),
+            'not_found_in_trash' => __('Nenhum item de programação na lixeira', 'feicoop'),
+            'all_items' => __('Todos os itens de programação', 'feicoop'),
+            'menu_name' => __('Programação', 'feicoop'),
+        ],
+        'public' => true,
+        'show_in_rest' => true,
+        'has_archive' => true,
+        'rewrite' => ['slug' => 'programacao', 'with_front' => false],
+        'menu_icon' => 'dashicons-calendar-alt',
+        'supports' => ['title', 'editor', 'excerpt', 'thumbnail', 'page-attributes'],
+    ]);
+}
+add_action('init', 'feicoop_register_programacao_cpt');
+
+function feicoop_maybe_flush_rewrite_rules(): void {
+    $theme_version = (string) wp_get_theme()->get('Version');
+    $stored_version = (string) get_option('feicoop_rewrite_version', '');
+
+    if ($stored_version === $theme_version) {
+        return;
+    }
+
+    flush_rewrite_rules(false);
+    update_option('feicoop_rewrite_version', $theme_version);
+}
+add_action('init', 'feicoop_maybe_flush_rewrite_rules', 20);
+
+function feicoop_programacao_meta_fields(int $post_id = 0): array {
+    $post_id = $post_id > 0 ? $post_id : (int) get_the_ID();
+
+    return [
+        'date' => (string) get_post_meta($post_id, '_feicoop_programacao_date', true),
+        'time' => (string) get_post_meta($post_id, '_feicoop_programacao_time', true),
+        'location' => (string) get_post_meta($post_id, '_feicoop_programacao_location', true),
+        'track' => (string) get_post_meta($post_id, '_feicoop_programacao_track', true),
+        'featured' => (bool) get_post_meta($post_id, '_feicoop_programacao_featured', true),
+    ];
+}
+
+function feicoop_programacao_format_date(string $date): string {
+    if ($date === '') {
+        return '';
+    }
+
+    $timestamp = strtotime($date);
+
+    if ($timestamp === false) {
+        return $date;
+    }
+
+    return wp_date('j \\d\\e F \\d\\e Y', $timestamp);
+}
+
+function feicoop_programacao_format_time(string $time): string {
+    if ($time === '') {
+        return '';
+    }
+
+    $timestamp = strtotime($time);
+
+    if ($timestamp === false) {
+        return $time;
+    }
+
+    return wp_date('H\\hi', $timestamp);
+}
+
 function feicoop_post_feature_image_html(?int $post_id = null, string $size = 'feicoop-card', string $class = ''): string {
     $post_id = $post_id !== null ? $post_id : (int) get_the_ID();
     $post_id = $post_id > 0 ? $post_id : 0;
@@ -219,6 +297,75 @@ function feicoop_render_site_banner(): void {
 
     echo '</div>';
 }
+
+function feicoop_register_programacao_metabox(WP_Post $post): void {
+    add_meta_box(
+        'feicoop_programacao_details',
+        __('Detalhes da programação', 'feicoop'),
+        'feicoop_render_programacao_metabox',
+        'programacao',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes_programacao', 'feicoop_register_programacao_metabox');
+
+function feicoop_render_programacao_metabox(WP_Post $post): void {
+    $fields = feicoop_programacao_meta_fields($post->ID);
+    wp_nonce_field('feicoop_programacao_save', 'feicoop_programacao_nonce');
+    ?>
+    <p><?php esc_html_e('Preencha os dados para exibir a programação agrupada por dia no site.', 'feicoop'); ?></p>
+    <p>
+        <label for="feicoop_programacao_date"><strong><?php esc_html_e('Data', 'feicoop'); ?></strong></label><br>
+        <input type="date" id="feicoop_programacao_date" name="feicoop_programacao_date" value="<?php echo esc_attr($fields['date']); ?>" style="width: 100%;">
+    </p>
+    <p>
+        <label for="feicoop_programacao_time"><strong><?php esc_html_e('Horário', 'feicoop'); ?></strong></label><br>
+        <input type="time" id="feicoop_programacao_time" name="feicoop_programacao_time" value="<?php echo esc_attr($fields['time']); ?>" style="width: 100%;">
+    </p>
+    <p>
+        <label for="feicoop_programacao_location"><strong><?php esc_html_e('Local', 'feicoop'); ?></strong></label><br>
+        <input type="text" id="feicoop_programacao_location" name="feicoop_programacao_location" value="<?php echo esc_attr($fields['location']); ?>" class="widefat">
+    </p>
+    <p>
+        <label for="feicoop_programacao_track"><strong><?php esc_html_e('Faixa / categoria', 'feicoop'); ?></strong></label><br>
+        <input type="text" id="feicoop_programacao_track" name="feicoop_programacao_track" value="<?php echo esc_attr($fields['track']); ?>" class="widefat">
+    </p>
+    <p>
+        <label>
+            <input type="checkbox" name="feicoop_programacao_featured" value="1" <?php checked($fields['featured']); ?>>
+            <?php esc_html_e('Destacar este item na programação', 'feicoop'); ?>
+        </label>
+    </p>
+    <?php
+}
+
+function feicoop_save_programacao_meta(int $post_id, WP_Post $post, bool $update): void {
+    if (!isset($_POST['feicoop_programacao_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['feicoop_programacao_nonce'])), 'feicoop_programacao_save')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    $date = isset($_POST['feicoop_programacao_date']) ? sanitize_text_field(wp_unslash($_POST['feicoop_programacao_date'])) : '';
+    $time = isset($_POST['feicoop_programacao_time']) ? sanitize_text_field(wp_unslash($_POST['feicoop_programacao_time'])) : '';
+    $location = isset($_POST['feicoop_programacao_location']) ? sanitize_text_field(wp_unslash($_POST['feicoop_programacao_location'])) : '';
+    $track = isset($_POST['feicoop_programacao_track']) ? sanitize_text_field(wp_unslash($_POST['feicoop_programacao_track'])) : '';
+    $featured = isset($_POST['feicoop_programacao_featured']) ? '1' : '';
+
+    update_post_meta($post_id, '_feicoop_programacao_date', $date);
+    update_post_meta($post_id, '_feicoop_programacao_time', $time);
+    update_post_meta($post_id, '_feicoop_programacao_location', $location);
+    update_post_meta($post_id, '_feicoop_programacao_track', $track);
+    update_post_meta($post_id, '_feicoop_programacao_featured', $featured);
+}
+add_action('save_post_programacao', 'feicoop_save_programacao_meta', 10, 3);
 
 function feicoop_enqueue_assets(): void {
     $theme = wp_get_theme();

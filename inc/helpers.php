@@ -27,6 +27,16 @@ function feicoop_posts_page_url(): string {
     return home_url('/#noticias');
 }
 
+function feicoop_programacao_archive_url(): string {
+    $url = get_post_type_archive_link('programacao');
+
+    if (is_string($url) && $url !== '') {
+        return $url;
+    }
+
+    return home_url('/programacao/');
+}
+
 function feicoop_template_meta(int $post_id, string $key, string $default = ''): string {
     $value = get_post_meta($post_id, $key, true);
 
