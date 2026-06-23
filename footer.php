@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
             </nav>
 
             <div class="footer__copyright">
-                <p>&copy; <?php echo esc_html(date_i18n('Y')); ?> <?php bloginfo('name'); ?></p>
+                <p><?php echo esc_html(get_theme_mod('feicoop_footer_copyright', 'Projeto Esperança/Cooesperança')); ?></p>
             </div>
         </div>
 

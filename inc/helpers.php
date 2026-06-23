@@ -24,7 +24,7 @@ function feicoop_posts_page_url(): string {
         return get_permalink($posts_page_id);
     }
 
-    return home_url('/');
+    return home_url('/#publicacoes');
 }
 
 function feicoop_template_meta(int $post_id, string $key, string $default = ''): string {

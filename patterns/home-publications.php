@@ -22,7 +22,7 @@
 		</div>
 		<!-- /wp:group -->
 
-		<!-- wp:query {"queryId":1,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true},"className":"feed feed--cards"} -->
+		<!-- wp:query {"queryId":1,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":false},"className":"feed feed--cards"} -->
 		<div class="wp-block-query feed feed--cards">
 			<!-- wp:post-template -->
 			<!-- wp:group {"tagName":"article","className":"feed__item feed__item--card","layout":{"type":"constrained"}} -->
