@@ -17,7 +17,7 @@ function feicoop_setup(): void {
         'flex-height' => true,
         'flex-width' => true,
     ]);
-    add_theme_support('html5', ['comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script', 'search-form']);
+add_theme_support('html5', ['comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script', 'search-form']);
     add_theme_support('align-wide');
     add_theme_support('responsive-embeds');
     add_theme_support('editor-styles');
@@ -42,6 +42,17 @@ function feicoop_setup(): void {
     add_image_size('feicoop-hero', 1600, 900, true);
 }
 add_action('after_setup_theme', 'feicoop_setup');
+
+function feicoop_document_title_parts(array $parts): array {
+    unset($parts['tagline']);
+    return $parts;
+}
+add_filter('document_title_parts', 'feicoop_document_title_parts');
+
+function feicoop_document_title_separator(string $separator): string {
+    return '-';
+}
+add_filter('document_title_separator', 'feicoop_document_title_separator');
 
 function feicoop_enqueue_assets(): void {
     $theme = wp_get_theme();
