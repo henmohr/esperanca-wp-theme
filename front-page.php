@@ -3,6 +3,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 get_header();
+
+$home_registration = feicoop_home_registration_fields();
 ?>
 <main class="home-template">
     <section class="hero hero--noimage">
@@ -13,7 +15,9 @@ get_header();
                 <p>Portal institucional do Projeto Esperança/Cooesperança para divulgar a feira, suas redes, a memória do movimento e as novidades da programação.</p>
                 <p class="hero__actions">
                     <a href="<?php echo esc_url(feicoop_posts_page_url()); ?>" class="btn">Ver notícias</a>
-                    <a href="https://inscricoes.esperancacooesperanca.org.br/" class="btn btn--ghost">Ir para inscrições</a>
+                    <?php if ($home_registration['button_url'] !== '' && $home_registration['button_label'] !== '') : ?>
+                        <a href="<?php echo esc_url($home_registration['button_url']); ?>" class="btn btn--ghost"><?php echo esc_html($home_registration['button_label']); ?></a>
+                    <?php endif; ?>
                 </p>
                 <ul class="hero__facts">
                     <li><strong>Quando</strong><span>10 a 12 de julho de 2026</span></li>
@@ -31,7 +35,6 @@ get_header();
     </section>
 
     <?php if (feicoop_home_registration_enabled()) : ?>
-        <?php $home_registration = feicoop_home_registration_fields(); ?>
         <?php $registration_classes = 'homepage-registration' . (($home_registration['date_label'] === '' && $home_registration['date_value'] === '') ? ' homepage-registration--single' : ''); ?>
         <section class="section section--registration-callout">
             <div class="wrapper">
