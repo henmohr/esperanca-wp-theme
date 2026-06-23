@@ -30,24 +30,42 @@ get_header();
         </div>
     </section>
 
-    <section class="section section--registration-callout">
-        <div class="wrapper">
-            <div class="homepage-registration">
-                <div class="homepage-registration__content">
-                    <p class="section__kicker">Inscrições</p>
-                    <h2>Abertura das inscrições em 1º de maio</h2>
-                    <p class="section__text section__text--lead">Reserve a data e acompanhe os canais oficiais para acessar o formulário.</p>
-                    <p class="homepage-registration__actions">
-                        <a class="btn" href="https://inscricoes.esperancacooesperanca.org.br/">Ir para inscrições</a>
-                    </p>
+    <?php if (feicoop_home_registration_enabled()) : ?>
+        <?php $home_registration = feicoop_home_registration_fields(); ?>
+        <?php $registration_classes = 'homepage-registration' . (($home_registration['date_label'] === '' && $home_registration['date_value'] === '') ? ' homepage-registration--single' : ''); ?>
+        <section class="section section--registration-callout">
+            <div class="wrapper">
+                <div class="<?php echo esc_attr($registration_classes); ?>">
+                    <div class="homepage-registration__content">
+                        <?php if ($home_registration['kicker'] !== '') : ?>
+                            <p class="section__kicker"><?php echo esc_html($home_registration['kicker']); ?></p>
+                        <?php endif; ?>
+                        <?php if ($home_registration['title'] !== '') : ?>
+                            <h2><?php echo esc_html($home_registration['title']); ?></h2>
+                        <?php endif; ?>
+                        <?php if ($home_registration['text'] !== '') : ?>
+                            <p class="section__text section__text--lead"><?php echo esc_html($home_registration['text']); ?></p>
+                        <?php endif; ?>
+                        <?php if ($home_registration['button_url'] !== '' && $home_registration['button_label'] !== '') : ?>
+                            <p class="homepage-registration__actions">
+                                <a class="btn" href="<?php echo esc_url($home_registration['button_url']); ?>"><?php echo esc_html($home_registration['button_label']); ?></a>
+                            </p>
+                        <?php endif; ?>
+                    </div>
+                    <?php if ($home_registration['date_label'] !== '' || $home_registration['date_value'] !== '') : ?>
+                        <aside class="homepage-registration__date" aria-label="<?php echo esc_attr($home_registration['date_label'] !== '' ? $home_registration['date_label'] : __('Data de abertura das inscrições', 'feicoop')); ?>">
+                            <?php if ($home_registration['date_label'] !== '') : ?>
+                                <span><?php echo esc_html($home_registration['date_label']); ?></span>
+                            <?php endif; ?>
+                            <?php if ($home_registration['date_value'] !== '') : ?>
+                                <strong><?php echo esc_html($home_registration['date_value']); ?></strong>
+                            <?php endif; ?>
+                        </aside>
+                    <?php endif; ?>
                 </div>
-                <aside class="homepage-registration__date" aria-label="Data de abertura das inscrições">
-                    <span>Data de abertura</span>
-                    <strong>1º de maio</strong>
-                </aside>
             </div>
-        </div>
-    </section>
+        </section>
+    <?php endif; ?>
 
     <section class="section section--intro">
         <div class="wrapper section__grid">

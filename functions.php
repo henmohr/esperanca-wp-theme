@@ -61,6 +61,26 @@ function feicoop_banner_fallback_slide(): array {
     ];
 }
 
+function feicoop_sanitize_checkbox($checked): int {
+    return !empty($checked) ? 1 : 0;
+}
+
+function feicoop_home_registration_enabled(): bool {
+    return (bool) get_theme_mod('feicoop_home_registration_enabled', true);
+}
+
+function feicoop_home_registration_fields(): array {
+    return [
+        'kicker' => (string) get_theme_mod('feicoop_home_registration_kicker', __('Inscrições', 'feicoop')),
+        'title' => (string) get_theme_mod('feicoop_home_registration_title', __('Abertura das inscrições em 1º de maio', 'feicoop')),
+        'text' => (string) get_theme_mod('feicoop_home_registration_text', __('Reserve a data e acompanhe os canais oficiais para acessar o formulário.', 'feicoop')),
+        'button_label' => (string) get_theme_mod('feicoop_home_registration_button_label', __('Ir para inscrições', 'feicoop')),
+        'button_url' => (string) get_theme_mod('feicoop_home_registration_button_url', 'https://inscricoes.esperancacooesperanca.org.br/'),
+        'date_label' => (string) get_theme_mod('feicoop_home_registration_date_label', __('Data de abertura', 'feicoop')),
+        'date_value' => (string) get_theme_mod('feicoop_home_registration_date_value', __('1º de maio', 'feicoop')),
+    ];
+}
+
 function feicoop_post_feature_image_html(?int $post_id = null, string $size = 'feicoop-card', string $class = ''): string {
     $post_id = $post_id !== null ? $post_id : (int) get_the_ID();
     $post_id = $post_id > 0 ? $post_id : 0;
@@ -408,6 +428,71 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
             'label' => $label,
             'section' => 'feicoop_social',
             'type' => 'url',
+        ]);
+    }
+
+    $wp_customize->add_section('feicoop_home_registration', [
+        'title' => __('FEICOOP Inscrições', 'feicoop'),
+        'priority' => 35,
+    ]);
+
+    $home_registration_fields = [
+        'kicker' => [
+            'label' => __('Legenda', 'feicoop'),
+            'default' => __('Inscrições', 'feicoop'),
+        ],
+        'title' => [
+            'label' => __('Título', 'feicoop'),
+            'default' => __('Abertura das inscrições em 1º de maio', 'feicoop'),
+        ],
+        'text' => [
+            'label' => __('Texto', 'feicoop'),
+            'default' => __('Reserve a data e acompanhe os canais oficiais para acessar o formulário.', 'feicoop'),
+        ],
+        'button_label' => [
+            'label' => __('Texto do botão', 'feicoop'),
+            'default' => __('Ir para inscrições', 'feicoop'),
+        ],
+        'button_url' => [
+            'label' => __('URL do botão', 'feicoop'),
+            'default' => 'https://inscricoes.esperancacooesperanca.org.br/',
+            'type' => 'url',
+            'sanitize_callback' => 'esc_url_raw',
+        ],
+        'date_label' => [
+            'label' => __('Legenda da data', 'feicoop'),
+            'default' => __('Data de abertura', 'feicoop'),
+        ],
+        'date_value' => [
+            'label' => __('Valor da data', 'feicoop'),
+            'default' => __('1º de maio', 'feicoop'),
+        ],
+    ];
+
+    $wp_customize->add_setting('feicoop_home_registration_enabled', [
+        'default' => 1,
+        'sanitize_callback' => 'feicoop_sanitize_checkbox',
+    ]);
+
+    $wp_customize->add_control('feicoop_home_registration_enabled', [
+        'label' => __('Mostrar seção de inscrições', 'feicoop'),
+        'section' => 'feicoop_home_registration',
+        'type' => 'checkbox',
+    ]);
+
+    foreach ($home_registration_fields as $key => $config) {
+        $setting_id = "feicoop_home_registration_{$key}";
+        $sanitize_callback = $config['sanitize_callback'] ?? 'sanitize_text_field';
+
+        $wp_customize->add_setting($setting_id, [
+            'default' => $config['default'],
+            'sanitize_callback' => $sanitize_callback,
+        ]);
+
+        $wp_customize->add_control($setting_id, [
+            'label' => $config['label'],
+            'section' => 'feicoop_home_registration',
+            'type' => $config['type'] ?? 'text',
         ]);
     }
 }

@@ -679,6 +679,10 @@ p {
   overflow: hidden;
 }
 
+.homepage-registration--single {
+  grid-template-columns: 1fr;
+}
+
 .homepage-registration::before {
   content: "";
   position: absolute;
