@@ -790,7 +790,16 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
 add_action('customize_register', 'feicoop_customize_register');
 
 function feicoop_main_menu_fallback(): void {
-    echo '<ul class="navbar__menu"><li class="current-menu-item"><a href="' . esc_url(home_url('/')) . '">' . esc_html(get_bloginfo('name')) . '</a></li></ul>';
+    echo '<ul class="navbar__menu">';
+    echo '<li class="current-menu-item"><a href="' . esc_url(home_url('/')) . '">' . esc_html__('Início', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_page_url('quem-somos', '/quem-somos.html')) . '">' . esc_html__('Quem somos', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_page_url('historia', '/historia.html')) . '">' . esc_html__('História', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_page_url('rede-esperanca', '/rede-esperanca.html')) . '">' . esc_html__('Rede Esperança', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_page_url('feirao-colonial', '/feirao-colonial.html')) . '">' . esc_html__('Feirão Colonial', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_programacao_archive_url()) . '">' . esc_html__('Programação', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_posts_page_url()) . '">' . esc_html__('Notícias', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_page_url('contato', '/contato.html')) . '">' . esc_html__('Contato', 'feicoop') . '</a></li>';
+    echo '</ul>';
 }
 
 function feicoop_footer_menu_fallback(): void {
