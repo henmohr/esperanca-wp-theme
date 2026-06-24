@@ -224,14 +224,14 @@ function feicoop_post_feature_image_html(?int $post_id = null, string $size = 'f
 
 function feicoop_get_home_banner_slides(): array {
     $front_page_id = (int) get_option('page_on_front');
+    $slides = [feicoop_banner_fallback_slide()];
 
     if ($front_page_id <= 0) {
-        return [feicoop_banner_fallback_slide()];
+        return $slides;
     }
 
     $raw_ids = (string) get_post_meta($front_page_id, '_feicoop_banner_carousel_ids', true);
     $ids = array_values(array_filter(array_map('absint', preg_split('/\s*,\s*/', $raw_ids) ?: [])));
-    $slides = [];
 
     foreach ($ids as $attachment_id) {
         $src = wp_get_attachment_image_url($attachment_id, 'feicoop-hero');
@@ -250,10 +250,6 @@ function feicoop_get_home_banner_slides(): array {
             'src' => $src,
             'alt' => $alt !== '' ? $alt : get_bloginfo('name'),
         ];
-    }
-
-    if (empty($slides)) {
-        $slides[] = feicoop_banner_fallback_slide();
     }
 
     return $slides;
