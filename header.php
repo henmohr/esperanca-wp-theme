@@ -23,15 +23,19 @@ if (!defined('ABSPATH')) {
         </button>
 
         <nav class="navbar js-navbar" aria-label="<?php esc_attr_e('Primary menu', 'feicoop'); ?>">
-            <?php
-            wp_nav_menu([
-                'theme_location' => 'mainMenu',
-                'container' => false,
-                'menu_class' => 'navbar__menu',
-                'fallback_cb' => 'feicoop_main_menu_fallback',
-                'depth' => 2,
-            ]);
-            ?>
+            <?php if (has_nav_menu('mainMenu')) : ?>
+                <?php
+                wp_nav_menu([
+                    'theme_location' => 'mainMenu',
+                    'container' => false,
+                    'menu_class' => 'navbar__menu',
+                    'fallback_cb' => 'feicoop_main_menu_fallback',
+                    'depth' => 2,
+                ]);
+                ?>
+            <?php else : ?>
+                <?php feicoop_main_menu_fallback(); ?>
+            <?php endif; ?>
         </nav>
     </div>
 </header>
