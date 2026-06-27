@@ -519,9 +519,16 @@ p {
 }
 
 .posts--news .hero__content .wrapper {
+  display: grid;
+  gap: 0.4rem;
   justify-items: center;
   text-align: center;
   max-width: 50rem;
+}
+
+.posts--news .hero__content .wrapper > * {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .posts--news .hero__content h1,
