@@ -4,18 +4,45 @@
     var $preview = $('#feicoop_banner_carousel_preview');
     var frame = null;
 
+    function syncInputFromPreview() {
+      var ids = [];
+
+      $preview.find('li[data-id]').each(function () {
+        var id = parseInt(this.getAttribute('data-id'), 10);
+
+        if (!Number.isNaN(id) && id > 0) {
+          ids.push(id);
+        }
+      });
+
+      $input.val(ids.join(','));
+    }
+
     function renderPreview(attachments) {
       $preview.empty();
 
       attachments.forEach(function (attachment) {
         var thumb = attachment.sizes && attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
-        $('<li>', {
+        var $item = $('<li>', {
           'data-id': attachment.id
-        }).append($('<img>', {
+        });
+
+        $item.append($('<img>', {
           src: thumb,
           alt: attachment.alt || attachment.title || ''
-        })).appendTo($preview);
+        }));
+
+        $item.append($('<button>', {
+          type: 'button',
+          class: 'button-link-delete feicoop-banner-carousel-remove',
+          text: 'Remover',
+          'data-remove-item': '1'
+        }));
+
+        $item.appendTo($preview);
       });
+
+      syncInputFromPreview();
     }
 
     function getSelectedIds() {
@@ -50,7 +77,7 @@
 
       if (!frame) {
         frame = wp.media({
-          title: 'Selecionar imagens do carrossel',
+          title: 'Enviar ou selecionar imagens dos patrocinadores',
           button: {
             text: 'Usar imagens'
           },
@@ -63,9 +90,6 @@
 
         frame.on('select', function () {
           var attachments = frame.state().get('selection').toJSON();
-          $input.val(attachments.map(function (attachment) {
-            return attachment.id;
-          }).join(','));
           renderPreview(attachments);
         });
       }
@@ -77,6 +101,13 @@
       event.preventDefault();
       $input.val('');
       $preview.empty();
+    });
+
+    $(document).on('click', '#feicoop_banner_carousel_preview [data-remove-item]', function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      $(this).closest('li').remove();
+      syncInputFromPreview();
     });
   });
 })(jQuery);

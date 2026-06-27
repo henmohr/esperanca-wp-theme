@@ -467,6 +467,45 @@ function feicoop_admin_enqueue_assets(string $hook): void {
     }
 
     wp_enqueue_media();
+    wp_register_style('feicoop-admin-carousel', false, [], wp_get_theme()->get('Version'));
+    wp_enqueue_style('feicoop-admin-carousel');
+    wp_add_inline_style('feicoop-admin-carousel', '
+        .feicoop-banner-carousel-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin: 16px 0 0;
+            padding: 0;
+            max-height: 360px;
+            overflow: auto;
+            list-style: none;
+        }
+
+        .feicoop-banner-carousel-preview li {
+            display: grid;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #dcdcde;
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        .feicoop-banner-carousel-preview img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .feicoop-banner-carousel-remove {
+            justify-self: start;
+            color: #b32d2e;
+            cursor: pointer;
+            padding: 0;
+        }
+    ');
     wp_enqueue_script('feicoop-admin-carousel', feicoop_asset_url('assets/js/admin-carousel.js'), ['jquery'], wp_get_theme()->get('Version'), true);
 }
 add_action('admin_enqueue_scripts', 'feicoop_admin_enqueue_assets');
@@ -478,10 +517,10 @@ function feicoop_register_banner_carousel_metabox(WP_Post $post): void {
 
     add_meta_box(
         'feicoop_banner_carousel',
-        __('Carrossel do topo', 'feicoop'),
+        __('Patrocinadores do topo', 'feicoop'),
         'feicoop_render_banner_carousel_metabox',
         'page',
-        'side',
+        'normal',
         'high'
     );
 }
@@ -492,20 +531,22 @@ function feicoop_render_banner_carousel_metabox(WP_Post $post): void {
     $ids = array_values(array_filter(array_map('absint', preg_split('/\s*,\s*/', $raw_ids) ?: [])));
     wp_nonce_field('feicoop_banner_carousel_save', 'feicoop_banner_carousel_nonce');
     ?>
-    <p><?php esc_html_e('Selecione as imagens que vão aparecer no topo da home. A primeira imagem padrão é usada apenas quando a lista está vazia.', 'feicoop'); ?></p>
+    <p><?php esc_html_e('Adicione aqui os logos ou imagens dos patrocinadores. Prefira artes horizontais, com pouco espaço vazio, para caberem melhor no carrossel. Use a biblioteca de mídia para enviar novos arquivos ou escolher imagens já enviadas.', 'feicoop'); ?></p>
     <input type="hidden" id="feicoop_banner_carousel_ids" name="feicoop_banner_carousel_ids" value="<?php echo esc_attr(implode(',', $ids)); ?>">
     <p>
-        <button type="button" class="button button-primary" id="feicoop_banner_carousel_select"><?php esc_html_e('Selecionar imagens', 'feicoop'); ?></button>
+        <button type="button" class="button button-primary" id="feicoop_banner_carousel_select"><?php esc_html_e('Enviar ou selecionar imagens', 'feicoop'); ?></button>
         <button type="button" class="button" id="feicoop_banner_carousel_clear"><?php esc_html_e('Limpar', 'feicoop'); ?></button>
     </p>
+    <p class="description"><?php esc_html_e('Você pode remover uma imagem por vez no preview abaixo sem apagar o restante.', 'feicoop'); ?></p>
     <ul class="feicoop-banner-carousel-preview" id="feicoop_banner_carousel_preview">
         <?php foreach ($ids as $attachment_id) : ?>
             <li data-id="<?php echo esc_attr((string) $attachment_id); ?>">
                 <?php echo wp_get_attachment_image($attachment_id, 'thumbnail'); ?>
+                <button type="button" class="button-link-delete feicoop-banner-carousel-remove" data-remove-item><?php esc_html_e('Remover', 'feicoop'); ?></button>
             </li>
         <?php endforeach; ?>
     </ul>
-    <p class="description"><?php esc_html_e('Você pode ordenar as imagens novamente no seletor da biblioteca de mídia.', 'feicoop'); ?></p>
+    <p class="description"><?php esc_html_e('Você pode enviar novos arquivos no modal da mídia, selecionar imagens existentes e reorganizar a ordem antes de salvar.', 'feicoop'); ?></p>
     <?php
 }
 
