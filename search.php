@@ -9,7 +9,7 @@ get_header();
         <div class="hero hero--noimage">
             <header class="hero__content">
                 <div class="wrapper">
-                    <h1><?php printf(esc_html__('Search results for: %s', 'feicoop'), get_search_query()); ?></h1>
+                    <h1><?php printf(esc_html__('Resultados da busca para: %s', 'feicoop'), esc_html(get_search_query())); ?></h1>
                 </div>
             </header>
         </div>

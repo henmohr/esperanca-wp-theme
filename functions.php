@@ -72,12 +72,12 @@ function feicoop_home_registration_enabled(): bool {
 function feicoop_home_registration_fields(): array {
     return [
         'kicker' => (string) get_theme_mod('feicoop_home_registration_kicker', __('Inscrições', 'feicoop')),
-        'title' => (string) get_theme_mod('feicoop_home_registration_title', __('Abertura das inscrições em 1º de maio', 'feicoop')),
+        'title' => (string) get_theme_mod('feicoop_home_registration_title', __('Abertura das inscrições', 'feicoop')),
         'text' => (string) get_theme_mod('feicoop_home_registration_text', __('Reserve a data e acompanhe os canais oficiais para acessar o formulário.', 'feicoop')),
         'button_label' => (string) get_theme_mod('feicoop_home_registration_button_label', __('Ir para inscrições', 'feicoop')),
         'button_url' => (string) get_theme_mod('feicoop_home_registration_button_url', 'https://inscricoes.esperancacooesperanca.org.br/'),
         'date_label' => (string) get_theme_mod('feicoop_home_registration_date_label', __('Data de abertura', 'feicoop')),
-        'date_value' => (string) get_theme_mod('feicoop_home_registration_date_value', __('1º de maio', 'feicoop')),
+        'date_value' => (string) get_theme_mod('feicoop_home_registration_date_value', __('Em breve', 'feicoop')),
     ];
 }
 
@@ -89,6 +89,17 @@ function feicoop_home_hero_fields(): array {
         'panel_kicker' => (string) get_theme_mod('feicoop_home_hero_panel_kicker', '32ª FEICOOP'),
         'panel_title' => (string) get_theme_mod('feicoop_home_hero_panel_title', __('A maior feira de economia solidária da América Latina', 'feicoop')),
         'panel_text' => (string) get_theme_mod('feicoop_home_hero_panel_text', __('Encontro anual de articulação, formação, comercialização solidária e troca de experiências entre grupos, redes, cooperativas e comunidades.', 'feicoop')),
+    ];
+}
+
+function feicoop_home_event_fields(): array {
+    return [
+        'when_label' => (string) get_theme_mod('feicoop_home_event_when_label', __('Quando', 'feicoop')),
+        'when_value' => (string) get_theme_mod('feicoop_home_event_when_value', __('Em breve', 'feicoop')),
+        'where_label' => (string) get_theme_mod('feicoop_home_event_where_label', __('Onde', 'feicoop')),
+        'where_value' => (string) get_theme_mod('feicoop_home_event_where_value', __('Santa Maria, RS', 'feicoop')),
+        'focus_label' => (string) get_theme_mod('feicoop_home_event_focus_label', __('Foco', 'feicoop')),
+        'focus_value' => (string) get_theme_mod('feicoop_home_event_focus_value', __('Economia solidária, cooperativismo e redes', 'feicoop')),
     ];
 }
 
@@ -146,6 +157,10 @@ function feicoop_register_programacao_cpt(): void {
 add_action('init', 'feicoop_register_programacao_cpt');
 
 function feicoop_maybe_flush_rewrite_rules(): void {
+    if (!is_admin()) {
+        return;
+    }
+
     $theme_version = (string) wp_get_theme()->get('Version');
     $stored_version = (string) get_option('feicoop_rewrite_version', '');
 
@@ -156,7 +171,13 @@ function feicoop_maybe_flush_rewrite_rules(): void {
     flush_rewrite_rules(false);
     update_option('feicoop_rewrite_version', $theme_version);
 }
-add_action('init', 'feicoop_maybe_flush_rewrite_rules', 20);
+add_action('admin_init', 'feicoop_maybe_flush_rewrite_rules', 20);
+
+function feicoop_flush_rewrite_rules_on_switch(): void {
+    flush_rewrite_rules(false);
+    update_option('feicoop_rewrite_version', (string) wp_get_theme()->get('Version'));
+}
+add_action('after_switch_theme', 'feicoop_flush_rewrite_rules_on_switch');
 
 function feicoop_programacao_meta_fields(int $post_id = 0): array {
     $post_id = $post_id > 0 ? $post_id : (int) get_the_ID();
@@ -365,13 +386,6 @@ add_action('save_post_programacao', 'feicoop_save_programacao_meta', 10, 3);
 
 function feicoop_enqueue_assets(): void {
     $theme = wp_get_theme();
-
-    wp_enqueue_style(
-        'feicoop-fonts',
-        'https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400..900;1,400..900&family=Bitter:ital,wght@0,400..900;1,400..900&family=Maven+Pro:wght@400..900&display=swap',
-        [],
-        null
-    );
 
     wp_enqueue_style('feicoop-main', feicoop_asset_url('assets/css/main.css'), [], $theme->get('Version'));
     wp_enqueue_style('feicoop-custom', feicoop_asset_url('assets/css/feicoop-custom.css'), ['feicoop-main'], $theme->get('Version'));
@@ -635,6 +649,12 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'priority' => 25,
     ]);
 
+    $wp_customize->add_section('feicoop_home_event', [
+        'title' => __('FEICOOP Destaques da home', 'feicoop'),
+        'description' => __('Edita as informações curtas exibidas no bloco de fatos da home.', 'feicoop'),
+        'priority' => 26,
+    ]);
+
     $wp_customize->add_setting('feicoop_home_banner_height', [
         'default' => 130,
         'sanitize_callback' => 'absint',
@@ -718,6 +738,55 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         ]);
     }
 
+    $home_event_fields = [
+        'when_label' => [
+            'label' => __('Rótulo de quando', 'feicoop'),
+            'description' => __('Texto exibido antes do valor do primeiro destaque.', 'feicoop'),
+            'default' => __('Quando', 'feicoop'),
+        ],
+        'when_value' => [
+            'label' => __('Quando', 'feicoop'),
+            'description' => __('Data ou intervalo exibido no primeiro destaque da home.', 'feicoop'),
+            'default' => __('Em breve', 'feicoop'),
+        ],
+        'where_label' => [
+            'label' => __('Rótulo de onde', 'feicoop'),
+            'description' => __('Texto exibido antes do valor do segundo destaque.', 'feicoop'),
+            'default' => __('Onde', 'feicoop'),
+        ],
+        'where_value' => [
+            'label' => __('Onde', 'feicoop'),
+            'description' => __('Local exibido no segundo destaque da home.', 'feicoop'),
+            'default' => __('Santa Maria, RS', 'feicoop'),
+        ],
+        'focus_label' => [
+            'label' => __('Rótulo de foco', 'feicoop'),
+            'description' => __('Texto exibido antes do valor do terceiro destaque.', 'feicoop'),
+            'default' => __('Foco', 'feicoop'),
+        ],
+        'focus_value' => [
+            'label' => __('Foco', 'feicoop'),
+            'description' => __('Tema principal exibido no terceiro destaque da home.', 'feicoop'),
+            'default' => __('Economia solidária, cooperativismo e redes', 'feicoop'),
+        ],
+    ];
+
+    foreach ($home_event_fields as $key => $config) {
+        $setting_id = "feicoop_home_event_{$key}";
+
+        $wp_customize->add_setting($setting_id, [
+            'default' => $config['default'],
+            'sanitize_callback' => 'sanitize_text_field',
+        ]);
+
+        $wp_customize->add_control($setting_id, [
+            'label' => $config['label'],
+            'description' => $config['description'] ?? '',
+            'section' => 'feicoop_home_event',
+            'type' => 'text',
+        ]);
+    }
+
     $home_registration_fields = [
         'kicker' => [
             'label' => __('Legenda', 'feicoop'),
@@ -727,7 +796,7 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'title' => [
             'label' => __('Título', 'feicoop'),
             'description' => __('Título principal mostrado na seção.', 'feicoop'),
-            'default' => __('Abertura das inscrições em 1º de maio', 'feicoop'),
+            'default' => __('Abertura das inscrições', 'feicoop'),
         ],
         'text' => [
             'label' => __('Texto', 'feicoop'),
@@ -754,7 +823,7 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'date_value' => [
             'label' => __('Valor da data', 'feicoop'),
             'description' => __('Data ou prazo em destaque na caixa lateral.', 'feicoop'),
-            'default' => __('1º de maio', 'feicoop'),
+            'default' => __('Em breve', 'feicoop'),
         ],
     ];
 

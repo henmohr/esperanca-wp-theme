@@ -46,7 +46,7 @@ window.addEventListener('scroll', () => {
         mobileMenuSidebarLogoUrl: null,
         relatedContainerForOverlayMenuSelector: null,
         // attributes 
-        ariaButtonAttribute: 'aria-haspopup',
+        ariaButtonAttribute: 'aria-expanded',
         // CSS classes
         separatorItemClass: 'is-separator',
         parentItemClass: 'has-submenu',

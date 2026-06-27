@@ -5,6 +5,7 @@ if (!defined('ABSPATH')) {
 get_header();
 
 $home_hero = feicoop_home_hero_fields();
+$home_event = feicoop_home_event_fields();
 $home_registration = feicoop_home_registration_fields();
 ?>
 <main class="home-template">
@@ -12,10 +13,10 @@ $home_registration = feicoop_home_registration_fields();
         <div class="wrapper hero__grid">
             <header class="hero__content hero__content--centered">
                 <?php if ($home_hero['eyebrow'] !== '') : ?>
-                    <h2 class="hero__eyebrow"><?php echo esc_html($home_hero['eyebrow']); ?></h2>
+                    <p class="hero__eyebrow"><?php echo esc_html($home_hero['eyebrow']); ?></p>
                 <?php endif; ?>
                 <?php if ($home_hero['title'] !== '') : ?>
-                    <h2><?php echo esc_html($home_hero['title']); ?></h2>
+                    <h1><?php echo esc_html($home_hero['title']); ?></h1>
                 <?php endif; ?>
                 <?php if ($home_hero['text'] !== '') : ?>
                     <p><?php echo esc_html($home_hero['text']); ?></p>
@@ -27,11 +28,20 @@ $home_registration = feicoop_home_registration_fields();
                         <a href="<?php echo esc_url($home_registration['button_url']); ?>" class="btn btn--ghost"><?php echo esc_html($home_registration['button_label']); ?></a>
                     <?php endif; ?>
                 </p>
-                <ul class="hero__facts">
-                    <li><strong>Quando</strong><span>10 a 12 de julho de 2026</span></li>
-                    <li><strong>Onde</strong><span>Santa Maria, RS</span></li>
-                    <li><strong>Foco</strong><span>Economia solidária, cooperativismo e redes</span></li>
-                </ul>
+                <dl class="hero__facts">
+                    <div class="hero__fact">
+                        <dt><?php echo esc_html($home_event['when_label']); ?></dt>
+                        <dd><?php echo esc_html($home_event['when_value']); ?></dd>
+                    </div>
+                    <div class="hero__fact">
+                        <dt><?php echo esc_html($home_event['where_label']); ?></dt>
+                        <dd><?php echo esc_html($home_event['where_value']); ?></dd>
+                    </div>
+                    <div class="hero__fact">
+                        <dt><?php echo esc_html($home_event['focus_label']); ?></dt>
+                        <dd><?php echo esc_html($home_event['focus_value']); ?></dd>
+                    </div>
+                </dl>
             </header>
             <aside class="hero__panel">
                 <?php if ($home_hero['panel_kicker'] !== '') : ?>

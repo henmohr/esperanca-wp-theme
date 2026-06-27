@@ -19,7 +19,7 @@
 				<!-- /wp:paragraph -->
 
 				<!-- wp:heading -->
-				<h2>Abertura das inscricoes em 01 de agosto de 2025</h2>
+					<h2>Abertura das inscricoes</h2>
 				<!-- /wp:heading -->
 
 				<!-- wp:paragraph {"className":"section__text section__text--lead"} -->
@@ -35,7 +35,7 @@
 				<!-- /wp:paragraph -->
 
 				<!-- wp:paragraph {"fontSize":"x-large"} -->
-				<p class="has-x-large-font-size"><strong>01 de agosto de 2025</strong></p>
+					<p class="has-x-large-font-size"><strong>Em breve</strong></p>
 				<!-- /wp:paragraph -->
 
 				<!-- wp:buttons -->

@@ -16,13 +16,13 @@ if (!defined('ABSPATH')) {
         <?php feicoop_render_site_banner(); ?>
     </div>
     <div class="wrapper top__inner">
-        <button class="navbar__toggle js-toggle" aria-label="<?php esc_attr_e('Menu', 'feicoop'); ?>" aria-haspopup="true" aria-expanded="false">
+        <button class="navbar__toggle js-toggle" aria-label="<?php esc_attr_e('Menu', 'feicoop'); ?>" aria-controls="primary-menu" aria-expanded="false">
             <span class="navbar__toggle-box">
                 <span class="navbar__toggle-inner" aria-hidden="true"></span>
             </span>
         </button>
 
-        <nav class="navbar js-navbar" aria-label="<?php esc_attr_e('Primary menu', 'feicoop'); ?>">
+        <nav id="primary-menu" class="navbar js-navbar" aria-label="<?php esc_attr_e('Primary menu', 'feicoop'); ?>">
             <?php if (has_nav_menu('mainMenu')) : ?>
                 <?php
                 wp_nav_menu([

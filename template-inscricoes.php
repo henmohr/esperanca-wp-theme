@@ -22,7 +22,7 @@ get_header();
                     </div>
                     <aside class="inscricoes-card" aria-label="<?php esc_attr_e('Data de abertura das inscricoes', 'feicoop'); ?>">
                         <p class="inscricoes-card__kicker"><?php esc_html_e('Abertura oficial', 'feicoop'); ?></p>
-                        <strong class="inscricoes-card__date"><?php echo esc_html(feicoop_template_meta(get_the_ID(), '_feicoop_registration_open_date', '01 de agosto de 2025')); ?></strong>
+                        <strong class="inscricoes-card__date"><?php echo esc_html(feicoop_template_meta(get_the_ID(), '_feicoop_registration_open_date', __('Em breve', 'feicoop'))); ?></strong>
                         <p class="inscricoes-card__text"><?php esc_html_e('Nesta data sera liberado o processo de inscricao para participacao na programacao.', 'feicoop'); ?></p>
                     </aside>
                 </div>

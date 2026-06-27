@@ -14,3 +14,19 @@ To get a ZIP package ready to upload in WordPress:
 3. If you want to build it locally, run `scripts/package-theme.sh`.
 
 The ZIP includes the theme root files only, so it can be uploaded directly in `Appearance > Themes > Add New > Upload Theme` in WordPress.
+
+## Configurar a página de notícias
+
+Este tema usa a página de posts do WordPress como o arquivo principal de notícias.
+
+1. Crie uma página chamada `Notícias` em `Pages > Add New`.
+2. Vá em `Settings > Reading`.
+3. Em `Your homepage displays`, mantenha a home como página inicial estática, se for o caso.
+4. Em `Posts page`, selecione a página `Notícias`.
+5. Salve as alterações.
+
+Depois disso:
+
+- As novas notícias aparecem automaticamente em `Notícias`, com a mais recente em destaque.
+- O link para notícias usado pelo tema aponta para essa página.
+- Se você adicionar a página ao menu principal, ela já vai abrir o arquivo editorial de notícias.
