@@ -19,11 +19,17 @@ The ZIP includes the theme root files only, so it can be uploaded directly in `A
 
 Este tema usa a página de posts do WordPress como o arquivo principal de notícias.
 
-1. Crie uma página chamada `Notícias` em `Pages > Add New`.
-2. Vá em `Settings > Reading`.
-3. Em `Your homepage displays`, mantenha a home como página inicial estática, se for o caso.
-4. Em `Posts page`, selecione a página `Notícias`.
-5. Salve as alterações.
+Ao ativar o tema, ele cria automaticamente as páginas base usadas na navegação:
+
+- `Quem somos`
+- `História`
+- `Rede Esperança`
+- `Feirão Colonial`
+- `Contato`
+- `Inscrições`
+- `Notícias`
+
+As páginas são criadas apenas se ainda não existirem, para não sobrescrever conteúdo já editado.
 
 Depois disso:
 

@@ -220,10 +220,129 @@ function feicoop_maybe_flush_rewrite_rules(): void {
 add_action('admin_init', 'feicoop_maybe_flush_rewrite_rules', 20);
 
 function feicoop_flush_rewrite_rules_on_switch(): void {
+    feicoop_seed_theme_pages();
     flush_rewrite_rules(false);
     update_option('feicoop_rewrite_version', (string) wp_get_theme()->get('Version'));
 }
 add_action('after_switch_theme', 'feicoop_flush_rewrite_rules_on_switch');
+
+function feicoop_theme_page_definitions(): array {
+    return [
+        [
+            'slug' => 'quem-somos',
+            'title' => __('Quem somos', 'feicoop'),
+            'content' => '<p>' . esc_html__('Apresente aqui a história do Projeto Esperança/Cooesperança, sua missão e a atuação da FEICOOP.', 'feicoop') . '</p>',
+        ],
+        [
+            'slug' => 'historia',
+            'title' => __('História', 'feicoop'),
+            'content' => '<p>' . esc_html__('Use esta página para registrar a memória da FEICOOP, os marcos do movimento e a evolução da feira.', 'feicoop') . '</p>',
+        ],
+        [
+            'slug' => 'rede-esperanca',
+            'title' => __('Rede Esperança', 'feicoop'),
+            'content' => '<p>' . esc_html__('Descreva aqui os grupos, cooperativas e iniciativas que formam a Rede Esperança.', 'feicoop') . '</p>',
+        ],
+        [
+            'slug' => 'feirao-colonial',
+            'title' => __('Feirão Colonial', 'feicoop'),
+            'content' => '<p>' . esc_html__('Conte nesta página como funciona o Feirão Colonial, a comercialização e a visitação.', 'feicoop') . '</p>',
+        ],
+        [
+            'slug' => 'contato',
+            'title' => __('Contato', 'feicoop'),
+            'content' => '<p>' . esc_html__('Publique aqui os canais oficiais, telefones e redes sociais do projeto.', 'feicoop') . '</p>',
+        ],
+        [
+            'slug' => 'inscricoes',
+            'title' => __('Inscrições', 'feicoop'),
+            'template' => 'template-inscricoes.php',
+            'content' => '<p>' . esc_html__('Atualize esta página com as orientações e o cronograma das inscrições.', 'feicoop') . '</p>',
+        ],
+        [
+            'slug' => 'noticias',
+            'title' => __('Notícias', 'feicoop'),
+            'is_posts_page' => true,
+        ],
+    ];
+}
+
+function feicoop_ensure_theme_page(array $definition): int {
+    $slug = isset($definition['slug']) ? (string) $definition['slug'] : '';
+    $title = isset($definition['title']) ? (string) $definition['title'] : '';
+    $content = isset($definition['content']) ? (string) $definition['content'] : '';
+    $template = isset($definition['template']) ? (string) $definition['template'] : '';
+
+    if ($slug === '' || $title === '') {
+        return 0;
+    }
+
+    $page = get_page_by_path($slug, OBJECT, 'page');
+    $page_id = $page instanceof WP_Post ? (int) $page->ID : 0;
+
+    if ($page_id <= 0) {
+        $page_id = (int) wp_insert_post([
+            'post_type' => 'page',
+            'post_status' => 'publish',
+            'post_title' => $title,
+            'post_name' => $slug,
+            'post_content' => $content,
+            'post_author' => get_current_user_id() ?: 1,
+        ], true);
+    }
+
+    if ($page_id > 0 && $template !== '') {
+        update_post_meta($page_id, '_wp_page_template', $template);
+    }
+
+    return $page_id > 0 ? $page_id : 0;
+}
+
+function feicoop_seed_theme_pages(): void {
+    $pages = feicoop_theme_page_definitions();
+    $posts_page_id = (int) get_option('page_for_posts');
+    $posts_page_exists = $posts_page_id > 0 && get_post($posts_page_id) instanceof WP_Post;
+
+    foreach ($pages as $definition) {
+        $page_id = feicoop_ensure_theme_page($definition);
+
+        if (!empty($definition['is_posts_page']) && $page_id > 0 && !$posts_page_exists) {
+            update_option('page_for_posts', $page_id);
+            $posts_page_id = $page_id;
+            $posts_page_exists = true;
+        }
+    }
+}
+
+function feicoop_maybe_seed_theme_pages(): void {
+    if (!is_admin()) {
+        return;
+    }
+
+    $theme_version = (string) wp_get_theme()->get('Version');
+    $stored_version = (string) get_option('feicoop_theme_pages_version', '');
+
+    if ($stored_version === $theme_version) {
+        $required_slugs = ['quem-somos', 'historia', 'rede-esperanca', 'feirao-colonial', 'contato', 'inscricoes', 'noticias'];
+        foreach ($required_slugs as $slug) {
+            $existing_page = get_page_by_path($slug, OBJECT, 'page');
+            if (!($existing_page instanceof WP_Post)) {
+                feicoop_seed_theme_pages();
+                update_option('feicoop_theme_pages_version', $theme_version);
+                return;
+            }
+        }
+
+        $posts_page_id = (int) get_option('page_for_posts');
+        if ($posts_page_id > 0 && get_post($posts_page_id) instanceof WP_Post) {
+            return;
+        }
+    }
+
+    feicoop_seed_theme_pages();
+    update_option('feicoop_theme_pages_version', $theme_version);
+}
+add_action('admin_init', 'feicoop_maybe_seed_theme_pages', 20);
 
 function feicoop_programacao_meta_fields(int $post_id = 0): array {
     $post_id = $post_id > 0 ? $post_id : (int) get_the_ID();
