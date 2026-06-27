@@ -6,6 +6,7 @@ get_header();
 
 $posts_page_id = (int) get_option('page_for_posts');
 $news_title = $posts_page_id > 0 ? get_the_title($posts_page_id) : '';
+$news_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_posts_page_title_size()) . ';"';
 
 if ($news_title === '') {
     $news_title = __('Notícias', 'feicoop');
@@ -16,7 +17,7 @@ if ($news_title === '') {
         <header class="hero__content hero__content--centered">
             <div class="wrapper">
                 <p class="hero__eyebrow"><?php esc_html_e('Imprensa e atualizações', 'feicoop'); ?></p>
-                <h1><?php echo esc_html($news_title); ?></h1>
+                <h1<?php echo $news_title_style; ?>><?php echo esc_html($news_title); ?></h1>
                 <p class="page__desc"><?php esc_html_e('Acompanhe a notícia em destaque e os registros mais recentes do portal FEICOOP.', 'feicoop'); ?></p>
             </div>
         </header>

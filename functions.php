@@ -92,6 +92,52 @@ function feicoop_home_hero_fields(): array {
     ];
 }
 
+function feicoop_sanitize_hero_title_size($value): string {
+    $size = (float) $value;
+
+    if ($size < 2.1) {
+        $size = 2.1;
+    }
+
+    if ($size > 3.1) {
+        $size = 3.1;
+    }
+
+    return number_format($size, 1, '.', '');
+}
+
+function feicoop_home_hero_title_size(): string {
+    $size = (float) get_theme_mod('feicoop_home_hero_title_size', 3.0);
+
+    if ($size < 2.1) {
+        $size = 2.1;
+    }
+
+    if ($size > 3.1) {
+        $size = 3.1;
+    }
+
+    $formatted = rtrim(rtrim(number_format($size, 1, '.', ''), '0'), '.');
+
+    return $formatted . 'rem';
+}
+
+function feicoop_posts_page_title_size(): string {
+    $size = (float) get_theme_mod('feicoop_posts_page_title_size', 2.8);
+
+    if ($size < 2.1) {
+        $size = 2.1;
+    }
+
+    if ($size > 3.1) {
+        $size = 3.1;
+    }
+
+    $formatted = rtrim(rtrim(number_format($size, 1, '.', ''), '0'), '.');
+
+    return $formatted . 'rem';
+}
+
 function feicoop_home_event_fields(): array {
     return [
         'when_label' => (string) get_theme_mod('feicoop_home_event_when_label', __('Quando', 'feicoop')),
@@ -643,6 +689,12 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'priority' => 30,
     ]);
 
+    $wp_customize->add_section('feicoop_news_archive', [
+        'title' => __('FEICOOP Notícias', 'feicoop'),
+        'description' => __('Ajusta a aparência da página de notícias, incluindo o tamanho do título.', 'feicoop'),
+        'priority' => 29,
+    ]);
+
     $wp_customize->add_section('feicoop_home_banner', [
         'title' => __('FEICOOP Banner', 'feicoop'),
         'description' => __('Ajusta a altura do carrossel principal e da imagem do cabeçalho nas páginas internas.', 'feicoop'),
@@ -737,6 +789,40 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
             'type' => 'text',
         ]);
     }
+
+    $wp_customize->add_setting('feicoop_home_hero_title_size', [
+        'default' => '3.0',
+        'sanitize_callback' => 'feicoop_sanitize_hero_title_size',
+    ]);
+
+    $wp_customize->add_control('feicoop_home_hero_title_size', [
+        'label' => __('Tamanho do título', 'feicoop'),
+        'description' => __('Use um valor em rem. Ex.: 2.6, 2.8, 3.0.', 'feicoop'),
+        'section' => 'feicoop_home_hero',
+        'type' => 'number',
+        'input_attrs' => [
+            'min' => 2.1,
+            'max' => 3.1,
+            'step' => 0.1,
+        ],
+    ]);
+
+    $wp_customize->add_setting('feicoop_posts_page_title_size', [
+        'default' => '2.8',
+        'sanitize_callback' => 'feicoop_sanitize_hero_title_size',
+    ]);
+
+    $wp_customize->add_control('feicoop_posts_page_title_size', [
+        'label' => __('Tamanho do título', 'feicoop'),
+        'description' => __('Use um valor em rem. Ex.: 2.4, 2.6, 2.8.', 'feicoop'),
+        'section' => 'feicoop_news_archive',
+        'type' => 'number',
+        'input_attrs' => [
+            'min' => 2.1,
+            'max' => 3.1,
+            'step' => 0.1,
+        ],
+    ]);
 
     $home_event_fields = [
         'when_label' => [

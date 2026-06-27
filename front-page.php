@@ -7,6 +7,7 @@ get_header();
 $home_hero = feicoop_home_hero_fields();
 $home_event = feicoop_home_event_fields();
 $home_registration = feicoop_home_registration_fields();
+$home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_hero_title_size()) . ';"';
 ?>
 <main class="home-template">
     <section class="hero hero--noimage">
@@ -16,7 +17,7 @@ $home_registration = feicoop_home_registration_fields();
                     <p class="hero__eyebrow"><?php echo esc_html($home_hero['eyebrow']); ?></p>
                 <?php endif; ?>
                 <?php if ($home_hero['title'] !== '') : ?>
-                    <h1><?php echo esc_html($home_hero['title']); ?></h1>
+                    <h1<?php echo $home_hero_title_style; ?>><?php echo esc_html($home_hero['title']); ?></h1>
                 <?php endif; ?>
                 <?php if ($home_hero['text'] !== '') : ?>
                     <p><?php echo esc_html($home_hero['text']); ?></p>
