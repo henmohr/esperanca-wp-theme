@@ -4,9 +4,9 @@ if (!defined('ABSPATH')) {
 }
 get_header();
 ?>
-<main class="posts">
+<main class="posts posts--archive">
     <div class="hero hero--noimage">
-        <header class="hero__content">
+        <header class="hero__content hero__content--centered">
             <div class="wrapper">
                 <h1><?php the_archive_title(); ?></h1>
                 <p class="page__desc"><?php the_archive_description(); ?></p>

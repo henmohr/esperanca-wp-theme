@@ -508,6 +508,33 @@ p {
 }
 
 /* News Archive */
+.posts--archive .hero__content {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  max-width: none;
+}
+
+.posts--archive .hero__content .wrapper {
+  display: grid;
+  gap: 0.4rem;
+  justify-items: center;
+  text-align: center;
+  max-width: 50rem;
+}
+
+.posts--archive .hero__content .wrapper > * {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.posts--archive .hero__content h1,
+.posts--archive .hero__content .page__desc {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
 .posts--news .hero__content {
   display: grid;
   justify-items: center;
