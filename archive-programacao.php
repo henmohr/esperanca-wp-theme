@@ -47,6 +47,10 @@ foreach ($items as $item) {
 
 $track_names = array_keys($tracks);
 sort($track_names, SORT_NATURAL | SORT_FLAG_CASE);
+$real_track_names = array_values(array_filter($track_names, static function (string $track_name): bool {
+    return $track_name !== __('Sem trilha', 'feicoop');
+}));
+$has_real_tracks = !empty($real_track_names);
 foreach ($grouped as &$date_tracks) {
     ksort($date_tracks, SORT_NATURAL | SORT_FLAG_CASE);
 }
@@ -67,7 +71,7 @@ $get_track_style = static function (string $track_name) use ($track_palette): st
     $accent = $track_palette[$index];
 
     return sprintf(
-        '--track-accent: %1$s; --track-accent-soft: color-mix(in srgb, %1$s 14%, white); --track-accent-border: color-mix(in srgb, %1$s 26%, white);',
+        '--track-accent: %1$s; --track-accent-soft: color-mix(in srgb, %1$s 14%%, white); --track-accent-border: color-mix(in srgb, %1$s 26%%, white);',
         $accent
     );
 };
@@ -79,22 +83,23 @@ $get_track_style = static function (string $track_name) use ($track_palette): st
             <div class="wrapper">
                 <h1><?php esc_html_e('Programação', 'feicoop'); ?></h1>
                 <p class="page__desc"><?php esc_html_e('Agenda oficial da feira organizada por dia, horário e local.', 'feicoop'); ?></p>
+                <?php feicoop_render_back_button(home_url('/'), __('Voltar ao início', 'feicoop')); ?>
             </div>
         </header>
     </div>
 
     <div class="wrapper programacao-archive__body">
-        <?php if (!empty($track_names)) : ?>
+        <?php if ($has_real_tracks) : ?>
             <nav class="programacao-tracks" aria-label="<?php esc_attr_e('Trilhas da programação', 'feicoop'); ?>">
                 <button type="button" class="programacao-tracks__item is-active" data-track-filter="all"><?php esc_html_e('Todas', 'feicoop'); ?></button>
-                <?php foreach ($track_names as $track_name) : ?>
+                <?php foreach ($real_track_names as $track_name) : ?>
                     <button type="button" class="programacao-tracks__item" data-track-filter="<?php echo esc_attr(sanitize_title($track_name)); ?>" style="<?php echo esc_attr($get_track_style($track_name)); ?>"><?php echo esc_html($track_name); ?></button>
                 <?php endforeach; ?>
             </nav>
             <div class="programacao-legend" aria-label="<?php esc_attr_e('Legenda das trilhas', 'feicoop'); ?>">
                 <p class="programacao-legend__title"><?php esc_html_e('Legenda', 'feicoop'); ?></p>
                 <div class="programacao-legend__list">
-                    <?php foreach ($track_names as $track_name) : ?>
+                    <?php foreach ($real_track_names as $track_name) : ?>
                         <span class="programacao-legend__item" style="<?php echo esc_attr($get_track_style($track_name)); ?>">
                             <span class="programacao-legend__swatch" aria-hidden="true"></span>
                             <span class="programacao-legend__label"><?php echo esc_html($track_name); ?></span>
@@ -119,26 +124,39 @@ $get_track_style = static function (string $track_name) use ($track_palette): st
                         </h2>
                     </header>
                     <div class="programacao-day__list">
-                        <?php foreach ($group_items as $track_name => $track_items) : ?>
-                            <section class="programacao-track" data-track="<?php echo esc_attr(sanitize_title($track_name)); ?>" style="<?php echo esc_attr($get_track_style($track_name)); ?>">
-                                <header class="programacao-track__header">
-                                    <h3><?php echo esc_html($track_name); ?></h3>
-                                </header>
-                                <div class="programacao-track__list">
-                                    <?php foreach ($track_items as $item) : ?>
-                                        <?php
-                                        $post = $item;
-                                        setup_postdata($post);
-                                        get_template_part('template-parts/content', 'programacao');
-                                        ?>
-                                    <?php endforeach; ?>
-                                </div>
-                            </section>
-                        <?php endforeach; ?>
+                        <?php if ($has_real_tracks) : ?>
+                            <?php foreach ($group_items as $track_name => $track_items) : ?>
+                                <section class="programacao-track" data-track="<?php echo esc_attr(sanitize_title($track_name)); ?>" style="<?php echo esc_attr($get_track_style($track_name)); ?>">
+                                    <header class="programacao-track__header">
+                                        <h3><?php echo esc_html($track_name); ?></h3>
+                                    </header>
+                                    <div class="programacao-track__list">
+                                        <?php foreach ($track_items as $item) : ?>
+                                            <?php
+                                            $post = $item;
+                                            setup_postdata($post);
+                                            get_template_part('template-parts/content', 'programacao');
+                                            ?>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </section>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <?php foreach ($group_items as $track_items) : ?>
+                                <?php foreach ($track_items as $item) : ?>
+                                    <?php
+                                    $post = $item;
+                                    setup_postdata($post);
+                                    get_template_part('template-parts/content', 'programacao');
+                                    ?>
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </section>
             <?php endforeach; ?>
             <?php wp_reset_postdata(); ?>
+            <?php if ($has_real_tracks) : ?>
             <script>
                 (function () {
                     var buttons = document.querySelectorAll('.programacao-tracks [data-track-filter]');
@@ -180,6 +198,7 @@ $get_track_style = static function (string $track_name) use ($track_palette): st
                     applyFilter('all');
                 })();
             </script>
+            <?php endif; ?>
         <?php else : ?>
             <?php get_template_part('template-parts/content', 'none'); ?>
         <?php endif; ?>

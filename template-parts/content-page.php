@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
         <header class="hero__content hero__content--centered">
             <div class="wrapper">
                 <h1><?php the_title(); ?></h1>
+                <?php feicoop_render_back_button(home_url('/'), __('Voltar ao início', 'feicoop')); ?>
             </div>
         </header>
         <?php if (has_post_thumbnail()) : ?>
