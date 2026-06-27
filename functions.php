@@ -150,28 +150,28 @@ function feicoop_home_event_fields(): array {
 }
 
 function feicoop_home_banner_height(): int {
-    $height = (int) get_theme_mod('feicoop_home_banner_height', 130);
+    $height = (int) get_theme_mod('feicoop_home_banner_height', 220);
 
-    if ($height < 100) {
-        return 100;
+    if ($height < 160) {
+        return 160;
     }
 
-    if ($height > 150) {
-        return 150;
+    if ($height > 320) {
+        return 320;
     }
 
     return $height;
 }
 
 function feicoop_home_banner_mobile_height(): int {
-    $height = (int) get_theme_mod('feicoop_home_banner_mobile_height', 100);
+    $height = (int) get_theme_mod('feicoop_home_banner_mobile_height', 180);
 
-    if ($height < 80) {
-        return 80;
+    if ($height < 120) {
+        return 120;
     }
 
-    if ($height > 110) {
-        return 110;
+    if ($height > 240) {
+        return 240;
     }
 
     return $height;
@@ -235,6 +235,46 @@ function feicoop_programacao_meta_fields(int $post_id = 0): array {
         'track' => (string) get_post_meta($post_id, '_feicoop_programacao_track', true),
         'featured' => (bool) get_post_meta($post_id, '_feicoop_programacao_featured', true),
     ];
+}
+
+function feicoop_programacao_track_suggestions(): array {
+    $suggestions = [
+        __('Abertura', 'feicoop'),
+        __('Almoço', 'feicoop'),
+        __('Café', 'feicoop'),
+        __('Comercialização', 'feicoop'),
+        __('Cultura', 'feicoop'),
+        __('Encerramento', 'feicoop'),
+        __('Feira', 'feicoop'),
+        __('Formação', 'feicoop'),
+        __('Mesa-redonda', 'feicoop'),
+        __('Oficina', 'feicoop'),
+        __('Painel', 'feicoop'),
+        __('Roda de conversa', 'feicoop'),
+        __('Sem trilha', 'feicoop'),
+    ];
+
+    $existing_tracks = get_posts([
+        'post_type' => 'programacao',
+        'post_status' => 'publish',
+        'numberposts' => -1,
+        'fields' => 'ids',
+        'orderby' => 'title',
+        'order' => 'ASC',
+    ]);
+
+    foreach ($existing_tracks as $post_id) {
+        $track = trim((string) get_post_meta((int) $post_id, '_feicoop_programacao_track', true));
+
+        if ($track !== '') {
+            $suggestions[] = $track;
+        }
+    }
+
+    $suggestions = array_values(array_unique(array_filter(array_map('sanitize_text_field', $suggestions))));
+    sort($suggestions, SORT_NATURAL | SORT_FLAG_CASE);
+
+    return $suggestions;
 }
 
 function feicoop_programacao_format_date(string $date): string {
@@ -361,6 +401,29 @@ function feicoop_render_site_banner(): void {
     echo '</div>';
 }
 
+function feicoop_get_back_link_url(string $fallback_url): string {
+    $referer = wp_get_referer();
+
+    if ($referer === '') {
+        return $fallback_url;
+    }
+
+    $home_host = (string) wp_parse_url(home_url('/'), PHP_URL_HOST);
+    $referer_host = (string) wp_parse_url($referer, PHP_URL_HOST);
+
+    if ($home_host !== '' && $referer_host !== '' && strcasecmp($home_host, $referer_host) === 0) {
+        return $referer;
+    }
+
+    return $fallback_url;
+}
+
+function feicoop_render_back_button(string $fallback_url, string $label): void {
+    $back_url = feicoop_get_back_link_url($fallback_url);
+
+    echo '<p class="hero__actions hero__actions--back"><a class="btn btn--ghost" href="' . esc_url($back_url) . '">' . esc_html($label) . '</a></p>';
+}
+
 function feicoop_register_programacao_metabox(WP_Post $post): void {
     add_meta_box(
         'feicoop_programacao_details',
@@ -392,7 +455,12 @@ function feicoop_render_programacao_metabox(WP_Post $post): void {
     </p>
     <p>
         <label for="feicoop_programacao_track"><strong><?php esc_html_e('Faixa / categoria', 'feicoop'); ?></strong></label><br>
-        <input type="text" id="feicoop_programacao_track" name="feicoop_programacao_track" value="<?php echo esc_attr($fields['track']); ?>" class="widefat">
+        <input type="text" id="feicoop_programacao_track" name="feicoop_programacao_track" value="<?php echo esc_attr($fields['track']); ?>" class="widefat" list="feicoop_programacao_track_suggestions" autocomplete="off" placeholder="<?php esc_attr_e('Digite ou escolha uma sugestão', 'feicoop'); ?>">
+        <datalist id="feicoop_programacao_track_suggestions">
+            <?php foreach (feicoop_programacao_track_suggestions() as $suggestion) : ?>
+                <option value="<?php echo esc_attr($suggestion); ?>"></option>
+            <?php endforeach; ?>
+        </datalist>
     </p>
     <p>
         <label>
@@ -749,35 +817,35 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
     ]);
 
     $wp_customize->add_setting('feicoop_home_banner_height', [
-        'default' => 130,
+        'default' => 220,
         'sanitize_callback' => 'absint',
     ]);
 
     $wp_customize->add_control('feicoop_home_banner_height', [
         'label' => __('Altura do banner', 'feicoop'),
-        'description' => __('Use um valor em pixels. Ex.: 110, 130, 150.', 'feicoop'),
+        'description' => __('Use um valor em pixels. Ex.: 180, 220, 280.', 'feicoop'),
         'section' => 'feicoop_home_banner',
         'type' => 'number',
         'input_attrs' => [
-            'min' => 100,
-            'max' => 150,
+            'min' => 160,
+            'max' => 320,
             'step' => 10,
         ],
     ]);
 
     $wp_customize->add_setting('feicoop_home_banner_mobile_height', [
-        'default' => 100,
+        'default' => 180,
         'sanitize_callback' => 'absint',
     ]);
 
     $wp_customize->add_control('feicoop_home_banner_mobile_height', [
         'label' => __('Altura do banner no mobile', 'feicoop'),
-        'description' => __('Use um valor em pixels. Ex.: 80, 100, 110.', 'feicoop'),
+        'description' => __('Use um valor em pixels. Ex.: 120, 160, 180.', 'feicoop'),
         'section' => 'feicoop_home_banner',
         'type' => 'number',
         'input_attrs' => [
-            'min' => 80,
-            'max' => 110,
+            'min' => 120,
+            'max' => 240,
             'step' => 10,
         ],
     ]);
