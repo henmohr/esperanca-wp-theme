@@ -1358,6 +1358,13 @@ p {
 }
 
 /* Archive Titles */
+.post .hero__content {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  max-width: none;
+}
+
 .page .hero__content .wrapper,
 .post .hero__content .wrapper {
   display: grid;
@@ -1368,6 +1375,7 @@ p {
 .post .hero__content .wrapper,
 .page .hero__content.hero__content--centered .wrapper,
 .post .hero__content.hero__content--centered .wrapper {
+  max-width: 50rem;
   justify-items: center;
   text-align: center;
 }
