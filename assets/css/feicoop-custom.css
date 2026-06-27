@@ -508,6 +508,13 @@ p {
 }
 
 /* News Archive */
+.posts--news .hero__content {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  max-width: none;
+}
+
 .posts--news .news-archive__body {
   display: grid;
   max-width: 42rem;
