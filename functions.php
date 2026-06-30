@@ -221,6 +221,7 @@ add_action('admin_init', 'feicoop_maybe_flush_rewrite_rules', 20);
 
 function feicoop_flush_rewrite_rules_on_switch(): void {
     feicoop_seed_theme_pages();
+    feicoop_seed_programacao_items();
     flush_rewrite_rules(false);
     update_option('feicoop_rewrite_version', (string) wp_get_theme()->get('Version'));
 }
@@ -423,6 +424,643 @@ function feicoop_programacao_format_time(string $time): string {
 
     return $datetime->format('H\\hi');
 }
+
+function feicoop_programacao_static_schedule(): array {
+    return [
+        [
+            'date' => '2026-07-09',
+            'time' => '08:30',
+            'track' => __('Recepção', 'feicoop'),
+            'title' => __('Recepção das caravanas e credenciamento', 'feicoop'),
+            'location' => __('Parque da Medianeira - Lonão da Praça da Alimentação', 'feicoop'),
+            'excerpt' => __('Chegada das caravanas ao longo da manhã. Organização do espaço da feira em mutirão, sem comercialização neste dia. Almoço por adesão no Espaço Comida e Cultura.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-09',
+            'time' => '16:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Quem somos e como atuamos', 'feicoop'),
+            'location' => __('Salão Paul Singer - Fundos do terminal de comercialização', 'feicoop'),
+            'excerpt' => __('Coordenação: Maribel Kauffmann. Entidade responsável: Fórum Gaúcho de Economia Popular Solidária e Associação do Voluntariado e da Solidariedade Avesol, no projeto Construindo um novo futuro para o RS - Feiras de Economia Solidária.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '07:00',
+            'track' => __('Abertura', 'feicoop'),
+            'title' => __('Alvorada festiva', 'feicoop'),
+            'location' => __('Território da 32ª FEICOOP', 'feicoop'),
+            'excerpt' => __('Início do dia com atividades festivas e circulação do público pela feira.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '07:00',
+            'track' => __('Comercialização', 'feicoop'),
+            'title' => __('Comercialização direta dos empreendimentos da ECOSOL', 'feicoop'),
+            'location' => __('Pavilhões da feira', 'feicoop'),
+            'excerpt' => __('Economia Solidária em atividade nos pavilhões durante todo o dia.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '09:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Avaliação dos custos e impactos nos preços dos produtos', 'feicoop'),
+            'location' => __('Sala 1 - Margarida Alves - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Luiz Henrique Figueira Marquezan. Entidade responsável: Programa de Pós-Graduação em Administração e Ciências Contábeis da UFSM.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '09:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Encontro Nacional de Redes de Cooperação Solidária', 'feicoop'),
+            'location' => __('Salão da Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Rizoneide Souza Amorim e Lidiane Freire de Jesus. Entidade responsável: Secretaria Nacional de Economia Popular e Solidária (SENAES/MTE).', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '09:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Entendendo a reforma tributária', 'feicoop'),
+            'location' => __('Sala 2 - Frei Sérgio Gorgen - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Vinícius Costa da Silva Zonatto. Entidade responsável: Programa de Pós-Graduação em Administração e Ciências Contábeis da UFSM.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '10:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Educar e Cooperar: formação e assessoramento técnico em economia solidária nos territórios', 'feicoop'),
+            'location' => __('Sala 3 - Chico Mendes - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Flávia Santana. Entidade responsável: Departamento de Formação e Estudos / Projeto Educar e Cooperar.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '09:00',
+            'track' => __('Reunião', 'feicoop'),
+            'title' => __('Qual o futuro que queremos para o Fórum Brasileiro de Economia Solidária?', 'feicoop'),
+            'location' => __('Salão Paul Singer - Fundos do Terminal de Comercialização', 'feicoop'),
+            'excerpt' => __('Coordenação: Maribel Kauffmann. Entidade responsável: Fórum Brasileiro de Economia Solidária (FBES).', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '11:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Economia Popular Solidária: um caminho para a promoção dos direitos humanos', 'feicoop'),
+            'location' => __('Sala 4 - Galdino - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Carlos Santana e Douglas Lima. Entidade responsável: Associação do Voluntariado e da Solidariedade - AVESOL.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '14:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Como a Moeda Social Mumbuca impacta o desenvolvimento socioeconômico de Maricá', 'feicoop'),
+            'location' => __('Sala 1 - Margarida Alves - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Tema: Renda básica e moeda social. Coordenação: Natália Assunção Sciammarella. Entidade responsável: Associação Banco Comunitário Popular de Maricá (Banco Mumbuca).', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Tecendo soluções coletivas', 'feicoop'),
+            'location' => __('Sala 2 - Frei Sérgio Gorgen - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Roda colaborativa para fortalecimento dos empreendimentos da Economia Solidária. Coordenação: Nathália Rigui Trindade. Entidade responsável: Incubadora Social (Hub de Inovação Social UFSM).', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Matricárias: do corpo à terra', 'feicoop'),
+            'location' => __('Sala 3 - Chico Mendes - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Fernanda Nielsen da Cruz. Entidade responsável: Ponto de Cultura Associação Cantalomba.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '14:00',
+            'track' => __('Reunião', 'feicoop'),
+            'title' => __('Costurando afetos: arte e saúde mental', 'feicoop'),
+            'location' => __('Sala 4 - Galdino - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Ricardo Pawlak da Silveira. Entidade responsável: Avesol.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Oficina de quadrinhos para quem não sabe desenhar', 'feicoop'),
+            'location' => __('Sala 5 - Bruno Pereira e Don Phillips - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Maria Clara da Silva Ramos Carneiro. Entidade responsável: Departamento de Letras Estrangeiras Modernas.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '14:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Educação popular, economia solidária e autogestão na construção da democracia', 'feicoop'),
+            'location' => __('Salão Paul Singer - Fundos do terminal de comercialização', 'feicoop'),
+            'excerpt' => __('Coordenação: Alzira Medeiros. Entidade responsável: Rede Autogestionária de Educação Popular em Economia Solidária.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Educação cooperativa, associativismo e gênero', 'feicoop'),
+            'location' => __('Sala 6 - Verônica Oliveira - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Fernanda de Figueiredo Ferreira. Entidade responsável: Daruê e AME.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Biochar: o que é, seus usos e as Carvoeiras Modernas', 'feicoop'),
+            'location' => __('Sala 7 - Luisa Bairros - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Chuy. Entidade responsável: Associação de Agroecologistas do Caraá.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Entre Saberes & Fazeres: experiências do Programa Paul Singer no Brasil', 'feicoop'),
+            'location' => __('Salão da Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: André Mombach. Entidade responsável: Programa de Formação Paul Singer: Agentes de Economia Popular e Solidária.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '16:00',
+            'track' => __('Mística', 'feicoop'),
+            'title' => __('Mística de abertura', 'feicoop'),
+            'location' => __('Palco da Feira - Espaço Comida e Cultura', 'feicoop'),
+            'excerpt' => __('Momento de acolhida antes da abertura oficial da feira.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-10',
+            'time' => '16:30',
+            'track' => __('Abertura', 'feicoop'),
+            'title' => __('Abertura oficial da 32ª FEICOOP', 'feicoop'),
+            'location' => __('Palco da Feira - Espaço Comida e Cultura', 'feicoop'),
+            'excerpt' => __('Início oficial da programação pública da feira.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '07:00',
+            'track' => __('Abertura', 'feicoop'),
+            'title' => __('Alvorada festiva', 'feicoop'),
+            'location' => __('Território da 32ª FEICOOP', 'feicoop'),
+            'excerpt' => __('Início do sábado com atividades festivas e circulação do público.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '07:00',
+            'track' => __('Comercialização', 'feicoop'),
+            'title' => __('Comercialização direta dos empreendimentos da ECOSOL', 'feicoop'),
+            'location' => __('Pavilhões da feira', 'feicoop'),
+            'excerpt' => __('Atividades de comercialização até as 19h.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '08:30',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Resíduos sólidos domésticos', 'feicoop'),
+            'location' => __('Sala 7 - Luisa Bairros - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Cláudia Alves dos Santos, Ana Flávia Souto de Oliveira e Tiago Portella Fialho. Entidade responsável: Comunidade que apoia a agricultura (CSA) - VIDA.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '09:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('As eleições e os movimentos sociais', 'feicoop'),
+            'location' => __('Sala 1 - Margarida Alves - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Lúcia Maria Pauli Kist. Entidade responsável: Escola Fé e Política RS.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '09:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Construindo o futuro com a economia solidária', 'feicoop'),
+            'location' => __('Salão Paul Singer - Fundos do terminal de comercialização', 'feicoop'),
+            'excerpt' => __('Tema: Caminhos para um novo cenário econômico. Convidados: André Machado, Fernando Zambam, Arildo Mota, Nelsa Nespolo, Helena Singer, Márcio Viera e Gervásio Plucinski. Mediação e coordenação: Ana Inês de Castro. Entidade responsável: Central de Cooperativas e Empreendimentos Solidários do RS (UNISOL - RS).', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '09:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Oficina de ESG em empreendimentos de economia solidária', 'feicoop'),
+            'location' => __('Sala 2 - Frei Sérgio Gorgen - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Natália Assunção Sciammarella. Entidade responsável: Associação Banco Comunitário Popular de Maricá (Banco Mumbuca).', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '09:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Casa do Empreendedor e das Cooperativas de Maricá: quando cooperação gera futuro', 'feicoop'),
+            'location' => __('Sala 3 - Chico Mendes - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Ludmilla de Araujo Mello. Entidade responsável: Casa do Empreendedor e das Cooperativas de Maricá.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '09:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('ATER Nacional no fortalecimento do cooperativismo solidário da agricultura familiar', 'feicoop'),
+            'location' => __('Sala 4 - Galdino - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Luís Fernando Tividini de Oliveira e Isabel Cristina Lourenço da Silva. Entidade responsável: Agência Nacional de Assistência Técnica e Extensão Rural (ANATER).', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '09:00',
+            'track' => __('Reunião', 'feicoop'),
+            'title' => __('Roda de conversa sobre o Cadsol', 'feicoop'),
+            'location' => __('Sala 5 - Bruno Pereira e Don Phillips - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Cadastro Nacional de Empreendimentos Econômicos Solidários. Coordenação: Diogo de Carvalho Antunes Silva. Entidade responsável: Secretaria Nacional de Economia Popular e Solidária (SENAES).', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '09:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Políticas públicas de agricultura urbana e periurbana', 'feicoop'),
+            'location' => __('Sala 6 - Verônica Oliveira - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Diretrizes e o potencial de geração de renda. Coordenação: Rita Inês Paetzhold Pauli. Entidade responsável: Projeto PROMOVER/ UFSM.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '09:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Juventude: organização e luta popular', 'feicoop'),
+            'location' => __('Sala 8 - Isadora Viana Costa - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Guilherme de Souza Cezar. Entidade responsável: Levante Popular da Juventude.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '09:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Soberania digital, software livre e economia solidária e feminista', 'feicoop'),
+            'location' => __('Sala 9 - Dom Ivo Lorscheiter - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Adriane Nunes Cordonet. Entidade responsável: Rede de Economia Solidária e Feminista (RESF).', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '09:30',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Assistência Técnica Bem Viver Centro-Oeste, Sul e Sudeste', 'feicoop'),
+            'location' => __('Salão da Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Fortalecimento das políticas públicas no território. Coordenação: Vinicius Tuchtenhagen Goldas e Sabrina Krupinski Pereira. Entidade responsável: Instituto Cultural Padre Josimo - ICPJ.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '09:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Mulheres negras: renda, resistência e coletividade', 'feicoop'),
+            'location' => __('Sala 10 - Nei d\'Ogum - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('4 anos de FESPOPE. Coordenação: Gilciane Beatriz Aguiar Das Neves. Entidade responsável: Fórum Estadual das Mulheres Negras Trabalhadoras da Economia Popular Solidária - FESPOPE e CAMP.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '14:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Boas práticas em educação', 'feicoop'),
+            'location' => __('Salão da Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Lúcia Maria Pauli Kist. Entidade responsável: Movimento Brasileiro de Educadores Cristãos (MOBREC Santa Maria).', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '14:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Novo marco legal do cooperativismo solidário', 'feicoop'),
+            'location' => __('Sala 1 - Margarida Alves - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Desafios e perspectivas do cooperativismo solidário e da economia solidária. Coordenação: Marcela Vieira. Entidade responsável: União Nacional das Organizações Cooperativistas Solidárias - UNICOPAS.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '14:00',
+            'track' => __('Reunião', 'feicoop'),
+            'title' => __('Reunião equipe de mobilizadores junto a Diretoria da UNISOL RS', 'feicoop'),
+            'location' => __('Salão Paul Singer - Fundos do terminal de comercialização', 'feicoop'),
+            'excerpt' => __('Coordenação: Ana Ines de Castro. Entidade responsável: Central de Cooperativas e Empreendimentos Solidários do RS (UNISOL RS).', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Oficina de bioinsumos, sementes, meliponários e autonomia feminina na biodiversidade do Bioma Pampa', 'feicoop'),
+            'location' => __('Sala 2 - Frei Sérgio Gorgen - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Eduarda da Costa Lucas. Entidade responsável: Grupo de Agroecologia Gaia.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '14:00',
+            'track' => __('Reunião', 'feicoop'),
+            'title' => __('Encontro Articula Cultura na 32ª FEICOOP', 'feicoop'),
+            'location' => __('Sala 3 - Chico Mendes - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Tema: Cultura como direito, integração entre saberes, territórios e práticas comunitárias na conexão campo-cidade. Coordenação: Maria Manoela Lampert Ceolin. Entidade responsável: Articula Cultura Santa Maria.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('III Oficina de encontro entre saúde mental e economia solidária na FEICOOP', 'feicoop'),
+            'location' => __('Sala 4 - Galdino - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Experiências no Corre Dazarte. Coordenação: Douglas Casaroto de Oliveira, Taciana de Almeida Buchs, Antônio Carlos Motta, Paulo Gilberto Correa Dal Caro, Eva Eloina de Deus Vargas, Andriele da Silva Xavier, Cristiane Verardo de Castro e Natália do Nascimento Moraes. Entidade responsável: Corre Dazarte.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Oficina de mestras e mestres da cultura popular e dos saberes tradicionais', 'feicoop'),
+            'location' => __('Sala 5 - Bruno Pereira e Don Phillips - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Fernanda de Figueiredo Ferreira. Entidade responsável: Programa de Pós-Graduação em Extensão Rural (PPGExR/UFSM) e Núcleo de Estudos Afro-Brasileiro e Indígena (NEABI/UFSM).', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Sementes crioulas: patrimônio dos povos a serviço da humanidade', 'feicoop'),
+            'location' => __('Sala 6 - Verônica Oliveira - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Encontro de guardiãs e guardiões das sementes crioulas. Coordenação: Diulie Almansa da Costa, Felipe Henrique Huff, Maurício Queiroz e Miqueli Schiavon. Entidade responsável: Grupo FlorESer Agroecológico, Comissão Pastoral da Terra e Cooperativa Origem Camponesa - MPA.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '14:30',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Oficina de costura criativa', 'feicoop'),
+            'location' => __('Sala 7 - Luisa Bairros - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Segurança alimentar e nutricional. Coordenação: Nadyanni Andres. Entidade responsável: Comitê Ambiental - Casa do Estudante UFSM.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '14:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Finanças solidárias e moeda social', 'feicoop'),
+            'location' => __('Sala 8 - Isadora Viana Costa - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Rita Inês Paetzhold Pauli. Entidade responsável: Projeto PROMOVER / UFSM.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '14:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Sofá na Rua - uma tecnologia social replicável, um modo de ocupar as ruas', 'feicoop'),
+            'location' => __('Sala 9 - Dom Ivo - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Tema: Cultura como elemento transformador dos espaços públicos, fortalecimento de comunidades e ampliação do acesso à arte por meio da participação coletiva. Coordenação: Renata da Silva Camargo. Entidade responsável: Comitê de Cultura do RS / Associação Cultural e Educacional Sofá na Rua.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('O futuro das cooperativas de plataforma na economia solidária', 'feicoop'),
+            'location' => __('Sala 10 - Nei d\'Ogum - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Tema: O futuro das cooperativas de plataforma na economia solidária. Coordenação: Rozelaine dos Santos Lima. Entidade responsável: Superintendência Regional do Trabalho e Emprego no Rio Grande do Sul.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-11',
+            'time' => '14:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Seminário Nacional de Etnodesenvolvimento', 'feicoop'),
+            'location' => __('Ginásio da Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Aldori Marques dos Santos. Entidade responsável: Associação São Jerônimo.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '07:00',
+            'track' => __('Abertura', 'feicoop'),
+            'title' => __('Alvorada festiva', 'feicoop'),
+            'location' => __('Território da 32ª FEICOOP', 'feicoop'),
+            'excerpt' => __('Início do domingo com atividades festivas.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '07:00',
+            'track' => __('Comercialização', 'feicoop'),
+            'title' => __('Comercialização direta dos empreendimentos da Ecosol', 'feicoop'),
+            'location' => __('Pavilhões da feira', 'feicoop'),
+            'excerpt' => __('Atividades de comercialização até as 19h.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '09:30',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Cooperativismo habitacional: produção social da moradia através da autogestão', 'feicoop'),
+            'location' => __('Sala 1 - Margarida Alves - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Tema: Cooperativismo Habitacional. Coordenação: Ceniriani Vargas da Silva (Ni). Entidade responsável: Movimento Nacional de Luta pela Moradia - MNLM.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '09:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Projeto modelo de restauração ambiental e créditos de carbono', 'feicoop'),
+            'location' => __('Sala 2 - Frei Sergio Gorgen - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('No contexto das mudanças climáticas. Coordenação: Vilmar Bagetti. Entidade responsável: Morada do Bambu.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '09:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Economia solidária e cultura', 'feicoop'),
+            'location' => __('Sala 3 - Chico Mendes - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Interconexões entre movimentos e políticas públicas para um mundo possível. Coordenação: Maria Suziane Gutbier. Entidade responsável: Ponto de Cultura Associação Cantalomba, FGEPS, Comitê Cultura Viva RS, UNISOL/RS, RESF/RS e Ponto de Cultura Casa da Praça.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '09:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Falando sobre o amor na perspectiva de Bell Hooks', 'feicoop'),
+            'location' => __('Sala 4 - Galdino - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Oficina sobre o livro "Tudo sobre o amor". Coordenação: Jacilene Aguiar Silva e Ângela Maria de Souza Lima. Entidade responsável: CAROLINAS e NEABI-UFSM.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '09:00',
+            'track' => __('Roda de conversa', 'feicoop'),
+            'title' => __('Avanços e desafios dos EES de artesanato', 'feicoop'),
+            'location' => __('Salão da Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('A visão dos expositores na 32ª FEICOOP. Coordenação: Rita de Cássia Arruda Fajardo. Entidade responsável: Rede IF Ecosol.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '09:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Óleos essenciais e hidrolatos do Pampa e Mata Atlântica', 'feicoop'),
+            'location' => __('Sala 5 - Bruno Pereira e Don Phillips - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Lisiane Gonçalves Brolese. Entidade responsável: Rede Feminista de Destiladoras.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '09:00',
+            'track' => __('Seminário', 'feicoop'),
+            'title' => __('Peabiru: o mítico e sagrado caminho do Atlântico ao Pacífico', 'feicoop'),
+            'location' => __('Sala 6 - Verônica Oliveira - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Tema: Saberes ancestrais, intercâmbios milenares e integração latino-americana. Coordenação: Carlos André Echenique Dominguez. Entidade responsável: Ponga Press / UFpel.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '10:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Apresentação do Projeto Construindo um novo futuro para o RS', 'feicoop'),
+            'location' => __('Salão Paul Singer - Fundos do terminal de comercialização', 'feicoop'),
+            'excerpt' => __('Feiras de Economia Solidária. Coordenação: Maribel Kauffmann. Entidade responsável: Associação do Voluntariado e da Solidariedade - AVESOL.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('1º Batalha de conhecimento 32° Feicoop - O Hip Hop vive a economia popular solidária', 'feicoop'),
+            'location' => __('Sala 1 - Margarida Alves - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Tema: Hip Hop e Economia Popular Solidária. Coordenação: Gilciane Beatriz Aguiar Das Neves. Entidade responsável: Fórum Estadual das Mulheres Negras Trabalhadoras da Economia Popular Solidária e CAMP.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '14:00',
+            'track' => __('Reunião', 'feicoop'),
+            'title' => __('Diálogos sobre as questões de gênero no espaço universitário', 'feicoop'),
+            'location' => __('Sala 2 - Frei José Gorgen - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Daiane Loreto de Vargas e Gisele Martins Guimarães. Entidade responsável: Universidade Federal de Santa Maria - Centro de Ciências Rurais - Departamento de Educação Agrícola e Extensão Rural.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '14:30',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Oficina de jardinagem sustentável', 'feicoop'),
+            'location' => __('Sala 3 - Chico Mendes - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Reutilização de materiais recicláveis para produção vegetal, com princípios agroecológicos. Coordenação: Nadyanni Andres. Entidade responsável: Comitê Ambiental - Casa do Estudante UFSM.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Formación política, economía solidaria, articulación en red', 'feicoop'),
+            'location' => __('Sala 4 - Galdino - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Pedagogía freiriana para descolonizar el cuerpo y la mente. "LIVE-FIZINE: Juego, cuerpo y autogestión". Coordenação: Federico Alejandro Servetto Liasv. Entidade responsável: Corredor Multicultural Plurinacional x Abya Yala / COMPIAY.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Oficina de escrita potencial', 'feicoop'),
+            'location' => __('Sala 5 - Bruno Pereira e Don Phillips - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Maria Clara da Silva Ramos Carneiro. Entidade responsável: UFSM / Departamento de Letras Estrangeiras Modernas.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Agrofloresta em la Fronteira', 'feicoop'),
+            'location' => __('Sala 6 - Verônica Oliveira - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: Matías Bertone. Entidade responsável: Cooperativa Monte Nativa e Ministerio del Agro Misiones Argentina.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '14:00',
+            'track' => __('Oficina', 'feicoop'),
+            'title' => __('Tambores pulsam vida', 'feicoop'),
+            'location' => __('Sala 7 - Luisa Bairros - Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Coordenação: João Eberti de Ogun. Entidade responsável: Povo de Terreiro de Santa Maria.', 'feicoop'),
+        ],
+        [
+            'date' => '2026-07-12',
+            'time' => '18:00',
+            'track' => __('Encerramento', 'feicoop'),
+            'title' => __('Encerramento oficial dos eventos de 2026', 'feicoop'),
+            'location' => __('Escola Estadual de Educação Básica Irmão José Otão', 'feicoop'),
+            'excerpt' => __('Leitura da Carta da 32ª FEICOOP e lançamento da 33ª FEICOOP de 2026.', 'feicoop'),
+        ],
+    ];
+}
+
+function feicoop_programacao_seed_slug(array $item): string {
+    $date = isset($item['date']) ? (string) $item['date'] : '';
+    $time = isset($item['time']) ? (string) $item['time'] : '';
+    $title = isset($item['title']) ? (string) $item['title'] : '';
+
+    $parts = array_filter([$date, $time, $title], static function (string $value): bool {
+        return $value !== '';
+    });
+
+    return sanitize_title(implode(' ', $parts));
+}
+
+function feicoop_programacao_seed_content(array $item): string {
+    $pieces = [];
+
+    if (!empty($item['excerpt'])) {
+        $pieces[] = (string) $item['excerpt'];
+    }
+
+    $date = isset($item['date']) ? (string) $item['date'] : '';
+    $time = isset($item['time']) ? (string) $item['time'] : '';
+    $location = isset($item['location']) ? (string) $item['location'] : '';
+    $track = isset($item['track']) ? (string) $item['track'] : '';
+
+    if ($date !== '' || $time !== '') {
+        $when = trim($date . ' ' . $time);
+        $pieces[] = sprintf(__('Quando: %s', 'feicoop'), $when);
+    }
+
+    if ($location !== '') {
+        $pieces[] = sprintf(__('Local: %s', 'feicoop'), $location);
+    }
+
+    if ($track !== '') {
+        $pieces[] = sprintf(__('Faixa: %s', 'feicoop'), $track);
+    }
+
+    return implode("\n\n", $pieces);
+}
+
+function feicoop_programacao_find_seeded_post(string $slug): ?WP_Post {
+    $post = get_page_by_path($slug, OBJECT, 'programacao');
+
+    return $post instanceof WP_Post ? $post : null;
+}
+
+function feicoop_ensure_programacao_seed_item(array $item): int {
+    $slug = feicoop_programacao_seed_slug($item);
+
+    if ($slug === '') {
+        return 0;
+    }
+
+    $existing = feicoop_programacao_find_seeded_post($slug);
+
+    if ($existing instanceof WP_Post) {
+        return (int) $existing->ID;
+    }
+
+    $content = feicoop_programacao_seed_content($item);
+    $post_id = wp_insert_post([
+        'post_type' => 'programacao',
+        'post_status' => 'publish',
+        'post_title' => isset($item['title']) ? (string) $item['title'] : '',
+        'post_name' => $slug,
+        'post_content' => $content,
+        'post_excerpt' => $content,
+        'post_author' => get_current_user_id() ?: 1,
+    ], true);
+
+    if (is_wp_error($post_id) || $post_id <= 0) {
+        return 0;
+    }
+
+    update_post_meta($post_id, '_feicoop_programacao_date', isset($item['date']) ? (string) $item['date'] : '');
+    update_post_meta($post_id, '_feicoop_programacao_time', isset($item['time']) ? (string) $item['time'] : '');
+    update_post_meta($post_id, '_feicoop_programacao_location', isset($item['location']) ? (string) $item['location'] : '');
+    update_post_meta($post_id, '_feicoop_programacao_track', isset($item['track']) ? (string) $item['track'] : '');
+    update_post_meta($post_id, '_feicoop_programacao_featured', '');
+
+    return (int) $post_id;
+}
+
+function feicoop_seed_programacao_items(): void {
+    foreach (feicoop_programacao_static_schedule() as $item) {
+        feicoop_ensure_programacao_seed_item($item);
+    }
+
+    update_option('feicoop_programacao_seed_version', (string) wp_get_theme()->get('Version'));
+}
+
+function feicoop_maybe_seed_programacao_items(): void {
+    $theme_version = (string) wp_get_theme()->get('Version');
+    $stored_version = (string) get_option('feicoop_programacao_seed_version', '');
+
+    if ($stored_version === $theme_version) {
+        return;
+    }
+
+    feicoop_seed_programacao_items();
+}
+add_action('admin_init', 'feicoop_maybe_seed_programacao_items', 20);
+add_action('init', 'feicoop_maybe_seed_programacao_items', 20);
 
 function feicoop_post_feature_image_html(?int $post_id = null, string $size = 'feicoop-card', string $class = ''): string {
     $post_id = $post_id !== null ? $post_id : (int) get_the_ID();

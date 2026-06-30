@@ -991,6 +991,24 @@ p {
   gap: 2rem;
 }
 
+.programacao-archive--pdf .programacao-archive__body {
+  max-width: none;
+}
+
+.programacao-pdf-viewer {
+  display: grid;
+  gap: 1rem;
+}
+
+.programacao-pdf-viewer__frame {
+  width: 100%;
+  min-height: min(92vh, 78rem);
+  border: 1px solid rgba(74, 135, 121, 0.16);
+  border-radius: calc(var(--border-radius) * 1.1);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 30px rgba(38, 73, 46, 0.06);
+}
+
 .programacao-tracks {
   display: flex;
   flex-wrap: wrap;

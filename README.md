@@ -39,7 +39,7 @@ Depois disso:
 
 ## Adicionar itens na programação
 
-A programação usa um tipo de conteúdo próprio no painel do WordPress.
+A programação usa um tipo de conteúdo próprio no painel do WordPress. O tema também pode criar automaticamente os itens iniciais da 32ª FEICOOP a partir da programação oficial, para que você já encontre conteúdo publicado ao ativar o tema.
 
 1. Vá em `Programação` no menu lateral do administrador.
 2. Clique em `Adicionar item de programação`.
@@ -53,6 +53,8 @@ A programação usa um tipo de conteúdo próprio no painel do WordPress.
 6. Publique o item.
 
 Depois disso, o item passa a aparecer automaticamente no arquivo de programação do site.
+
+Se você quiser usar a programação oficial como base, basta revisar os itens já criados e ajustar textos, horários ou locais no painel.
 
 ### Dica de organização
 

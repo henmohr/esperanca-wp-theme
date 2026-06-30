@@ -25,6 +25,7 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
                 <p class="hero__actions">
                     <a href="<?php echo esc_url(feicoop_posts_page_url()); ?>" class="btn">Ver notícias</a>
                     <a href="<?php echo esc_url(feicoop_programacao_archive_url()); ?>" class="btn btn--ghost">Ver programação</a>
+                    <a href="<?php echo esc_url(feicoop_asset_url('programacao-feicoop-2026.pdf')); ?>" class="btn btn--ghost" download>Baixar programação em PDF</a>
                     <?php if ($home_registration['button_url'] !== '' && $home_registration['button_label'] !== '') : ?>
                         <a href="<?php echo esc_url($home_registration['button_url']); ?>" class="btn btn--ghost"><?php echo esc_html($home_registration['button_label']); ?></a>
                     <?php endif; ?>
