@@ -21,6 +21,7 @@ Este tema usa a página de posts do WordPress como o arquivo principal de notíc
 
 Ao ativar o tema, ele cria automaticamente as páginas base usadas na navegação:
 
+- `Início`
 - `Quem somos`
 - `História`
 - `Rede Esperança`
@@ -73,9 +74,9 @@ Se quiser mostrar a programação na navegação principal:
 
 O tema também inclui a programação no menu padrão quando não há menu configurado.
 
-## Configurar os patrocinadores do topo
+## Configurar os patrocinadores da Início
 
-O carrossel do topo da home foi pensado para exibir logos ou imagens dos patrocinadores.
+O carrossel da página `Início` foi pensado para exibir logos ou imagens dos patrocinadores.
 
 1. Vá em `Pages > Home` e edite a página inicial.
 2. Abra a caixa `Patrocinadores do topo`.
@@ -89,6 +90,8 @@ O carrossel do topo da home foi pensado para exibir logos ou imagens dos patroci
 7. Salve a página.
 
 O preview do bloco tem altura limitada e rolagem interna, para não ocupar a tela inteira quando houver muitas imagens.
+
+Esse bloco fica dentro da página `Início`, que o tema cria e usa como página inicial quando a instalação ainda não tem uma front page definida.
 
 ### Formato recomendado das imagens
 

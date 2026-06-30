@@ -230,6 +230,12 @@ add_action('after_switch_theme', 'feicoop_flush_rewrite_rules_on_switch');
 function feicoop_theme_page_definitions(): array {
     return [
         [
+            'slug' => 'inicio',
+            'title' => __('Início', 'feicoop'),
+            'content' => '<p>' . esc_html__('Página inicial do portal FEICOOP.', 'feicoop') . '</p>',
+            'is_front_page' => true,
+        ],
+        [
             'slug' => 'quem-somos',
             'title' => __('Quem somos', 'feicoop'),
             'content' => '<p>' . esc_html__('Apresente aqui a história do Projeto Esperança/Cooesperança, sua missão e a atuação da FEICOOP.', 'feicoop') . '</p>',
@@ -303,9 +309,18 @@ function feicoop_seed_theme_pages(): void {
     $pages = feicoop_theme_page_definitions();
     $posts_page_id = (int) get_option('page_for_posts');
     $posts_page_exists = $posts_page_id > 0 && get_post($posts_page_id) instanceof WP_Post;
+    $front_page_id = (int) get_option('page_on_front');
+    $front_page_exists = $front_page_id > 0 && get_post($front_page_id) instanceof WP_Post;
 
     foreach ($pages as $definition) {
         $page_id = feicoop_ensure_theme_page($definition);
+
+        if (!empty($definition['is_front_page']) && $page_id > 0 && !$front_page_exists) {
+            update_option('page_on_front', $page_id);
+            update_option('show_on_front', 'page');
+            $front_page_id = $page_id;
+            $front_page_exists = true;
+        }
 
         if (!empty($definition['is_posts_page']) && $page_id > 0 && !$posts_page_exists) {
             update_option('page_for_posts', $page_id);
@@ -324,7 +339,7 @@ function feicoop_maybe_seed_theme_pages(): void {
     $stored_version = (string) get_option('feicoop_theme_pages_version', '');
 
     if ($stored_version === $theme_version) {
-        $required_slugs = ['quem-somos', 'historia', 'rede-esperanca', 'feirao-colonial', 'contato', 'inscricoes', 'noticias'];
+        $required_slugs = ['inicio', 'quem-somos', 'historia', 'rede-esperanca', 'feirao-colonial', 'contato', 'inscricoes', 'noticias'];
         foreach ($required_slugs as $slug) {
             $existing_page = get_page_by_path($slug, OBJECT, 'page');
             if (!($existing_page instanceof WP_Post)) {
@@ -336,7 +351,10 @@ function feicoop_maybe_seed_theme_pages(): void {
 
         $posts_page_id = (int) get_option('page_for_posts');
         if ($posts_page_id > 0 && get_post($posts_page_id) instanceof WP_Post) {
-            return;
+            $front_page_id = (int) get_option('page_on_front');
+            if ($front_page_id > 0 && get_post($front_page_id) instanceof WP_Post) {
+                return;
+            }
         }
     }
 
