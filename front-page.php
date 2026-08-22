@@ -66,6 +66,60 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
         </div>
     </section>
 
+    <section class="section" id="noticias">
+        <div class="wrapper">
+            <div class="news-summary">
+                <div class="section__header">
+                    <?php if ($home_news['kicker'] !== '') : ?>
+                        <p class="section__kicker"><?php echo esc_html($home_news['kicker']); ?></p>
+                    <?php endif; ?>
+                    <?php if ($home_news['title'] !== '') : ?>
+                        <h2><?php echo esc_html($home_news['title']); ?></h2>
+                    <?php endif; ?>
+                </div>
+                <div class="news-summary__actions">
+                    <?php if ($home_news['text'] !== '') : ?>
+                        <p class="section__text section__text--lead"><?php echo esc_html($home_news['text']); ?></p>
+                    <?php endif; ?>
+                    <a class="btn btn--ghost" href="<?php echo esc_url(feicoop_posts_page_url()); ?>">Ir para notícias</a>
+                </div>
+            </div>
+            <div class="news-grid">
+                <?php
+                $latest = new WP_Query([
+                    'post_type' => 'post',
+                    'posts_per_page' => 1,
+                    'post_status' => 'publish',
+                ]);
+
+                if ($latest->have_posts()) {
+                    while ($latest->have_posts()) {
+                        $latest->the_post();
+                        ?>
+                        <article id="post-<?php the_ID(); ?>" <?php post_class('news-featured'); ?>>
+                            <a class="news-featured__image" href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1"><?php echo wp_kses_post(feicoop_post_feature_image_html(get_the_ID(), 'feicoop-card')); ?></a>
+                            <div class="news-featured__content">
+                                <div class="feed__meta">
+                                    <time class="feed__date" datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date()); ?></time>
+                                    <span class="feed__author"><?php echo esc_html(get_the_author()); ?></span>
+                                </div>
+                                <h3 class="news-featured__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                                <div class="news-featured__excerpt"><?php echo wp_kses_post(feicoop_excerpt()); ?></div>
+                                <a class="btn" href="<?php the_permalink(); ?>"><?php esc_html_e('Ler notícia', 'feicoop'); ?></a>
+                            </div>
+                        </article>
+                        <?php
+                    }
+
+                    wp_reset_postdata();
+                } else {
+                    get_template_part('template-parts/content', 'none');
+                }
+                ?>
+            </div>
+        </div>
+    </section>
+
     <?php if (feicoop_home_registration_enabled()) : ?>
         <?php $registration_classes = 'homepage-registration' . (($home_registration['date_label'] === '' && $home_registration['date_value'] === '') ? ' homepage-registration--single' : ''); ?>
         <section class="section section--registration-callout">
@@ -188,59 +242,7 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
         </section>
     <?php endif; ?>
 
-    <section class="section" id="noticias">
-        <div class="wrapper">
-            <div class="news-summary">
-                <div class="section__header">
-                    <?php if ($home_news['kicker'] !== '') : ?>
-                        <p class="section__kicker"><?php echo esc_html($home_news['kicker']); ?></p>
-                    <?php endif; ?>
-                    <?php if ($home_news['title'] !== '') : ?>
-                        <h2><?php echo esc_html($home_news['title']); ?></h2>
-                    <?php endif; ?>
-                </div>
-                <div class="news-summary__actions">
-                    <?php if ($home_news['text'] !== '') : ?>
-                        <p class="section__text section__text--lead"><?php echo esc_html($home_news['text']); ?></p>
-                    <?php endif; ?>
-                    <a class="btn btn--ghost" href="<?php echo esc_url(feicoop_posts_page_url()); ?>">Ir para notícias</a>
-                </div>
-            </div>
-            <div class="news-grid">
-                <?php
-                $latest = new WP_Query([
-                    'post_type' => 'post',
-                    'posts_per_page' => 1,
-                    'post_status' => 'publish',
-                ]);
 
-                if ($latest->have_posts()) {
-                    while ($latest->have_posts()) {
-                        $latest->the_post();
-                        ?>
-                        <article id="post-<?php the_ID(); ?>" <?php post_class('news-featured'); ?>>
-                            <a class="news-featured__image" href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1"><?php echo wp_kses_post(feicoop_post_feature_image_html(get_the_ID(), 'feicoop-card')); ?></a>
-                            <div class="news-featured__content">
-                                <div class="feed__meta">
-                                    <time class="feed__date" datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date()); ?></time>
-                                    <span class="feed__author"><?php echo esc_html(get_the_author()); ?></span>
-                                </div>
-                                <h3 class="news-featured__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-                                <div class="news-featured__excerpt"><?php echo wp_kses_post(feicoop_excerpt()); ?></div>
-                                <a class="btn" href="<?php the_permalink(); ?>"><?php esc_html_e('Ler notícia', 'feicoop'); ?></a>
-                            </div>
-                        </article>
-                        <?php
-                    }
-
-                    wp_reset_postdata();
-                } else {
-                    get_template_part('template-parts/content', 'none');
-                }
-                ?>
-            </div>
-        </div>
-    </section>
 
     <section class="section">
         <div class="wrapper contact-block">
