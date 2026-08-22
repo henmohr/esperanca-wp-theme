@@ -22,12 +22,6 @@ if ($footer_legal !== '') {
 ?>
 <footer class="<?php echo is_singular('post') ? 'footer footer--glued' : 'footer'; ?>">
     <div class="wrapper footer__grid">
-        <div class="footer__brand">
-            <div class="footer__seal">
-                <img src="<?php echo esc_url(feicoop_asset_url('assets/img/selo-rodape-projeto-esperanca-cooesperanca-feicoop-santa-maria-rs.png')); ?>" alt="Selo Rodape Projeto Esperanca Cooesperanca FEICOOP Santa Maria RS" width="350" height="350" loading="lazy" decoding="async">
-            </div>
-        </div>
-
         <div>
             <nav class="footer__nav" aria-label="<?php esc_attr_e('Footer menu', 'feicoop'); ?>">
                 <?php
