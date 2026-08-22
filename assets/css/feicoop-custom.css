@@ -180,6 +180,12 @@ p {
   box-shadow: 0 8px 24px rgba(38, 73, 46, 0.04);
 }
 
+/* Ao rolar, o header vira uma barra compacta: o banner do topo
+   acompanha a rolagem e só a navegação fica fixa na viewport. */
+.top.sticky .site-banner-wrap {
+  display: none;
+}
+
 .top .logo {
   align-items: center;
   display: flex;
