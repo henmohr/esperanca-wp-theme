@@ -109,6 +109,73 @@ function feicoop_seo_meta(): void {
 }
 add_action('wp_head', 'feicoop_seo_meta', 5);
 
+function feicoop_json_ld(): void {
+    if (is_admin() || is_feed() || is_robots()) {
+        return;
+    }
+
+    $graph = [];
+
+    // Organização (dados básicos do projeto/cooperativa).
+    $organization = [
+        '@type' => 'Organization',
+        '@id' => home_url('/#organization'),
+        'name' => (string) get_bloginfo('name'),
+        'url' => home_url('/'),
+    ];
+
+    $custom_logo_id = (int) get_theme_mod('custom_logo');
+
+    if ($custom_logo_id > 0) {
+        $organization['logo'] = (string) wp_get_attachment_image_url($custom_logo_id, 'full');
+    }
+
+    $graph[] = $organization;
+
+    // Site.
+    $graph[] = [
+        '@type' => 'WebSite',
+        '@id' => home_url('/#website'),
+        'name' => (string) get_bloginfo('name'),
+        'url' => home_url('/'),
+    ];
+
+    // Evento FEICOOP — emitido na home quando há datas configuradas.
+    if (is_front_page()) {
+        $event_fields = feicoop_home_event_fields();
+        $start_date = (string) get_theme_mod('feicoop_event_start_date', '');
+
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $start_date)) {
+            $event = [
+                '@type' => 'Event',
+                '@id' => home_url('/#event'),
+                'name' => (string) get_theme_mod('feicoop_home_hero_eyebrow', 'FEICOOP'),
+                'startDate' => $start_date,
+                'url' => home_url('/'),
+                'image' => feicoop_asset_url('assets/img/banner-topo.avif'),
+            ];
+
+            $end_date = (string) get_theme_mod('feicoop_event_end_date', '');
+
+            if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $end_date)) {
+                $event['endDate'] = $end_date;
+            }
+
+            if ($event_fields['where_value'] !== '' && $event_fields['where_value'] !== __('Em breve', 'feicoop')) {
+                $event['location'] = [
+                    '@type' => 'Place',
+                    'name' => $event_fields['where_value'],
+                ];
+            }
+
+            $graph[] = $event;
+        }
+    }
+
+    echo "\n" . '<script type="application/ld+json">' . wp_json_encode($graph, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>' . "\n";
+}
+add_action('wp_head', 'feicoop_json_ld', 6);
+
 function feicoop_banner_fallback_slide(): array {
     return [
         'src' => feicoop_asset_url('assets/img/banner-topo.avif'),
@@ -1836,6 +1903,21 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         $wp_customize->add_control($setting_id, [
             'label' => $config['label'],
             'description' => $config['description'] ?? '',
+            'section' => 'feicoop_home_event',
+            'type' => 'text',
+        ]);
+    }
+
+    // Datas estruturadas do evento, usadas no schema Event (SEO).
+    foreach (['start' => __('Data de início (AAAA-MM-DD)', 'feicoop'), 'end' => __('Data de término (AAAA-MM-DD)', 'feicoop')] as $edge => $label) {
+        $wp_customize->add_setting("feicoop_event_{$edge}_date", [
+            'default' => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ]);
+
+        $wp_customize->add_control("feicoop_event_{$edge}_date", [
+            'label' => $label,
+            'description' => __('Preencha para o Google exibir o evento na busca. Ex.: 2026-07-13.', 'feicoop'),
             'section' => 'feicoop_home_event',
             'type' => 'text',
         ]);

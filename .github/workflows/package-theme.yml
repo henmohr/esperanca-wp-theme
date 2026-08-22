@@ -19,16 +19,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build ZIP package
+      - name: Setup Node.js (para minificação via npx)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build ZIP package (com CSS/JS minificados)
         run: |
           set -euo pipefail
-          mkdir -p dist
-          zip -r dist/feicoop-wp-template.zip . \
-            -x ".git/*" \
-               ".github/*" \
-               "dist/*" \
-               ".DS_Store" \
-               "*.zip"
+          bash scripts/package-theme.sh
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
