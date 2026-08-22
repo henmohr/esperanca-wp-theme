@@ -8,6 +8,11 @@ $home_hero = feicoop_home_hero_fields();
 $home_event = feicoop_home_event_fields();
 $home_registration = feicoop_home_registration_fields();
 $home_contact = feicoop_home_contact_fields();
+$home_intro = feicoop_home_intro_fields();
+$home_quicklinks = feicoop_home_quicklinks();
+$home_projects = feicoop_home_project_cards();
+$home_highlight = feicoop_home_highlight_fields();
+$home_news = feicoop_home_news_fields();
 $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_hero_title_size()) . ';"';
 ?>
 <main id="main" class="home-template">
@@ -97,112 +102,107 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
         </section>
     <?php endif; ?>
 
-    <section class="section section--intro">
-        <div class="wrapper section__grid">
-            <div>
-                <p class="section__kicker">Projeto Esperança/Cooesperança</p>
-                <h2>Organização popular, economia solidária e articulação em rede</h2>
+    <?php if ($home_intro['kicker'] !== '' || $home_intro['title'] !== '' || $home_intro['text'] !== '') : ?>
+        <section class="section section--intro">
+            <div class="wrapper section__grid">
+                <div>
+                    <?php if ($home_intro['kicker'] !== '') : ?>
+                        <p class="section__kicker"><?php echo esc_html($home_intro['kicker']); ?></p>
+                    <?php endif; ?>
+                    <?php if ($home_intro['title'] !== '') : ?>
+                        <h2><?php echo esc_html($home_intro['title']); ?></h2>
+                    <?php endif; ?>
+                </div>
+                <?php if ($home_intro['text'] !== '') : ?>
+                    <div class="section__text section__text--lead"><?php echo nl2br(esc_html($home_intro['text'])); ?></div>
+                <?php endif; ?>
             </div>
-            <div class="section__text section__text--lead">
-                <p>O Projeto Esperança/Cooesperança articula experiências de economia popular e solidária, agricultura familiar, comércio justo e cooperativismo em Santa Maria e na região central do Rio Grande do Sul.</p>
-                <p>Seu trabalho conecta grupos urbanos e rurais, promove circulação de renda no território e fortalece iniciativas coletivas comprometidas com a autogestão, a cooperação e o bem viver.</p>
-            </div>
-        </div>
-    </section>
+        </section>
+    <?php endif; ?>
 
     <section class="section section--quicklinks">
         <div class="wrapper quicklinks">
-            <a class="quicklink" href="<?php echo esc_url(feicoop_page_url('quem-somos', '/quem-somos.html')); ?>">
-                <span class="quicklink__kicker">Institucional</span>
-                <strong>Quem somos</strong>
-            </a>
-            <a class="quicklink" href="<?php echo esc_url(feicoop_page_url('historia', '/historia.html')); ?>">
-                <span class="quicklink__kicker">Memória</span>
-                <strong>História</strong>
-            </a>
-            <a class="quicklink" href="<?php echo esc_url(feicoop_page_url('rede-esperanca', '/rede-esperanca.html')); ?>">
-                <span class="quicklink__kicker">Rede</span>
-                <strong>Rede Esperança</strong>
-            </a>
-            <a class="quicklink" href="<?php echo esc_url(feicoop_page_url('feirao-colonial', '/feirao-colonial.html')); ?>">
-                <span class="quicklink__kicker">Comercialização</span>
-                <strong>Feirão Colonial</strong>
-            </a>
+            <?php foreach ($home_quicklinks as $quicklink) : ?>
+                <?php if ($quicklink['url'] === '' || $quicklink['label'] === '') : ?>
+                    <?php continue; ?>
+                <?php endif; ?>
+                <a class="quicklink" href="<?php echo esc_url($quicklink['url']); ?>">
+                    <?php if ($quicklink['kicker'] !== '') : ?>
+                        <span class="quicklink__kicker"><?php echo esc_html($quicklink['kicker']); ?></span>
+                    <?php endif; ?>
+                    <strong><?php echo esc_html($quicklink['label']); ?></strong>
+                </a>
+            <?php endforeach; ?>
         </div>
     </section>
 
     <section class="section" id="projetos">
         <div class="wrapper">
             <div class="section__header">
-                <p class="section__kicker">Projetos e redes</p>
-                <h2>Núcleos que estruturam o portal</h2>
+                <p class="section__kicker"><?php esc_html_e('Projetos e redes', 'feicoop'); ?></p>
+                <h2><?php esc_html_e('Núcleos que estruturam o portal', 'feicoop'); ?></h2>
             </div>
             <div class="projects-grid">
-                <article class="project-card">
-                    <a href="<?php echo esc_url(feicoop_page_url('quem-somos', '/quem-somos.html')); ?>">
-                        <img src="<?php echo esc_url(feicoop_asset_url('assets/img/card-projeto-esperanca.avif')); ?>" width="1600" height="1000" alt="Projeto Esperança/Cooesperança" loading="lazy" decoding="async">
-                        <div class="project-card__content">
-                            <p class="project-card__eyebrow">Articulação</p>
-                            <h3>Projeto Esperança/Cooesperança</h3>
-                            <p>Espaço onde acontece o Feirão Colonial e de onde parte a articulação anual da FEICOOP.</p>
-                        </div>
-                    </a>
-                </article>
-                <article class="project-card">
-                    <a href="<?php echo esc_url(feicoop_page_url('rede-esperanca', '/rede-esperanca.html')); ?>">
-                        <img src="<?php echo esc_url(feicoop_asset_url('assets/img/card-rede-esperanca.avif')); ?>" width="1600" height="1000" alt="Rede Esperança" loading="lazy" decoding="async">
-                        <div class="project-card__content">
-                            <p class="project-card__eyebrow">Rede territorial</p>
-                            <h3>Rede Esperança</h3>
-                            <p>Rede de empreendimentos solidários vinculados ao projeto e conectados a processos nacionais de articulação.</p>
-                        </div>
-                    </a>
-                </article>
-                <article class="project-card">
-                    <a href="<?php echo esc_url(feicoop_page_url('feirao-colonial', '/feirao-colonial.html')); ?>">
-                        <img src="<?php echo esc_url(feicoop_asset_url('assets/img/card-feirao-colonial.avif')); ?>" width="1600" height="1000" alt="Feirão Colonial" loading="lazy" decoding="async">
-                        <div class="project-card__content">
-                            <p class="project-card__eyebrow">Comercialização</p>
-                            <h3>Feirão Colonial</h3>
-                            <p>Comercialização solidária, alimentação e agroecologia em atividade permanente aos sábados.</p>
-                        </div>
-                    </a>
-                </article>
-                <article class="project-card">
-                    <a href="<?php echo esc_url(home_url('/')); ?>">
-                        <img src="<?php echo esc_url(feicoop_asset_url('assets/img/card-feicoop.avif')); ?>" width="1200" height="800" alt="FEICOOP" loading="lazy" decoding="async">
-                        <div class="project-card__content">
-                            <p class="project-card__eyebrow">Evento anual</p>
-                            <h3>FEICOOP</h3>
-                            <p>Feira internacional realizada anualmente em Santa Maria, reunindo cooperativismo, cultura e economia solidária.</p>
-                        </div>
-                    </a>
-                </article>
+                <?php foreach ($home_projects as $project) : ?>
+                    <?php if ($project['title'] === '') : ?>
+                        <?php continue; ?>
+                    <?php endif; ?>
+                    <article class="project-card">
+                        <a href="<?php echo esc_url($project['url'] !== '' ? $project['url'] : home_url('/')); ?>">
+                            <?php if ($project['image'] !== '') : ?>
+                                <img src="<?php echo esc_url($project['image']); ?>" width="1600" height="1000" alt="<?php echo esc_attr($project['title']); ?>" loading="lazy" decoding="async">
+                            <?php endif; ?>
+                            <div class="project-card__content">
+                                <?php if ($project['eyebrow'] !== '') : ?>
+                                    <p class="project-card__eyebrow"><?php echo esc_html($project['eyebrow']); ?></p>
+                                <?php endif; ?>
+                                <h3><?php echo esc_html($project['title']); ?></h3>
+                                <?php if ($project['text'] !== '') : ?>
+                                    <p><?php echo esc_html($project['text']); ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </a>
+                    </article>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
 
-    <section class="section section--highlight">
-        <div class="wrapper callout">
-            <div>
-                <p class="section__kicker">Memória e agenda</p>
-                <h2>Um espaço para reunir história, programação, redes parceiras e notícias da feira</h2>
+    <?php if ($home_highlight['kicker'] !== '' || $home_highlight['title'] !== '' || $home_highlight['text'] !== '') : ?>
+        <section class="section section--highlight">
+            <div class="wrapper callout">
+                <div>
+                    <?php if ($home_highlight['kicker'] !== '') : ?>
+                        <p class="section__kicker"><?php echo esc_html($home_highlight['kicker']); ?></p>
+                    <?php endif; ?>
+                    <?php if ($home_highlight['title'] !== '') : ?>
+                        <h2><?php echo esc_html($home_highlight['title']); ?></h2>
+                    <?php endif; ?>
+                </div>
+                <?php if ($home_highlight['text'] !== '') : ?>
+                    <div class="section__text section__text--lead">
+                        <p><?php echo esc_html($home_highlight['text']); ?></p>
+                    </div>
+                <?php endif; ?>
             </div>
-            <div class="section__text section__text--lead">
-                <p>A FEICOOP reúne iniciativas do campo e da cidade em torno da cooperação, da comercialização solidária e da troca de saberes entre grupos e comunidades.</p>
-            </div>
-        </div>
-    </section>
+        </section>
+    <?php endif; ?>
 
     <section class="section" id="noticias">
         <div class="wrapper">
             <div class="news-summary">
                 <div class="section__header">
-                    <p class="section__kicker">Notícias</p>
-                    <h2>Última publicação</h2>
+                    <?php if ($home_news['kicker'] !== '') : ?>
+                        <p class="section__kicker"><?php echo esc_html($home_news['kicker']); ?></p>
+                    <?php endif; ?>
+                    <?php if ($home_news['title'] !== '') : ?>
+                        <h2><?php echo esc_html($home_news['title']); ?></h2>
+                    <?php endif; ?>
                 </div>
                 <div class="news-summary__actions">
-                    <p class="section__text section__text--lead">Acompanhe a atualização mais recente da feira, os comunicados oficiais e as matérias que também aparecem na página completa de notícias.</p>
+                    <?php if ($home_news['text'] !== '') : ?>
+                        <p class="section__text section__text--lead"><?php echo esc_html($home_news['text']); ?></p>
+                    <?php endif; ?>
                     <a class="btn btn--ghost" href="<?php echo esc_url(feicoop_posts_page_url()); ?>">Ir para notícias</a>
                 </div>
             </div>

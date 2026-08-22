@@ -1983,8 +1983,122 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'section' => 'feicoop_home_contact',
         'type' => 'text',
     ]);
+
+    // --- Conteúdo dos blocos da home (editável pelo Customizer) ---
+    $wp_customize->add_section('feicoop_home_intro', [
+        'title' => __('FEICOOP Home — Introdução', 'feicoop'),
+        'description' => __('Texto da seção de introdução da página inicial.', 'feicoop'),
+        'priority' => 23,
+    ]);
+
+    $intro = feicoop_home_intro_fields();
+
+    feicoop_customize_add_fields($wp_customize, [
+        'feicoop_home_intro_kicker' => ['label' => __('Legenda', 'feicoop'), 'section' => 'feicoop_home_intro', 'default' => $intro['kicker']],
+        'feicoop_home_intro_title' => ['label' => __('Título', 'feicoop'), 'section' => 'feicoop_home_intro', 'default' => $intro['title']],
+        'feicoop_home_intro_text' => [
+            'label' => __('Texto', 'feicoop'),
+            'description' => __('Use uma linha em branco para separar parágrafos.', 'feicoop'),
+            'section' => 'feicoop_home_intro',
+            'type' => 'textarea',
+            'default' => $intro['text'],
+        ],
+    ]);
+
+    $wp_customize->add_section('feicoop_home_quicklinks', [
+        'title' => __('FEICOOP Home — Atalhos', 'feicoop'),
+        'description' => __('Os quatro links de atalho da home (Institucional, Memória, Rede e Comercialização).', 'feicoop'),
+        'priority' => 22,
+    ]);
+
+    $quicklink_fields = [];
+
+    foreach (feicoop_home_quicklink_defaults() as $index => $default) {
+        $number = $index + 1;
+        $quicklink_fields["feicoop_home_quicklink_{$number}_label"] = ['label' => sprintf(__('Atalho %d — rótulo', 'feicoop'), $number), 'section' => 'feicoop_home_quicklinks', 'default' => $default['label']];
+        $quicklink_fields["feicoop_home_quicklink_{$number}_kicker"] = ['label' => sprintf(__('Atalho %d — legenda', 'feicoop'), $number), 'section' => 'feicoop_home_quicklinks', 'default' => $default['kicker']];
+        $quicklink_fields["feicoop_home_quicklink_{$number}_url"] = ['label' => sprintf(__('Atalho %d — URL', 'feicoop'), $number), 'section' => 'feicoop_home_quicklinks', 'type' => 'url', 'default' => $default['url']];
+    }
+
+    feicoop_customize_add_fields($wp_customize, $quicklink_fields);
+
+    $wp_customize->add_section('feicoop_home_projects', [
+        'title' => __('FEICOOP Home — Cards de projetos', 'feicoop'),
+        'description' => __('Os quatro cards de projetos e redes da home.', 'feicoop'),
+        'priority' => 21,
+    ]);
+
+    $project_fields = [];
+
+    foreach (feicoop_home_project_card_defaults() as $index => $default) {
+        $number = $index + 1;
+        $project_fields["feicoop_home_project_{$number}_title"] = ['label' => sprintf(__('Card %d — título', 'feicoop'), $number), 'section' => 'feicoop_home_projects', 'default' => $default['title']];
+        $project_fields["feicoop_home_project_{$number}_eyebrow"] = ['label' => sprintf(__('Card %d — legenda', 'feicoop'), $number), 'section' => 'feicoop_home_projects', 'default' => $default['eyebrow']];
+        $project_fields["feicoop_home_project_{$number}_text"] = ['label' => sprintf(__('Card %d — texto', 'feicoop'), $number), 'section' => 'feicoop_home_projects', 'type' => 'textarea', 'default' => $default['text']];
+        $project_fields["feicoop_home_project_{$number}_url"] = ['label' => sprintf(__('Card %d — URL', 'feicoop'), $number), 'section' => 'feicoop_home_projects', 'type' => 'url', 'default' => $default['url']];
+        $project_fields["feicoop_home_project_{$number}_image"] = ['label' => sprintf(__('Card %d — imagem', 'feicoop'), $number), 'section' => 'feicoop_home_projects', 'type' => 'image', 'default' => $default['image']];
+    }
+
+    feicoop_customize_add_fields($wp_customize, $project_fields);
+
+    $wp_customize->add_section('feicoop_home_highlight', [
+        'title' => __('FEICOOP Home — Destaque central', 'feicoop'),
+        'priority' => 20,
+    ]);
+
+    $highlight = feicoop_home_highlight_fields();
+
+    feicoop_customize_add_fields($wp_customize, [
+        'feicoop_home_highlight_kicker' => ['label' => __('Legenda', 'feicoop'), 'section' => 'feicoop_home_highlight', 'default' => $highlight['kicker']],
+        'feicoop_home_highlight_title' => ['label' => __('Título', 'feicoop'), 'section' => 'feicoop_home_highlight', 'default' => $highlight['title']],
+        'feicoop_home_highlight_text' => ['label' => __('Texto', 'feicoop'), 'section' => 'feicoop_home_highlight', 'type' => 'textarea', 'default' => $highlight['text']],
+    ]);
+
+    $wp_customize->add_section('feicoop_home_news', [
+        'title' => __('FEICOOP Home — Notícias', 'feicoop'),
+        'description' => __('Cabeçalho da seção de notícias da home.', 'feicoop'),
+        'priority' => 19,
+    ]);
+
+    $news = feicoop_home_news_fields();
+
+    feicoop_customize_add_fields($wp_customize, [
+        'feicoop_home_news_kicker' => ['label' => __('Legenda', 'feicoop'), 'section' => 'feicoop_home_news', 'default' => $news['kicker']],
+        'feicoop_home_news_title' => ['label' => __('Título', 'feicoop'), 'section' => 'feicoop_home_news', 'default' => $news['title']],
+        'feicoop_home_news_text' => ['label' => __('Texto', 'feicoop'), 'section' => 'feicoop_home_news', 'type' => 'textarea', 'default' => $news['text']],
+    ]);
 }
 add_action('customize_register', 'feicoop_customize_register');
+
+/**
+ * Registra settings/controls do Customizer de forma compacta.
+ */
+function feicoop_customize_add_fields(WP_Customize_Manager $wp_customize, array $fields): void {
+    foreach ($fields as $setting_id => $config) {
+        $type = $config['type'] ?? 'text';
+        $sanitize = $config['sanitize_callback'] ?? ($type === 'textarea' ? 'sanitize_textarea_field' : ($type === 'url' ? 'esc_url_raw' : 'sanitize_text_field'));
+
+        $wp_customize->add_setting($setting_id, [
+            'default' => $config['default'] ?? '',
+            'sanitize_callback' => $sanitize,
+        ]);
+
+        if ($type === 'image') {
+            $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, $setting_id, [
+                'label' => $config['label'] ?? $setting_id,
+                'description' => $config['description'] ?? '',
+                'section' => $config['section'],
+            ]));
+        } else {
+            $wp_customize->add_control($setting_id, [
+                'label' => $config['label'] ?? $setting_id,
+                'description' => $config['description'] ?? '',
+                'section' => $config['section'],
+                'type' => $type,
+            ]);
+        }
+    }
+}
 
 function feicoop_main_menu_fallback(): void {
     echo '<ul class="navbar__menu">';
