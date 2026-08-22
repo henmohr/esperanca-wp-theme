@@ -63,10 +63,19 @@
   z-index: 41;
   padding-top: 0.2rem;
   padding-bottom: 0.8rem;
+  /* Sem margens automáticas: como item flex do header (align-items: stretch),
+     margens auto desativam o stretch e o wrapper encolheria para a largura
+     intrínseca da imagem (banner menor nas páginas internas). */
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .site-banner {
   display: block;
+  /* Mesma largura do carrossel da home (64rem), para o banner ter o
+     mesmo tamanho em todas as páginas. */
+  max-width: 64rem;
+  margin: 0 auto;
 }
 
 .site-banner > img {
