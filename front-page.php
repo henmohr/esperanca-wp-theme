@@ -7,7 +7,6 @@ get_header();
 $home_hero = feicoop_home_hero_fields();
 $home_event = feicoop_home_event_fields();
 $home_registration = feicoop_home_registration_fields();
-$home_contact = feicoop_home_contact_fields();
 $home_intro = feicoop_home_intro_fields();
 $home_quicklinks = feicoop_home_quicklinks();
 $home_projects = feicoop_home_project_cards();
@@ -244,71 +243,5 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
 
 
 
-    <section class="section">
-        <div class="wrapper contact-block">
-            <div>
-                <p class="section__kicker">Contato</p>
-                <h2>Informações principais do projeto</h2>
-            </div>
-            <div class="contact-block__grid">
-                <div class="contact-item">
-                    <strong><?php esc_html_e('Coordenador do Projeto Esperança', 'feicoop'); ?></strong>
-                    <p><?php echo esc_html($home_contact['coordinator']); ?></p>
-                </div>
-                <div class="contact-item">
-                    <strong><?php esc_html_e('Telefone', 'feicoop'); ?></strong>
-                    <p><?php echo esc_html($home_contact['phones']); ?></p>
-                    <?php if ($home_contact['whatsapp'] !== '') : ?>
-                        <p class="contact-actions">
-                            <a class="btn contact-btn" href="<?php echo esc_url('https://wa.me/' . preg_replace('/\D/', '', $home_contact['whatsapp'])); ?>" target="_blank" rel="noopener noreferrer">
-                                <svg width="18" height="18" aria-hidden="true"><use xlink:href="<?php echo esc_url(feicoop_asset_url('assets/svg/svg-map.svg#whatsapp')); ?>"></use></svg>
-                                <?php esc_html_e('Chamar no WhatsApp', 'feicoop'); ?>
-                            </a>
-                        </p>
-                    <?php endif; ?>
-                </div>
-                <div class="contact-item">
-                    <strong><?php esc_html_e('E-mail', 'feicoop'); ?></strong>
-                    <?php if ($home_contact['email'] !== '') : ?>
-                        <p><a href="mailto:<?php echo esc_attr($home_contact['email']); ?>"><?php echo esc_html($home_contact['email']); ?></a></p>
-                        <p class="contact-actions">
-                            <a class="btn contact-btn" href="mailto:<?php echo esc_attr($home_contact['email']); ?>">
-                                <?php esc_html_e('Enviar e-mail', 'feicoop'); ?>
-                            </a>
-                        </p>
-                    <?php endif; ?>
-                </div>
-                <div class="contact-item">
-                    <strong><?php esc_html_e('Endereço', 'feicoop'); ?></strong>
-                    <p><?php echo nl2br(esc_html($home_contact['address'])); ?></p>
-                </div>
-                <div class="contact-item">
-                    <strong><?php esc_html_e('Redes sociais', 'feicoop'); ?></strong>
-                    <p class="contact-socials">
-                        <?php if ($home_contact['facebook'] !== '') : ?>
-                            <a class="contact-social" href="<?php echo esc_url($home_contact['facebook']); ?>" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                                <svg width="20" height="20" aria-hidden="true"><use xlink:href="<?php echo esc_url(feicoop_asset_url('assets/svg/svg-map.svg#facebook')); ?>"></use></svg>
-                            </a>
-                        <?php endif; ?>
-                        <?php if ($home_contact['instagram'] !== '') : ?>
-                            <a class="contact-social" href="<?php echo esc_url($home_contact['instagram']); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e('Instagram Feirão Colonial', 'feicoop'); ?>">
-                                <svg width="20" height="20" aria-hidden="true"><use xlink:href="<?php echo esc_url(feicoop_asset_url('assets/svg/svg-map.svg#instagram')); ?>"></use></svg>
-                            </a>
-                        <?php endif; ?>
-                        <?php if ($home_contact['instagram_rede'] !== '') : ?>
-                            <a class="contact-social" href="<?php echo esc_url($home_contact['instagram_rede']); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e('Instagram Rede Esperança', 'feicoop'); ?>">
-                                <svg width="20" height="20" aria-hidden="true"><use xlink:href="<?php echo esc_url(feicoop_asset_url('assets/svg/svg-map.svg#instagram')); ?>"></use></svg>
-                            </a>
-                        <?php endif; ?>
-                        <?php if ($home_contact['youtube'] !== '') : ?>
-                            <a class="contact-social" href="<?php echo esc_url($home_contact['youtube']); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e('YouTube', 'feicoop'); ?>">
-                                <svg width="20" height="20" aria-hidden="true"><use xlink:href="<?php echo esc_url(feicoop_asset_url('assets/svg/svg-map.svg#youtube')); ?>"></use></svg>
-                            </a>
-                        <?php endif; ?>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
 </main>
 <?php get_footer(); ?>
