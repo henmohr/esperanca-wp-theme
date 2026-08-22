@@ -14,7 +14,7 @@ get_header();
                 <div class="wrapper inscricoes-hero">
                     <div class="inscricoes-hero__content">
                         <p class="hero__eyebrow">Inscrições FEICOOP</p>
-                        <h1><?php the_title(); ?></h1>
+                        <h1><?php echo esc_html(get_the_title()); ?></h1>
                         <p class="inscricoes-hero__lead"><?php echo esc_html(feicoop_template_meta(get_the_ID(), '_feicoop_registration_notice', 'Acompanhe o anúncio oficial e os detalhes do processo de participação na programação da feira.')); ?></p>
                         <?php $cta_url = feicoop_template_meta(get_the_ID(), '_feicoop_registration_cta_url', feicoop_page_url('contato')); ?>
                         <?php $cta_label = feicoop_template_meta(get_the_ID(), '_feicoop_registration_cta_label', 'Saiba mais'); ?>

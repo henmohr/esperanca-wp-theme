@@ -26,7 +26,7 @@ $time = feicoop_programacao_format_time($fields['time']);
         <?php endif; ?>
     </div>
     <div class="programacao-card__content">
-        <h3 class="programacao-card__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+        <h3 class="programacao-card__title"><a href="<?php the_permalink(); ?>"><?php echo esc_html(get_the_title()); ?></a></h3>
         <div class="programacao-card__excerpt"><?php echo wp_kses_post(feicoop_excerpt()); ?></div>
         <a class="btn btn--ghost programacao-card__readmore" href="<?php the_permalink(); ?>"><?php esc_html_e('Ver detalhes', 'feicoop'); ?></a>
     </div>

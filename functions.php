@@ -466,7 +466,7 @@ function feicoop_seed_theme_pages(): void {
 }
 
 function feicoop_maybe_seed_theme_pages(): void {
-    if (!is_admin()) {
+    if (!is_admin() || !current_user_can('publish_pages')) {
         return;
     }
 
@@ -1203,6 +1203,10 @@ function feicoop_seed_programacao_items(): void {
 }
 
 function feicoop_maybe_seed_programacao_items(): void {
+    if (!is_admin() || !current_user_can('publish_posts')) {
+        return;
+    }
+
     $theme_version = (string) wp_get_theme()->get('Version');
     $stored_version = (string) get_option('feicoop_programacao_seed_version', '');
 

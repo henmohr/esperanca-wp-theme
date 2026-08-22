@@ -8,8 +8,8 @@ get_header();
     <div class="hero hero--noimage">
         <header class="hero__content">
             <div class="wrapper">
-                <h1><?php bloginfo('name'); ?></h1>
-                <p class="page__desc"><?php bloginfo('description'); ?></p>
+                <h1><?php echo esc_html(get_bloginfo('name')); ?></h1>
+                <p class="page__desc"><?php echo esc_html(get_bloginfo('description')); ?></p>
             </div>
         </header>
     </div>

@@ -8,8 +8,8 @@ get_header();
     <div class="hero hero--noimage">
         <header class="hero__content hero__content--centered">
             <div class="wrapper">
-                <h1><?php the_archive_title(); ?></h1>
-                <p class="page__desc"><?php the_archive_description(); ?></p>
+                <h1><?php echo esc_html(get_the_archive_title()); ?></h1>
+                <p class="page__desc"><?php echo wp_kses_post(get_the_archive_description()); ?></p>
             </div>
         </header>
     </div>

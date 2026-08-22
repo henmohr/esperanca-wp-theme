@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     <div class="hero <?php echo has_post_thumbnail() ? '' : 'hero--noimage'; ?>">
         <header class="hero__content hero__content--centered">
             <div class="wrapper">
-                <h1><?php the_title(); ?></h1>
+                <h1><?php echo esc_html(get_the_title()); ?></h1>
                 <?php feicoop_render_back_button(home_url('/'), __('Voltar ao início', 'feicoop')); ?>
                 <div class="feed__meta content__meta">
                     <time class="feed__date" datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date()); ?></time>

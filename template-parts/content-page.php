@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     <div class="hero hero--page <?php echo has_post_thumbnail() ? '' : 'hero--noimage'; ?>">
         <header class="hero__content hero__content--centered">
             <div class="wrapper">
-                <h1><?php the_title(); ?></h1>
+                <h1><?php echo esc_html(get_the_title()); ?></h1>
                 <?php feicoop_render_back_button(home_url('/'), __('Voltar ao início', 'feicoop')); ?>
             </div>
         </header>
