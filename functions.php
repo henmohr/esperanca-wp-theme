@@ -306,17 +306,17 @@ function feicoop_home_banner_mobile_height(): int {
 function feicoop_register_programacao_cpt(): void {
     register_post_type('programacao', [
         'labels' => [
-            'name' => __('Programação', 'feicoop'),
-            'singular_name' => __('Item de programação', 'feicoop'),
-            'add_new_item' => __('Adicionar item de programação', 'feicoop'),
-            'edit_item' => __('Editar item de programação', 'feicoop'),
-            'new_item' => __('Novo item de programação', 'feicoop'),
-            'view_item' => __('Ver item de programação', 'feicoop'),
-            'search_items' => __('Buscar itens de programação', 'feicoop'),
-            'not_found' => __('Nenhum item de programação encontrado', 'feicoop'),
-            'not_found_in_trash' => __('Nenhum item de programação na lixeira', 'feicoop'),
-            'all_items' => __('Todos os itens de programação', 'feicoop'),
-            'menu_name' => __('Programação', 'feicoop'),
+            'name' => __('FEICOOP', 'feicoop'),
+            'singular_name' => __('Item da FEICOOP', 'feicoop'),
+            'add_new_item' => __('Adicionar item da FEICOOP', 'feicoop'),
+            'edit_item' => __('Editar item da FEICOOP', 'feicoop'),
+            'new_item' => __('Novo item da FEICOOP', 'feicoop'),
+            'view_item' => __('Ver item da FEICOOP', 'feicoop'),
+            'search_items' => __('Buscar itens da FEICOOP', 'feicoop'),
+            'not_found' => __('Nenhum item da FEICOOP encontrado', 'feicoop'),
+            'not_found_in_trash' => __('Nenhum item da FEICOOP na lixeira', 'feicoop'),
+            'all_items' => __('Todos os itens da FEICOOP', 'feicoop'),
+            'menu_name' => __('FEICOOP', 'feicoop'),
         ],
         'public' => true,
         'show_in_rest' => true,
@@ -327,6 +327,367 @@ function feicoop_register_programacao_cpt(): void {
     ]);
 }
 add_action('init', 'feicoop_register_programacao_cpt');
+
+/* =====================================================================
+ * Produções e publicações (CPT publicacao: PDFs e vídeos)
+ * ===================================================================== */
+function feicoop_register_publicacao_cpt(): void {
+    register_post_type('publicacao', [
+        'labels' => [
+            'name' => __('Produções e publicações', 'feicoop'),
+            'singular_name' => __('Publicação', 'feicoop'),
+            'add_new_item' => __('Adicionar publicação', 'feicoop'),
+            'edit_item' => __('Editar publicação', 'feicoop'),
+            'new_item' => __('Nova publicação', 'feicoop'),
+            'view_item' => __('Ver publicação', 'feicoop'),
+            'search_items' => __('Buscar publicações', 'feicoop'),
+            'not_found' => __('Nenhuma publicação encontrada', 'feicoop'),
+            'not_found_in_trash' => __('Nenhuma publicação na lixeira', 'feicoop'),
+            'all_items' => __('Todas as publicações', 'feicoop'),
+            'menu_name' => __('Produções e publicações', 'feicoop'),
+        ],
+        'public' => true,
+        'show_in_rest' => true,
+        'has_archive' => 'producoes',
+        'rewrite' => ['slug' => 'publicacao', 'with_front' => false],
+        'menu_icon' => 'dashicons-media-document',
+        'supports' => ['title', 'editor', 'excerpt', 'thumbnail', 'page-attributes'],
+    ]);
+}
+add_action('init', 'feicoop_register_publicacao_cpt');
+
+function feicoop_publicacao_metabox(): void {
+    add_meta_box('feicoop_publicacao', __('Arquivo da publicação', 'feicoop'), 'feicoop_publicacao_metabox_html', 'publicacao', 'side', 'default');
+}
+add_action('add_meta_boxes', 'feicoop_publicacao_metabox');
+
+function feicoop_publicacao_metabox_html(WP_Post $post): void {
+    wp_nonce_field('feicoop_publicacao_save', 'feicoop_publicacao_nonce');
+
+    $type = (string) get_post_meta($post->ID, '_feicoop_publicacao_type', true);
+    if ($type === '') {
+        $type = 'pdf';
+    }
+
+    $file_id = (int) get_post_meta($post->ID, '_feicoop_publicacao_file_id', true);
+    $video_url = (string) get_post_meta($post->ID, '_feicoop_publicacao_video_url', true);
+    $year = (string) get_post_meta($post->ID, '_feicoop_publicacao_year', true);
+
+    if ($year === '') {
+        $year = (string) get_the_date('Y', $post);
+    }
+    ?>
+    <p>
+        <label><input type="radio" name="feicoop_publicacao_type" value="pdf" <?php checked($type, 'pdf'); ?>> <?php esc_html_e('PDF', 'feicoop'); ?></label><br>
+        <label><input type="radio" name="feicoop_publicacao_type" value="video" <?php checked($type, 'video'); ?>> <?php esc_html_e('Vídeo', 'feicoop'); ?></label>
+    </p>
+    <p>
+        <label><strong><?php esc_html_e('Arquivo PDF (biblioteca de mídia)', 'feicoop'); ?></strong></label><br>
+        <input type="hidden" name="feicoop_publicacao_file_id" id="feicoop-publicacao-file-id" value="<?php echo esc_attr((string) $file_id); ?>">
+        <button type="button" class="button" id="feicoop-publicacao-pick"><?php esc_html_e('Selecionar PDF', 'feicoop'); ?></button>
+        <span id="feicoop-publicacao-file-name"><?php
+            if ($file_id > 0) {
+                echo esc_html(wp_basename((string) get_attached_file($file_id)));
+            }
+        ?></span>
+    </p>
+    <p>
+        <label><strong><?php esc_html_e('URL do vídeo (YouTube)', 'feicoop'); ?></strong></label><br>
+        <input type="url" name="feicoop_publicacao_video_url" value="<?php echo esc_attr($video_url); ?>" class="widefat" placeholder="https://www.youtube.com/watch?v=...">
+    </p>
+    <p>
+        <label><strong><?php esc_html_e('Ano', 'feicoop'); ?></strong></label><br>
+        <input type="number" name="feicoop_publicacao_year" min="1900" max="2100" value="<?php echo esc_attr($year); ?>">
+    </p>
+    <script>
+    (function ($) {
+        var frame;
+        $('#feicoop-publicacao-pick').on('click', function (e) {
+            e.preventDefault();
+            if (frame) { frame.open(); return; }
+            frame = wp.media({
+                title: 'Selecionar PDF',
+                library: { type: 'application/pdf' },
+                multiple: false,
+            });
+            frame.on('select', function () {
+                var att = frame.state().get('selection').first().toJSON();
+                $('#feicoop-publicacao-file-id').val(att.id);
+                $('#feicoop-publicacao-file-name').text(att.filename || '');
+            });
+            frame.open();
+        });
+    })(jQuery);
+    </script>
+    <?php
+}
+
+function feicoop_save_publicacao_meta(int $post_id, WP_Post $post, bool $update): void {
+    if (!isset($_POST['feicoop_publicacao_nonce']) || !wp_verify_nonce(wp_unslash($_POST['feicoop_publicacao_nonce']), 'feicoop_publicacao_save')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    $type = isset($_POST['feicoop_publicacao_type']) && $_POST['feicoop_publicacao_type'] === 'video' ? 'video' : 'pdf';
+    $file_id = isset($_POST['feicoop_publicacao_file_id']) ? absint($_POST['feicoop_publicacao_file_id']) : 0;
+    $video_url = isset($_POST['feicoop_publicacao_video_url']) ? esc_url_raw(wp_unslash($_POST['feicoop_publicacao_video_url'])) : '';
+    $year = isset($_POST['feicoop_publicacao_year']) ? absint($_POST['feicoop_publicacao_year']) : 0;
+
+    if ($year < 1900 || $year > 2100) {
+        $year = (int) get_the_date('Y', $post_id);
+    }
+
+    update_post_meta($post_id, '_feicoop_publicacao_type', $type);
+    update_post_meta($post_id, '_feicoop_publicacao_file_id', $file_id);
+    update_post_meta($post_id, '_feicoop_publicacao_video_url', $video_url);
+    update_post_meta($post_id, '_feicoop_publicacao_year', $year);
+
+    delete_transient('feicoop_publicacao_years');
+}
+add_action('save_post_publicacao', 'feicoop_save_publicacao_meta', 10, 3);
+
+function feicoop_publicacao_query_vars(array $vars): array {
+    $vars[] = 'publicacao_year';
+    $vars[] = 'publicacao_tipo';
+
+    return $vars;
+}
+add_filter('query_vars', 'feicoop_publicacao_query_vars');
+
+function feicoop_publicacao_archive_query(WP_Query $query): void {
+    if (is_admin() || !$query->is_main_query() || !is_post_type_archive('publicacao')) {
+        return;
+    }
+
+    $year = (int) get_query_var('publicacao_year');
+    $tipo = (string) get_query_var('publicacao_tipo');
+
+    $meta_query = [];
+
+    if ($year > 0) {
+        $meta_query[] = ['key' => '_feicoop_publicacao_year', 'value' => $year, 'type' => 'NUMERIC'];
+    }
+
+    if ($tipo === 'pdf' || $tipo === 'video') {
+        $meta_query[] = ['key' => '_feicoop_publicacao_type', 'value' => $tipo];
+    }
+
+    if ($meta_query !== []) {
+        $query->set('meta_query', $meta_query);
+    }
+
+    // Ordem cronológica: ano (desc) e depois data (desc).
+    $query->set('meta_key', '_feicoop_publicacao_year');
+    $query->set('orderby', ['meta_value_num' => 'DESC', 'date' => 'DESC']);
+}
+add_action('pre_get_posts', 'feicoop_publicacao_archive_query');
+
+function feicoop_publicacao_years(): array {
+    $years = get_transient('feicoop_publicacao_years');
+
+    if (is_array($years)) {
+        return $years;
+    }
+
+    $ids = get_posts([
+        'post_type' => 'publicacao',
+        'post_status' => 'publish',
+        'fields' => 'ids',
+        'numberposts' => -1,
+    ]);
+
+    $years = [];
+
+    foreach ($ids as $id) {
+        $year = (int) get_post_meta($id, '_feicoop_publicacao_year', true);
+
+        if ($year > 0) {
+            $years[$year] = $year;
+        }
+    }
+
+    krsort($years);
+    $years = array_values($years);
+    set_transient('feicoop_publicacao_years', $years, DAY_IN_SECONDS);
+
+    return $years;
+}
+
+function feicoop_publicacao_media_html(int $post_id): string {
+    $type = (string) get_post_meta($post_id, '_feicoop_publicacao_type', true);
+
+    if ($type === 'video') {
+        $url = (string) get_post_meta($post_id, '_feicoop_publicacao_video_url', true);
+
+        if ($url === '') {
+            return '';
+        }
+
+        $embed = wp_oembed_get($url);
+
+        return $embed !== false ? $embed : '';
+    }
+
+    $file_id = (int) get_post_meta($post_id, '_feicoop_publicacao_file_id', true);
+    $src = $file_id > 0 ? (string) wp_get_attachment_url($file_id) : '';
+
+    if ($src === '') {
+        return '';
+    }
+
+    $filename = wp_basename($src);
+
+    return '<a class="btn contact-btn" href="' . esc_url($src) . '" target="_blank" rel="noopener noreferrer" download>'
+        . esc_html__('Baixar PDF', 'feicoop') . ' <small>(' . esc_html($filename) . ')</small></a>';
+}
+
+/* =====================================================================
+ * Destaque de notícias na home
+ * ===================================================================== */
+function feicoop_post_featured_metabox(): void {
+    add_meta_box('feicoop_post_featured', __('Destaque na página inicial', 'feicoop'), 'feicoop_post_featured_metabox_html', 'post', 'side', 'default');
+}
+add_action('add_meta_boxes', 'feicoop_post_featured_metabox');
+
+function feicoop_post_featured_metabox_html(WP_Post $post): void {
+    wp_nonce_field('feicoop_post_featured_save', 'feicoop_post_featured_nonce');
+    $featured = (bool) get_post_meta($post->ID, '_feicoop_post_featured', true);
+    echo '<p><label><input type="checkbox" name="feicoop_post_featured" value="1" ' . checked($featured, true, false) . '> '
+        . esc_html__('Exibir como destaque na página inicial', 'feicoop') . '</label></p>';
+}
+
+function feicoop_save_post_featured(int $post_id): void {
+    if (!isset($_POST['feicoop_post_featured_nonce']) || !wp_verify_nonce(wp_unslash($_POST['feicoop_post_featured_nonce']), 'feicoop_post_featured_save')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    $value = isset($_POST['feicoop_post_featured']) ? '1' : '';
+    update_post_meta($post_id, '_feicoop_post_featured', $value);
+}
+add_action('save_post_post', 'feicoop_save_post_featured');
+
+/* =====================================================================
+ * Galeria de fotos (template template-galeria.php)
+ * ===================================================================== */
+function feicoop_gallery_metabox(WP_Post $post): void {
+    if (get_page_template_slug($post->ID) !== 'template-galeria.php') {
+        return;
+    }
+
+    add_meta_box('feicoop_gallery', __('Galeria de fotos', 'feicoop'), 'feicoop_gallery_metabox_html', 'page', 'normal', 'default');
+}
+add_action('add_meta_boxes', 'feicoop_gallery_metabox');
+
+function feicoop_gallery_metabox_html(WP_Post $post): void {
+    wp_nonce_field('feicoop_gallery_save', 'feicoop_gallery_nonce');
+    $ids = feicoop_gallery_ids($post->ID);
+    ?>
+    <p>
+        <button type="button" class="button button-primary" id="feicoop-gallery-pick"><?php esc_html_e('Adicionar imagens', 'feicoop'); ?></button>
+        <button type="button" class="button" id="feicoop-gallery-clear"><?php esc_html_e('Limpar todas', 'feicoop'); ?></button>
+    </p>
+    <input type="hidden" name="feicoop_gallery_ids" id="feicoop-gallery-ids" value="<?php echo esc_attr(implode(',', $ids)); ?>">
+    <ul class="feicoop-gallery-preview">
+        <?php foreach ($ids as $image_id) : ?>
+            <li data-id="<?php echo esc_attr((string) $image_id); ?>">
+                <?php echo wp_get_attachment_image($image_id, 'thumbnail'); ?>
+                <button type="button" class="feicoop-gallery-remove"><?php esc_html_e('Remover', 'feicoop'); ?></button>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <style>
+        .feicoop-gallery-preview { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 0; padding: 0; list-style: none; }
+        .feicoop-gallery-preview li { position: relative; width: 120px; border: 1px solid #dcdcde; border-radius: 6px; overflow: hidden; background: #fff; }
+        .feicoop-gallery-preview img { display: block; width: 100%; height: 80px; object-fit: cover; }
+        .feicoop-gallery-preview .feicoop-gallery-remove { display: block; width: 100%; border: 0; border-top: 1px solid #dcdcde; background: #f6f7f7; color: #b32d2e; cursor: pointer; padding: 4px 0; font-size: 12px; }
+    </style>
+    <script>
+    (function ($) {
+        var frame;
+        var $ids = $('#feicoop-gallery-ids');
+        var $preview = $('.feicoop-gallery-preview');
+
+        function refresh() {
+            var ids = $ids.val().split(',').filter(Boolean);
+            $preview.find('li').each(function () {
+                if (ids.indexOf($(this).data('id').toString()) === -1) { $(this).remove(); }
+            });
+        }
+
+        $('#feicoop-gallery-pick').on('click', function (e) {
+            e.preventDefault();
+            if (frame) { frame.open(); return; }
+            frame = wp.media({ title: 'Selecionar imagens', multiple: true, library: { type: 'image' } });
+            frame.on('select', function () {
+                var selection = frame.state().get('selection').toJSON();
+                var current = $ids.val().split(',').filter(Boolean);
+                selection.forEach(function (att) {
+                    if (current.indexOf(att.id.toString()) === -1) {
+                        current.push(att.id);
+                        var thumb = att.sizes && att.sizes.thumbnail ? att.sizes.thumbnail.url : att.url;
+                        $preview.append(
+                            '<li data-id="' + att.id + '"><img src="' + thumb + '" alt=""><button type="button" class="feicoop-gallery-remove">Remover</button></li>'
+                        );
+                    }
+                });
+                $ids.val(current.join(','));
+            });
+            frame.open();
+        });
+
+        $preview.on('click', '.feicoop-gallery-remove', function () {
+            var id = $(this).closest('li').data('id');
+            var current = $ids.val().split(',').filter(Boolean).filter(function (v) { return v !== id.toString(); });
+            $ids.val(current.join(','));
+            $(this).closest('li').remove();
+        });
+
+        $('#feicoop-gallery-clear').on('click', function () { $ids.val(''); $preview.empty(); });
+    })(jQuery);
+    </script>
+    <?php
+}
+
+function feicoop_gallery_ids(int $post_id = 0): array {
+    $post_id = $post_id > 0 ? $post_id : (int) get_the_ID();
+    $raw = (string) get_post_meta($post_id, '_feicoop_gallery_ids', true);
+
+    return array_values(array_filter(array_map('absint', preg_split('/\s*,\s*/', $raw) ?: [])));
+}
+
+function feicoop_save_gallery_meta(int $post_id, WP_Post $post): void {
+    if (!isset($_POST['feicoop_gallery_nonce']) || !wp_verify_nonce(wp_unslash($_POST['feicoop_gallery_nonce']), 'feicoop_gallery_save')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_page', $post_id)) {
+        return;
+    }
+
+    $raw = isset($_POST['feicoop_gallery_ids']) ? (string) wp_unslash($_POST['feicoop_gallery_ids']) : '';
+    $ids = array_values(array_filter(array_map('absint', preg_split('/\s*,\s*/', sanitize_text_field($raw)) ?: [])));
+    update_post_meta($post_id, '_feicoop_gallery_ids', implode(',', $ids));
+}
+add_action('save_post_page', 'feicoop_save_gallery_meta', 10, 2);
 
 function feicoop_maybe_flush_rewrite_rules(): void {
     if (!is_admin()) {
@@ -372,14 +733,9 @@ function feicoop_theme_page_definitions(): array {
             'content' => '<p>' . esc_html__('Use esta página para registrar a memória da FEICOOP, os marcos do movimento e a evolução da feira.', 'feicoop') . '</p>',
         ],
         [
-            'slug' => 'rede-esperanca',
-            'title' => __('Rede Esperança', 'feicoop'),
-            'content' => '<p>' . esc_html__('Descreva aqui os grupos, cooperativas e iniciativas que formam a Rede Esperança.', 'feicoop') . '</p>',
-        ],
-        [
             'slug' => 'feirao-colonial',
-            'title' => __('Feirão Colonial', 'feicoop'),
-            'content' => '<p>' . esc_html__('Conte nesta página como funciona o Feirão Colonial, a comercialização e a visitação.', 'feicoop') . '</p>',
+            'title' => __('Feirão EcoSol', 'feicoop'),
+            'content' => '<p>' . esc_html__('Conte nesta página como funciona o Feirão EcoSol, a comercialização e a visitação.', 'feicoop') . '</p>',
         ],
         [
             'slug' => 'contato',
@@ -474,7 +830,7 @@ function feicoop_maybe_seed_theme_pages(): void {
     $stored_version = (string) get_option('feicoop_theme_pages_version', '');
 
     if ($stored_version === $theme_version) {
-        $required_slugs = ['inicio', 'quem-somos', 'historia', 'rede-esperanca', 'feirao-colonial', 'contato', 'inscricoes', 'noticias'];
+        $required_slugs = ['inicio', 'quem-somos', 'historia', 'feirao-colonial', 'contato', 'inscricoes', 'noticias'];
         foreach ($required_slugs as $slug) {
             $existing_page = get_page_by_path($slug, OBJECT, 'page');
             if (!($existing_page instanceof WP_Post)) {
@@ -1457,7 +1813,23 @@ function feicoop_admin_enqueue_assets(string $hook): void {
 
     $screen = get_current_screen();
 
-    if (!$screen || $screen->post_type !== 'page') {
+    if (!$screen) {
+        return;
+    }
+
+    // Editor de publicações: seletor de PDF via wp.media.
+    if ($screen->post_type === 'publicacao') {
+        wp_enqueue_media();
+        return;
+    }
+
+    if ($screen->post_type !== 'page') {
+        return;
+    }
+
+    // Página com o template de galeria: seletor de imagens.
+    if (get_page_template_slug((int) ($_GET['post'] ?? 0)) === 'template-galeria.php') {
+        wp_enqueue_media();
         return;
     }
 
@@ -2038,13 +2410,8 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
             'sanitize_callback' => 'esc_url_raw',
         ],
         'instagram' => [
-            'label' => __('Instagram Feirão Colonial', 'feicoop'),
+            'label' => __('Instagram Feirão EcoSol', 'feicoop'),
             'default' => 'https://www.instagram.com/feirao.ecosol/',
-            'sanitize_callback' => 'esc_url_raw',
-        ],
-        'instagram_rede' => [
-            'label' => __('Instagram Rede Esperança', 'feicoop'),
-            'default' => 'https://www.instagram.com/redeesperancacooesperanca/',
             'sanitize_callback' => 'esc_url_raw',
         ],
         'youtube' => [
@@ -2212,9 +2579,11 @@ function feicoop_main_menu_fallback(): void {
     echo '<li class="current-menu-item"><a href="' . esc_url(home_url('/')) . '">' . esc_html__('Início', 'feicoop') . '</a></li>';
     echo '<li><a href="' . esc_url(feicoop_page_url('quem-somos', '/quem-somos.html')) . '">' . esc_html__('Quem somos', 'feicoop') . '</a></li>';
     echo '<li><a href="' . esc_url(feicoop_page_url('historia', '/historia.html')) . '">' . esc_html__('História', 'feicoop') . '</a></li>';
-    echo '<li><a href="' . esc_url(feicoop_page_url('rede-esperanca', '/rede-esperanca.html')) . '">' . esc_html__('Rede Esperança', 'feicoop') . '</a></li>';
-    echo '<li><a href="' . esc_url(feicoop_page_url('feirao-colonial', '/feirao-colonial.html')) . '">' . esc_html__('Feirão Colonial', 'feicoop') . '</a></li>';
-    echo '<li><a href="' . esc_url(feicoop_programacao_archive_url()) . '">' . esc_html__('Programação', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_page_url('feirao-colonial', '/feirao-colonial.html')) . '">' . esc_html__('Feirão EcoSol', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_programacao_archive_url()) . '">' . esc_html__('FEICOOP', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(get_post_type_archive_link('publicacao')) . '">' . esc_html__('Produções e publicações', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_page_url('ponto-de-cultura', '/ponto-de-cultura.html')) . '">' . esc_html__('Ponto de cultura', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_page_url('galeria', '/galeria.html')) . '">' . esc_html__('Galeria de fotos', 'feicoop') . '</a></li>';
     echo '<li><a href="' . esc_url(feicoop_posts_page_url()) . '">' . esc_html__('Notícias', 'feicoop') . '</a></li>';
     echo '<li><a href="' . esc_url(feicoop_page_url('contato', '/contato.html')) . '">' . esc_html__('Contato', 'feicoop') . '</a></li>';
     echo '</ul>';

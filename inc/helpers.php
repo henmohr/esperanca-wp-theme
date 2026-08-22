@@ -90,7 +90,6 @@ function feicoop_home_contact_fields(): array {
         'address' => (string) get_theme_mod('feicoop_home_contact_address', "Rua Heitor Campos, s/n\nMedianeira, Santa Maria - RS\nCEP 97060-290"),
         'facebook' => (string) get_theme_mod('feicoop_home_contact_facebook', 'https://www.facebook.com/share/18i1BbrmgR/'),
         'instagram' => (string) get_theme_mod('feicoop_home_contact_instagram', 'https://www.instagram.com/feirao.ecosol/'),
-        'instagram_rede' => (string) get_theme_mod('feicoop_home_contact_instagram_rede', 'https://www.instagram.com/redeesperancacooesperanca/'),
         'youtube' => (string) get_theme_mod('feicoop_home_contact_youtube', 'https://www.youtube.com/channel/UC9fE3YsQNza8UpiYULNHIZw'),
     ];
 }
@@ -112,8 +111,7 @@ function feicoop_home_quicklink_defaults(): array {
     return [
         ['url' => feicoop_page_url('quem-somos', '/quem-somos.html'), 'kicker' => 'Institucional', 'label' => 'Quem somos'],
         ['url' => feicoop_page_url('historia', '/historia.html'), 'kicker' => 'Memória', 'label' => 'História'],
-        ['url' => feicoop_page_url('rede-esperanca', '/rede-esperanca.html'), 'kicker' => 'Rede', 'label' => 'Rede Esperança'],
-        ['url' => feicoop_page_url('feirao-colonial', '/feirao-colonial.html'), 'kicker' => 'Comercialização', 'label' => 'Feirão Colonial'],
+        ['url' => feicoop_page_url('feirao-colonial', '/feirao-colonial.html'), 'kicker' => 'Comercialização', 'label' => 'Feirão EcoSol'],
     ];
 }
 
@@ -140,20 +138,13 @@ function feicoop_home_project_card_defaults(): array {
             'image' => feicoop_asset_url('assets/img/card-projeto-esperanca.avif'),
             'eyebrow' => 'Articulação',
             'title' => 'Projeto Esperança/Cooesperança',
-            'text' => 'Espaço onde acontece o Feirão Colonial e de onde parte a articulação anual da FEICOOP.',
-        ],
-        [
-            'url' => feicoop_page_url('rede-esperanca', '/rede-esperanca.html'),
-            'image' => feicoop_asset_url('assets/img/card-rede-esperanca.avif'),
-            'eyebrow' => 'Rede territorial',
-            'title' => 'Rede Esperança',
-            'text' => 'Rede de empreendimentos solidários vinculados ao projeto e conectados a processos nacionais de articulação.',
+            'text' => 'Espaço onde acontece o Feirão EcoSol e de onde parte a articulação anual da FEICOOP.',
         ],
         [
             'url' => feicoop_page_url('feirao-colonial', '/feirao-colonial.html'),
             'image' => feicoop_asset_url('assets/img/card-feirao-colonial.avif'),
             'eyebrow' => 'Comercialização',
-            'title' => 'Feirão Colonial',
+            'title' => 'Feirão EcoSol',
             'text' => 'Comercialização solidária, alimentação e agroecologia em atividade permanente aos sábados.',
         ],
         [

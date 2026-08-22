@@ -11,9 +11,9 @@ get_header();
             <div class="hero hero--page <?php echo has_post_thumbnail() ? '' : 'hero--noimage'; ?>">
                 <header class="hero__content hero__content--centered">
                     <div class="wrapper">
-                        <p class="hero__eyebrow"><?php esc_html_e('Programação', 'feicoop'); ?></p>
+                        <p class="hero__eyebrow"><?php esc_html_e('FEICOOP', 'feicoop'); ?></p>
                         <h1><?php echo esc_html(get_the_title()); ?></h1>
-                        <?php feicoop_render_back_button(home_url('/programacao/'), __('Voltar para a programação', 'feicoop')); ?>
+                        <?php feicoop_render_back_button(home_url('/programacao/'), __('Voltar para a FEICOOP', 'feicoop')); ?>
                     </div>
                 </header>
                 <?php if (has_post_thumbnail()) : ?>

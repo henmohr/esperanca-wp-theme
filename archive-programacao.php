@@ -11,8 +11,8 @@ $pdf_url = feicoop_programacao_pdf_url();
     <div class="hero hero--noimage">
         <header class="hero__content hero__content--centered">
             <div class="wrapper">
-                <h1><?php esc_html_e('Programação', 'feicoop'); ?></h1>
-                <p class="page__desc"><?php esc_html_e('Visualização da programação oficial da 32ª FEICOOP em PDF.', 'feicoop'); ?></p>
+                <h1><?php esc_html_e('FEICOOP', 'feicoop'); ?></h1>
+                <p class="page__desc"><?php esc_html_e('Visualização da programação oficial da FEICOOP em PDF.', 'feicoop'); ?></p>
                 <p class="hero__actions">
                     <a class="btn" href="<?php echo esc_url($pdf_url); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Abrir PDF', 'feicoop'); ?></a>
                     <a class="btn btn--ghost" href="<?php echo esc_url($pdf_url); ?>" download><?php esc_html_e('Baixar programação em PDF', 'feicoop'); ?></a>

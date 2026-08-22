@@ -50,12 +50,7 @@ $contact = feicoop_home_contact_fields();
                 </a>
             <?php endif; ?>
             <?php if ($contact['instagram'] !== '') : ?>
-                <a class="contact-social" href="<?php echo esc_url($contact['instagram']); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e('Instagram Feirão Colonial', 'feicoop'); ?>">
-                    <svg width="20" height="20" aria-hidden="true"><use xlink:href="<?php echo esc_url(feicoop_asset_url('assets/svg/svg-map.svg#instagram')); ?>"></use></svg>
-                </a>
-            <?php endif; ?>
-            <?php if ($contact['instagram_rede'] !== '') : ?>
-                <a class="contact-social" href="<?php echo esc_url($contact['instagram_rede']); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e('Instagram Rede Esperança', 'feicoop'); ?>">
+                <a class="contact-social" href="<?php echo esc_url($contact['instagram']); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e('Instagram Feirão EcoSol', 'feicoop'); ?>">
                     <svg width="20" height="20" aria-hidden="true"><use xlink:href="<?php echo esc_url(feicoop_asset_url('assets/svg/svg-map.svg#instagram')); ?>"></use></svg>
                 </a>
             <?php endif; ?>
