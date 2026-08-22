@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
 }
 get_header();
 ?>
-<main class="programacao-single">
+<main id="main" class="programacao-single">
     <?php while (have_posts()) : the_post(); ?>
         <?php $fields = feicoop_programacao_meta_fields(get_the_ID()); ?>
         <article id="post-<?php the_ID(); ?>" <?php post_class('content programacao-single__article'); ?>>

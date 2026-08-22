@@ -7,9 +7,10 @@ get_header();
 $home_hero = feicoop_home_hero_fields();
 $home_event = feicoop_home_event_fields();
 $home_registration = feicoop_home_registration_fields();
+$home_contact = feicoop_home_contact_fields();
 $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_hero_title_size()) . ';"';
 ?>
-<main class="home-template">
+<main id="main" class="home-template">
     <section class="hero hero--noimage">
         <div class="wrapper hero__grid">
             <header class="hero__content hero__content--centered">
@@ -25,7 +26,7 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
                 <p class="hero__actions">
                     <a href="<?php echo esc_url(feicoop_posts_page_url()); ?>" class="btn">Ver notícias</a>
                     <a href="<?php echo esc_url(feicoop_programacao_archive_url()); ?>" class="btn btn--ghost">Ver programação</a>
-                    <a href="<?php echo esc_url(feicoop_asset_url('programacao-feicoop-2026.pdf')); ?>" class="btn btn--ghost" download>Baixar programação em PDF</a>
+                    <a href="<?php echo esc_url(feicoop_programacao_pdf_url()); ?>" class="btn btn--ghost" download>Baixar programação em PDF</a>
                     <?php if ($home_registration['button_url'] !== '' && $home_registration['button_label'] !== '') : ?>
                         <a href="<?php echo esc_url($home_registration['button_url']); ?>" class="btn btn--ghost"><?php echo esc_html($home_registration['button_label']); ?></a>
                     <?php endif; ?>
@@ -139,7 +140,7 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
             <div class="projects-grid">
                 <article class="project-card">
                     <a href="<?php echo esc_url(feicoop_page_url('quem-somos', '/quem-somos.html')); ?>">
-                        <img src="<?php echo esc_url(feicoop_asset_url('assets/img/Card_Home_Projeto_Esperanca_Cooesperanca_FEICOOP_Santa_Maria_RS-3.png')); ?>" alt="Projeto Esperança/Cooesperança" loading="lazy">
+                        <img src="<?php echo esc_url(feicoop_asset_url('assets/img/card-projeto-esperanca.avif')); ?>" width="1600" height="1000" alt="Projeto Esperança/Cooesperança" loading="lazy" decoding="async">
                         <div class="project-card__content">
                             <p class="project-card__eyebrow">Articulação</p>
                             <h3>Projeto Esperança/Cooesperança</h3>
@@ -149,7 +150,7 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
                 </article>
                 <article class="project-card">
                     <a href="<?php echo esc_url(feicoop_page_url('rede-esperanca', '/rede-esperanca.html')); ?>">
-                        <img src="<?php echo esc_url(feicoop_asset_url('assets/img/Card_Home_Rede_Esperanca_Projeto_Esperanca_Cooesperanca_FEICOOP_Santa_Maria_RS-3.png')); ?>" alt="Rede Esperança" loading="lazy">
+                        <img src="<?php echo esc_url(feicoop_asset_url('assets/img/card-rede-esperanca.avif')); ?>" width="1600" height="1000" alt="Rede Esperança" loading="lazy" decoding="async">
                         <div class="project-card__content">
                             <p class="project-card__eyebrow">Rede territorial</p>
                             <h3>Rede Esperança</h3>
@@ -159,7 +160,7 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
                 </article>
                 <article class="project-card">
                     <a href="<?php echo esc_url(feicoop_page_url('feirao-colonial', '/feirao-colonial.html')); ?>">
-                        <img src="<?php echo esc_url(feicoop_asset_url('assets/img/Card_Home_O_Feirao_Colonial_Projeto_Esperanca_Cooesperanca_FEICOOP_Santa_Maria_RS.png')); ?>" alt="Feirão Colonial" loading="lazy">
+                        <img src="<?php echo esc_url(feicoop_asset_url('assets/img/card-feirao-colonial.avif')); ?>" width="1600" height="1000" alt="Feirão Colonial" loading="lazy" decoding="async">
                         <div class="project-card__content">
                             <p class="project-card__eyebrow">Comercialização</p>
                             <h3>Feirão Colonial</h3>
@@ -169,7 +170,7 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
                 </article>
                 <article class="project-card">
                     <a href="<?php echo esc_url(home_url('/')); ?>">
-                        <img src="<?php echo esc_url(feicoop_asset_url('assets/img/Imagem_Postagem_FEICOOP_Projeto_Esperanca_Cooesperanca_Santa_Maria_RS-2.png')); ?>" alt="FEICOOP" loading="lazy">
+                        <img src="<?php echo esc_url(feicoop_asset_url('assets/img/card-feicoop.avif')); ?>" width="1200" height="800" alt="FEICOOP" loading="lazy" decoding="async">
                         <div class="project-card__content">
                             <p class="project-card__eyebrow">Evento anual</p>
                             <h3>FEICOOP</h3>
@@ -249,28 +250,36 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
             </div>
             <div class="contact-block__grid">
                 <div class="contact-item">
-                    <strong>Coordenação</strong>
-                    <p>José Carlos Peranconi</p>
+                    <strong><?php esc_html_e('Coordenação', 'feicoop'); ?></strong>
+                    <p><?php echo esc_html($home_contact['coordinator']); ?></p>
                 </div>
                 <div class="contact-item">
-                    <strong>Telefones</strong>
-                    <p>José Carlos Peranconi: 55 99974 4567</p>
+                    <strong><?php esc_html_e('Telefones', 'feicoop'); ?></strong>
+                    <p><?php echo esc_html($home_contact['phones']); ?></p>
                 </div>
                 <div class="contact-item">
-                    <strong>E-mail</strong>
-                    <p><a href="mailto:feicoopsantamaria@gmail.com">feicoopsantamaria@gmail.com</a></p>
+                    <strong><?php esc_html_e('E-mail', 'feicoop'); ?></strong>
+                    <?php if ($home_contact['email'] !== '') : ?>
+                        <p><a href="mailto:<?php echo esc_attr($home_contact['email']); ?>"><?php echo esc_html($home_contact['email']); ?></a></p>
+                    <?php endif; ?>
                 </div>
                 <div class="contact-item">
-                    <strong>Endereço</strong>
-                    <p>Rua Heitor Campos, s/n<br>Medianeira, Santa Maria - RS<br>CEP 97060-290</p>
+                    <strong><?php esc_html_e('Endereço', 'feicoop'); ?></strong>
+                    <p><?php echo nl2br(esc_html($home_contact['address'])); ?></p>
                 </div>
                 <div class="contact-item">
-                    <strong>Redes sociais</strong>
-                    <p><a href="https://www.facebook.com/share/18i1BbrmgR/">Facebook</a><br><a href="https://www.instagram.com/feirao.ecosol/">Instagram Feirão Colonial</a><br><a href="https://www.instagram.com/redeesperancacooesperanca/">Instagram Rede Esperança</a></p>
+                    <strong><?php esc_html_e('Redes sociais', 'feicoop'); ?></strong>
+                    <p>
+                        <?php if ($home_contact['facebook'] !== '') : ?><a href="<?php echo esc_url($home_contact['facebook']); ?>">Facebook</a><br><?php endif; ?>
+                        <?php if ($home_contact['instagram'] !== '') : ?><a href="<?php echo esc_url($home_contact['instagram']); ?>">Instagram Feirão Colonial</a><br><?php endif; ?>
+                        <?php if ($home_contact['instagram_rede'] !== '') : ?><a href="<?php echo esc_url($home_contact['instagram_rede']); ?>">Instagram Rede Esperança</a><?php endif; ?>
+                    </p>
                 </div>
                 <div class="contact-item">
-                    <strong>YouTube</strong>
-                    <p><a href="https://www.youtube.com/channel/UC9fE3YsQNza8UpiYULNHIZw">Canal oficial</a></p>
+                    <strong><?php esc_html_e('YouTube', 'feicoop'); ?></strong>
+                    <?php if ($home_contact['youtube'] !== '') : ?>
+                        <p><a href="<?php echo esc_url($home_contact['youtube']); ?>"><?php esc_html_e('Canal oficial', 'feicoop'); ?></a></p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

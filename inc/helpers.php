@@ -37,6 +37,16 @@ function feicoop_programacao_archive_url(): string {
     return home_url('/programacao/');
 }
 
+function feicoop_programacao_pdf_url(): string {
+    $pdf = (string) get_theme_mod('feicoop_programacao_pdf_url', '');
+
+    if ($pdf !== '' && filter_var($pdf, FILTER_VALIDATE_URL)) {
+        return $pdf;
+    }
+
+    return feicoop_asset_url('programacao-feicoop-2026.pdf');
+}
+
 function feicoop_template_meta(int $post_id, string $key, string $default = ''): string {
     $value = get_post_meta($post_id, $key, true);
 
@@ -57,17 +67,6 @@ function feicoop_social_links(): array {
     ];
 }
 
-function feicoop_page_has_children(int $post_id): bool {
-    $children = get_pages([
-        'child_of' => $post_id,
-        'post_status' => 'publish',
-        'sort_column' => 'menu_order,post_title',
-        'number' => 1,
-    ]);
-
-    return !empty($children);
-}
-
 function feicoop_excerpt(string $fallback = ''): string {
     $excerpt = get_the_excerpt();
 
@@ -80,4 +79,17 @@ function feicoop_excerpt(string $fallback = ''): string {
     }
 
     return '';
+}
+
+function feicoop_home_contact_fields(): array {
+    return [
+        'coordinator' => (string) get_theme_mod('feicoop_home_contact_coordinator', 'José Carlos Peranconi'),
+        'phones' => (string) get_theme_mod('feicoop_home_contact_phones', 'José Carlos Peranconi: 55 99974 4567'),
+        'email' => (string) get_theme_mod('feicoop_home_contact_email', 'feicoopsantamaria@gmail.com'),
+        'address' => (string) get_theme_mod('feicoop_home_contact_address', "Rua Heitor Campos, s/n\nMedianeira, Santa Maria - RS\nCEP 97060-290"),
+        'facebook' => (string) get_theme_mod('feicoop_home_contact_facebook', 'https://www.facebook.com/share/18i1BbrmgR/'),
+        'instagram' => (string) get_theme_mod('feicoop_home_contact_instagram', 'https://www.instagram.com/feirao.ecosol/'),
+        'instagram_rede' => (string) get_theme_mod('feicoop_home_contact_instagram_rede', 'https://www.instagram.com/redeesperancacooesperanca/'),
+        'youtube' => (string) get_theme_mod('feicoop_home_contact_youtube', 'https://www.youtube.com/channel/UC9fE3YsQNza8UpiYULNHIZw'),
+    ];
 }

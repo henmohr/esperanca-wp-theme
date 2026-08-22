@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
 }
 get_header();
 ?>
-<main class="page">
+<main id="main" class="page">
     <?php while (have_posts()) : the_post(); ?>
         <?php get_template_part('template-parts/content', 'page'); ?>
     <?php endwhile; ?>

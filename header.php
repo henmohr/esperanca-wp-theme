@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+<a class="skip-link screen-reader-text" href="#main"><?php esc_html_e('Pular para o conteúdo', 'feicoop'); ?></a>
 <header class="top js-header">
     <div class="wrapper site-banner-wrap">
         <?php feicoop_render_site_banner(); ?>

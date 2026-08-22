@@ -5,9 +5,9 @@ if (!defined('ABSPATH')) {
 
 get_header();
 
-$pdf_url = feicoop_asset_url('programacao-feicoop-2026.pdf');
+$pdf_url = feicoop_programacao_pdf_url();
 ?>
-<main class="programacao-archive programacao-archive--pdf">
+<main id="main" class="programacao-archive programacao-archive--pdf">
     <div class="hero hero--noimage">
         <header class="hero__content hero__content--centered">
             <div class="wrapper">

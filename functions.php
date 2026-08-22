@@ -54,9 +54,64 @@ function feicoop_document_title_separator(string $separator): string {
 }
 add_filter('document_title_separator', 'feicoop_document_title_separator');
 
+function feicoop_seo_meta(): void {
+    if (is_admin() || is_feed() || is_robots()) {
+        return;
+    }
+
+    $description = '';
+
+    if (is_singular()) {
+        $description = wp_strip_all_tags((string) get_the_excerpt(get_queried_object_id()));
+    } elseif (is_front_page() || is_home()) {
+        $description = (string) get_bloginfo('description');
+    } elseif (is_archive()) {
+        $description = wp_strip_all_tags((string) get_the_archive_description());
+    }
+
+    $description = trim(wp_strip_all_tags((string) $description));
+
+    if ($description === '') {
+        $description = trim((string) get_bloginfo('description'));
+    }
+
+    if ($description === '') {
+        $description = (string) get_bloginfo('name');
+    }
+
+    if ($description !== '') {
+        echo "\n" . '<meta name="description" content="' . esc_attr($description) . '">' . "\n";
+    }
+
+    if (is_singular()) {
+        $current_url = (string) get_permalink();
+        $og_type = is_singular('post') ? 'article' : 'website';
+        $og_image = has_post_thumbnail() ? (string) get_the_post_thumbnail_url(get_queried_object_id(), 'full') : '';
+    } else {
+        $current_url = is_front_page() || is_home() ? home_url('/') : home_url((string) ($GLOBALS['wp']->request ?? ''));
+        $og_type = 'website';
+        $og_image = '';
+    }
+
+    if ($og_image === '') {
+        $og_image = feicoop_asset_url('assets/img/card-feicoop.avif');
+    }
+
+    echo '<meta property="og:type" content="' . esc_attr($og_type) . '">' . "\n";
+    echo '<meta property="og:title" content="' . esc_attr(wp_get_document_title()) . '">' . "\n";
+    echo '<meta property="og:url" content="' . esc_url($current_url) . '">' . "\n";
+
+    if ($og_image !== '') {
+        echo '<meta property="og:image" content="' . esc_url($og_image) . '">' . "\n";
+    }
+
+    echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+}
+add_action('wp_head', 'feicoop_seo_meta', 5);
+
 function feicoop_banner_fallback_slide(): array {
     return [
-        'src' => feicoop_asset_url('assets/img/cabecalho-site-feicoop.png'),
+        'src' => feicoop_asset_url('assets/img/banner-topo.avif'),
         'alt' => get_bloginfo('name'),
     ];
 }
@@ -286,9 +341,10 @@ function feicoop_ensure_theme_page(array $definition): int {
 
     $page = get_page_by_path($slug, OBJECT, 'page');
     $page_id = $page instanceof WP_Post ? (int) $page->ID : 0;
+    $page_existed = $page_id > 0;
 
     if ($page_id <= 0) {
-        $page_id = (int) wp_insert_post([
+        $result = wp_insert_post([
             'post_type' => 'page',
             'post_status' => 'publish',
             'post_title' => $title,
@@ -296,9 +352,17 @@ function feicoop_ensure_theme_page(array $definition): int {
             'post_content' => $content,
             'post_author' => get_current_user_id() ?: 1,
         ], true);
+
+        if (is_wp_error($result)) {
+            return 0;
+        }
+
+        $page_id = (int) $result;
     }
 
-    if ($page_id > 0 && $template !== '') {
+    // Aplica o template apenas na criação, para não reverter escolhas do usuário
+    // quando o seed roda novamente em versões futuras do tema.
+    if (!$page_existed && $page_id > 0 && $template !== '') {
         update_post_meta($page_id, '_wp_page_template', $template);
     }
 
@@ -395,7 +459,7 @@ function feicoop_programacao_track_suggestions(): array {
     $existing_tracks = get_posts([
         'post_type' => 'programacao',
         'post_status' => 'publish',
-        'numberposts' => -1,
+        'numberposts' => 50,
         'fields' => 'ids',
         'orderby' => 'title',
         'order' => 'ASC',
@@ -1078,7 +1142,6 @@ function feicoop_maybe_seed_programacao_items(): void {
     feicoop_seed_programacao_items();
 }
 add_action('admin_init', 'feicoop_maybe_seed_programacao_items', 20);
-add_action('init', 'feicoop_maybe_seed_programacao_items', 20);
 
 function feicoop_post_feature_image_html(?int $post_id = null, string $size = 'feicoop-card', string $class = ''): string {
     $post_id = $post_id !== null ? $post_id : (int) get_the_ID();
@@ -1101,7 +1164,7 @@ function feicoop_post_feature_image_html(?int $post_id = null, string $size = 'f
         }
     }
 
-    return '<img src="' . esc_url(feicoop_asset_url('assets/img/Card_Home_Projeto_Esperanca_Cooesperanca_FEICOOP_Santa_Maria_RS-3.png')) . '" alt="' . esc_attr(get_the_title($post_id) !== '' ? get_the_title($post_id) : get_bloginfo('name')) . '"' . ($class !== '' ? ' class="' . esc_attr($class) . '"' : '') . ' loading="lazy" decoding="async">';
+    return '<img src="' . esc_url(feicoop_asset_url('assets/img/card-projeto-esperanca.avif')) . '" width="1600" height="1000" alt="' . esc_attr(get_the_title($post_id) !== '' ? get_the_title($post_id) : get_bloginfo('name')) . '"' . ($class !== '' ? ' class="' . esc_attr($class) . '"' : '') . ' loading="lazy" decoding="async">';
 }
 
 function feicoop_get_home_banner_slides(): array {
@@ -1265,6 +1328,16 @@ function feicoop_save_programacao_meta(int $post_id, WP_Post $post, bool $update
     $track = isset($_POST['feicoop_programacao_track']) ? sanitize_text_field(wp_unslash($_POST['feicoop_programacao_track'])) : '';
     $featured = isset($_POST['feicoop_programacao_featured']) ? '1' : '';
 
+    // Valida formatos esperados (Y-m-d e H:i); descarta valores fora do padrão
+    // para não quebrar o agrupamento por dia nem a formatação na saída.
+    if ($date !== '' && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+        $date = '';
+    }
+
+    if ($time !== '' && !preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', $time)) {
+        $time = '';
+    }
+
     update_post_meta($post_id, '_feicoop_programacao_date', $date);
     update_post_meta($post_id, '_feicoop_programacao_time', $time);
     update_post_meta($post_id, '_feicoop_programacao_location', $location);
@@ -1279,7 +1352,11 @@ function feicoop_enqueue_assets(): void {
     wp_enqueue_style('feicoop-main', feicoop_asset_url('assets/css/main.css'), [], $theme->get('Version'));
     wp_enqueue_style('feicoop-custom', feicoop_asset_url('assets/css/feicoop-custom.css'), ['feicoop-main'], $theme->get('Version'));
 
-    wp_enqueue_script('feicoop-banner-carousel', feicoop_asset_url('assets/js/banner-carousel.js'), [], $theme->get('Version'), true);
+    // O carrossel só existe na página inicial; nos demais templates ele não age.
+    if (is_front_page()) {
+        wp_enqueue_script('feicoop-banner-carousel', feicoop_asset_url('assets/js/banner-carousel.js'), [], $theme->get('Version'), true);
+    }
+
     wp_enqueue_script('feicoop-scripts', feicoop_asset_url('assets/js/scripts.min.js'), [], $theme->get('Version'), true);
 
     wp_localize_script('feicoop-scripts', 'publiiThemeMenuConfig', [
@@ -1306,6 +1383,13 @@ function feicoop_admin_enqueue_assets(string $hook): void {
     $screen = get_current_screen();
 
     if (!$screen || $screen->post_type !== 'page') {
+        return;
+    }
+
+    // O metabox de patrocinadores só existe na página inicial.
+    $front_page_id = (int) get_option('page_on_front');
+
+    if ($front_page_id <= 0 || (int) ($_GET['post'] ?? 0) !== $front_page_id) {
         return;
     }
 
@@ -1825,6 +1909,80 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
             'type' => $config['type'] ?? 'text',
         ]);
     }
+
+    $wp_customize->add_section('feicoop_home_contact', [
+        'title' => __('FEICOOP Contatos (home)', 'feicoop'),
+        'description' => __('Edita os dados de contato exibidos na seção final da página inicial.', 'feicoop'),
+        'priority' => 24,
+    ]);
+
+    $home_contact_fields = [
+        'coordinator' => [
+            'label' => __('Coordenação', 'feicoop'),
+            'default' => 'José Carlos Peranconi',
+        ],
+        'phones' => [
+            'label' => __('Telefones', 'feicoop'),
+            'default' => 'José Carlos Peranconi: 55 99974 4567',
+        ],
+        'email' => [
+            'label' => __('E-mail', 'feicoop'),
+            'default' => 'feicoopsantamaria@gmail.com',
+            'sanitize_callback' => 'sanitize_email',
+        ],
+        'address' => [
+            'label' => __('Endereço', 'feicoop'),
+            'description' => __('Use uma linha por item de endereço.', 'feicoop'),
+            'default' => "Rua Heitor Campos, s/n\nMedianeira, Santa Maria - RS\nCEP 97060-290",
+            'type' => 'textarea',
+            'sanitize_callback' => 'sanitize_textarea_field',
+        ],
+        'facebook' => [
+            'label' => __('Facebook', 'feicoop'),
+            'default' => 'https://www.facebook.com/share/18i1BbrmgR/',
+            'sanitize_callback' => 'esc_url_raw',
+        ],
+        'instagram' => [
+            'label' => __('Instagram Feirão Colonial', 'feicoop'),
+            'default' => 'https://www.instagram.com/feirao.ecosol/',
+            'sanitize_callback' => 'esc_url_raw',
+        ],
+        'instagram_rede' => [
+            'label' => __('Instagram Rede Esperança', 'feicoop'),
+            'default' => 'https://www.instagram.com/redeesperancacooesperanca/',
+            'sanitize_callback' => 'esc_url_raw',
+        ],
+        'youtube' => [
+            'label' => __('YouTube', 'feicoop'),
+            'default' => 'https://www.youtube.com/channel/UC9fE3YsQNza8UpiYULNHIZw',
+            'sanitize_callback' => 'esc_url_raw',
+        ],
+    ];
+
+    foreach ($home_contact_fields as $key => $config) {
+        $wp_customize->add_setting("feicoop_home_contact_{$key}", [
+            'default' => $config['default'],
+            'sanitize_callback' => $config['sanitize_callback'] ?? 'sanitize_text_field',
+        ]);
+
+        $wp_customize->add_control("feicoop_home_contact_{$key}", [
+            'label' => $config['label'],
+            'description' => $config['description'] ?? '',
+            'section' => 'feicoop_home_contact',
+            'type' => $config['type'] ?? 'text',
+        ]);
+    }
+
+    $wp_customize->add_setting('feicoop_footer_copyright', [
+        'default' => 'Projeto Esperança/Cooesperança',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+
+    $wp_customize->add_control('feicoop_footer_copyright', [
+        'label' => __('Texto de copyright do rodapé', 'feicoop'),
+        'section' => 'feicoop_home_contact',
+        'type' => 'text',
+    ]);
 }
 add_action('customize_register', 'feicoop_customize_register');
 

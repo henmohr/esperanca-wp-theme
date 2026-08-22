@@ -12,7 +12,7 @@ if ($news_title === '') {
     $news_title = __('Notícias', 'feicoop');
 }
 ?>
-<main class="posts posts--news">
+<main id="main" class="posts posts--news">
     <div class="hero hero--noimage">
         <header class="hero__content hero__content--centered">
             <div class="wrapper">

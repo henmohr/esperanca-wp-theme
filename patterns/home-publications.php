@@ -39,7 +39,7 @@
 					<!-- /wp:group -->
 
 					<!-- wp:post-title {"level":3,"isLink":true,"className":"feed__title"} /-->
-					<!-- wp:post-excerpt {"moreText":"Read more","className":"feed__excerpt"} /-->
+					<!-- wp:post-excerpt {"moreText":"Ler mais","className":"feed__excerpt"} /-->
 				</div>
 				<!-- /wp:group -->
 			</article>

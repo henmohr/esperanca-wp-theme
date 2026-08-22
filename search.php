@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
 }
 get_header();
 ?>
-<main class="page page--search">
+<main id="main" class="page page--search">
     <div class="content search-page">
         <div class="hero hero--noimage">
             <header class="hero__content">

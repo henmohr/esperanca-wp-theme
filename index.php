@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
 }
 get_header();
 ?>
-<main class="posts">
+<main id="main" class="posts">
     <div class="hero hero--noimage">
         <header class="hero__content">
             <div class="wrapper">

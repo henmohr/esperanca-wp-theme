@@ -1,3 +1,82 @@
+/*
+ * Design tokens and @font-face — ported from the original Publii theme.
+ * (was assets/css/style.css; merged here so the enqueued stylesheets resolve var(--...)).
+ */
+@font-face {
+    font-family: 'Public Sans';
+    src: url('../dynamic/fonts/publicsans/publicsans.woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Public Sans';
+    src: url('../dynamic/fonts/publicsans/publicsans-italic.woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: swap;
+}
+@font-face {
+    font-family: Bitter;
+    src: url('../dynamic/fonts/bitter/bitter.woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: swap;
+}
+@font-face {
+    font-family: Bitter;
+    src: url('../dynamic/fonts/bitter/bitter-italic.woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: swap;
+}
+:root {
+    --page-margin: 4vw;
+    --page-width: 82rem;
+    --entry-width: 48rem;
+    --navbar-height: 4.4rem;
+    --border-radius: 18px;
+    --baseline: 0.35rem;
+    --gallery-gap: 1rem;
+    --body-font: 'Public Sans',sans-serif;
+    --heading-font: 'Bitter',serif;
+    --logo-font: var(--heading-font);
+    --menu-font: var(--body-font);
+    --font-size: clamp(1rem, 1rem + (0.1200000000000001 * ((100vw - 20rem) / 70)), 1.12rem);
+    --font-weight-normal: 400;
+    --font-weight-bold: 650;
+    --line-height: 1.7;
+    --letter-spacing: 0em;
+    --headings-weight: 700;
+    --headings-transform: none;
+    --headings-style: normal;
+    --headings-letter-spacing: -0.02em;
+    --headings-line-height: 1.08;
+    --hero-height: 34rem;
+    --feed-image-size: 8rem;
+    --white: #FFFFFF;
+    --black: #17181E;
+    --helper: #FFFFFF;
+    --dark: #17181E;
+    --gray: #57585a;
+    --light: #CACBCF;
+    --lighter: #F3F3F3;
+    --page-bg: #FFFFFF;
+    --color: #288c36;
+    --text-color: #17181E;
+    --headings-color: #17181E;
+    --link-color: #17181E;
+    --link-color-hover: #288c36;
+    --nav-link-color: #17181E;
+    --nav-link-color-hover: #17181E;
+    --logo-color: #17181E;
+    --highlight-color: #FFC700;
+    --info-color: #67B1F3;
+    --success-color: #00A563;
+    --warning-color: #EE4E4E;
+}
+@media all and (min-width: 56.25em) {
+    :root {
+        --navbar-height: 5rem;
+    }
+}
+
 *,
 *:before,
 *:after {
@@ -2181,3 +2260,5 @@ textarea {
   -webkit-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
 }
+/* Green check/radio fill matching --color (from original Publii style.css). */
+input[type=checkbox]:checked+label:before{background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 8'%3e%3cpolygon points='9.53 0 4.4 5.09 1.47 2.18 0 3.64 2.93 6.54 4.4 8 5.87 6.54 11 1.46 9.53 0' fill='%23288c36'/%3e%3c/svg%3e")}input[type=radio]:checked+label:before{background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3ccircle cx='4' cy='4' r='4' fill='%23288c36'/%3e%3c/svg%3e")}

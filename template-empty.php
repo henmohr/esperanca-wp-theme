@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 }
 get_header();
 ?>
-<main class="page">
+<main id="main" class="page">
     <?php while (have_posts()) : the_post(); ?>
         <div class="wrapper content__entry content__entry--nospace">
             <?php the_content(); ?>
