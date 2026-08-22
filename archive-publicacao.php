@@ -64,6 +64,8 @@ $archive_url = get_post_type_archive_link('publicacao');
                                 <div class="publicacao-card__media">
                                     <?php if ($tipo === 'video') : ?>
                                         <span class="publicacao-card__type publicacao-card__type--video"><?php esc_html_e('Vídeo', 'feicoop'); ?></span>
+                                    <?php elseif ($tipo === 'texto') : ?>
+                                        <span class="publicacao-card__type publicacao-card__type--texto"><?php esc_html_e('Documento', 'feicoop'); ?></span>
                                     <?php else : ?>
                                         <span class="publicacao-card__type publicacao-card__type--pdf"><?php esc_html_e('PDF', 'feicoop'); ?></span>
                                     <?php endif; ?>

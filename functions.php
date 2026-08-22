@@ -379,7 +379,8 @@ function feicoop_publicacao_metabox_html(WP_Post $post): void {
     ?>
     <p>
         <label><input type="radio" name="feicoop_publicacao_type" value="pdf" <?php checked($type, 'pdf'); ?>> <?php esc_html_e('PDF', 'feicoop'); ?></label><br>
-        <label><input type="radio" name="feicoop_publicacao_type" value="video" <?php checked($type, 'video'); ?>> <?php esc_html_e('Vídeo', 'feicoop'); ?></label>
+        <label><input type="radio" name="feicoop_publicacao_type" value="video" <?php checked($type, 'video'); ?>> <?php esc_html_e('Vídeo', 'feicoop'); ?></label><br>
+        <label><input type="radio" name="feicoop_publicacao_type" value="texto" <?php checked($type, 'texto'); ?>> <?php esc_html_e('Documento (texto)', 'feicoop'); ?></label>
     </p>
     <p>
         <label><strong><?php esc_html_e('Arquivo PDF (biblioteca de mídia)', 'feicoop'); ?></strong></label><br>
@@ -435,7 +436,12 @@ function feicoop_save_publicacao_meta(int $post_id, WP_Post $post, bool $update)
         return;
     }
 
-    $type = isset($_POST['feicoop_publicacao_type']) && $_POST['feicoop_publicacao_type'] === 'video' ? 'video' : 'pdf';
+    $type = isset($_POST['feicoop_publicacao_type']) ? (string) $_POST['feicoop_publicacao_type'] : 'pdf';
+
+    if (!in_array($type, ['pdf', 'video', 'texto'], true)) {
+        $type = 'pdf';
+    }
+
     $file_id = isset($_POST['feicoop_publicacao_file_id']) ? absint($_POST['feicoop_publicacao_file_id']) : 0;
     $video_url = isset($_POST['feicoop_publicacao_video_url']) ? esc_url_raw(wp_unslash($_POST['feicoop_publicacao_video_url'])) : '';
     $year = isset($_POST['feicoop_publicacao_year']) ? absint($_POST['feicoop_publicacao_year']) : 0;
@@ -522,6 +528,11 @@ function feicoop_publicacao_years(): array {
 
 function feicoop_publicacao_media_html(int $post_id): string {
     $type = (string) get_post_meta($post_id, '_feicoop_publicacao_type', true);
+
+    if ($type === 'texto') {
+        // Documento textual: o conteúdo é exibido na própria página.
+        return '';
+    }
 
     if ($type === 'video') {
         $url = (string) get_post_meta($post_id, '_feicoop_publicacao_video_url', true);

@@ -1674,3 +1674,7 @@ blockquote {
   letter-spacing: 0.05em;
   vertical-align: middle;
 }
+
+.publicacao-card__type--texto {
+  background: #8a6d3b;
+}
