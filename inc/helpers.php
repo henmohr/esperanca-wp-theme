@@ -85,7 +85,8 @@ function feicoop_home_contact_fields(): array {
     return [
         'coordinator' => (string) get_theme_mod('feicoop_home_contact_coordinator', 'José Carlos Peranconi'),
         'phones' => (string) get_theme_mod('feicoop_home_contact_phones', 'José Carlos Peranconi: 55 99974 4567'),
-        'email' => (string) get_theme_mod('feicoop_home_contact_email', 'feicoopsantamaria@gmail.com'),
+        'email' => (string) get_theme_mod('feicoop_home_contact_email', 'projeto@esperancacooesperanca.org.br'),
+        'whatsapp' => (string) get_theme_mod('feicoop_home_contact_whatsapp', '5555999744567'),
         'address' => (string) get_theme_mod('feicoop_home_contact_address', "Rua Heitor Campos, s/n\nMedianeira, Santa Maria - RS\nCEP 97060-290"),
         'facebook' => (string) get_theme_mod('feicoop_home_contact_facebook', 'https://www.facebook.com/share/18i1BbrmgR/'),
         'instagram' => (string) get_theme_mod('feicoop_home_contact_instagram', 'https://www.instagram.com/feirao.ecosol/'),

@@ -187,6 +187,10 @@ function feicoop_sanitize_checkbox($checked): int {
     return !empty($checked) ? 1 : 0;
 }
 
+function feicoop_sanitize_digits($value): string {
+    return (string) preg_replace('/\D/', '', (string) $value);
+}
+
 function feicoop_home_registration_enabled(): bool {
     return (bool) get_theme_mod('feicoop_home_registration_enabled', true);
 }
@@ -2009,8 +2013,13 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         ],
         'email' => [
             'label' => __('E-mail', 'feicoop'),
-            'default' => 'feicoopsantamaria@gmail.com',
+            'default' => 'projeto@esperancacooesperanca.org.br',
             'sanitize_callback' => 'sanitize_email',
+        ],
+        'whatsapp' => [
+            'label' => __('WhatsApp (somente números, com DDI e DDD)', 'feicoop'),
+            'default' => '5555999744567',
+            'sanitize_callback' => 'feicoop_sanitize_digits',
         ],
         'address' => [
             'label' => __('Endereço', 'feicoop'),
