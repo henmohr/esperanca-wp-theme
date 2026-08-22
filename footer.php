@@ -2,6 +2,11 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+
+$footer_legal = (string) get_theme_mod(
+    'feicoop_footer_legal',
+    "CNPJ: 93.155.067/0001-86\nRazão Social: Cooperativa Mista dos Pequenos Produtores Rurais e Urbanos Vinculados ao Projeto Esperança Ltda (Cooesperança)"
+);
 ?>
 <footer class="<?php echo is_singular('post') ? 'footer footer--glued' : 'footer'; ?>">
     <div class="wrapper footer__grid">
@@ -26,6 +31,9 @@ if (!defined('ABSPATH')) {
 
             <div class="footer__copyright">
                 <p><?php echo esc_html(get_theme_mod('feicoop_footer_copyright', 'Projeto Esperança/Cooesperança')); ?></p>
+                <?php if ($footer_legal !== '') : ?>
+                    <p class="footer__legal"><?php echo nl2br(esc_html($footer_legal)); ?></p>
+                <?php endif; ?>
             </div>
         </div>
     </div>

@@ -1984,6 +1984,18 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'type' => 'text',
     ]);
 
+    $wp_customize->add_setting('feicoop_footer_legal', [
+        'default' => "CNPJ: 93.155.067/0001-86\nRazão Social: Cooperativa Mista dos Pequenos Produtores Rurais e Urbanos Vinculados ao Projeto Esperança Ltda (Cooesperança)",
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ]);
+
+    $wp_customize->add_control('feicoop_footer_legal', [
+        'label' => __('Informações legais do rodapé (CNPJ / Razão Social)', 'feicoop'),
+        'description' => __('Use uma linha por item; cada linha vira uma quebra de linha no rodapé.', 'feicoop'),
+        'section' => 'feicoop_home_contact',
+        'type' => 'textarea',
+    ]);
+
     // --- Conteúdo dos blocos da home (editável pelo Customizer) ---
     $wp_customize->add_section('feicoop_home_intro', [
         'title' => __('FEICOOP Home — Introdução', 'feicoop'),
