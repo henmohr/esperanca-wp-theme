@@ -1550,6 +1550,67 @@ function feicoop_maybe_seed_programacao_items(): void {
 }
 add_action('admin_init', 'feicoop_maybe_seed_programacao_items', 20);
 
+/* =====================================================================
+ * Cartas de encerramento (seed ao ativar/atualizar o tema)
+ * ===================================================================== */
+function feicoop_seed_cartas(): void {
+    $cartas = require get_template_directory() . '/inc/cartas.php';
+
+    if (!is_array($cartas)) {
+        return;
+    }
+
+    foreach ($cartas as $year => $carta) {
+        $year = (int) $year;
+
+        if ($year <= 0 || !isset($carta['title'], $carta['content'])) {
+            continue;
+        }
+
+        $slug = 'carta-de-encerramento-' . $year;
+        $existing = get_page_by_path($slug, OBJECT, 'publicacao');
+
+        if ($existing instanceof WP_Post) {
+            continue;
+        }
+
+        $post_id = wp_insert_post([
+            'post_type' => 'publicacao',
+            'post_status' => 'publish',
+            'post_title' => (string) $carta['title'],
+            'post_name' => $slug,
+            'post_content' => (string) $carta['content'],
+            'post_date' => $year . '-07-15 12:00:00',
+            'post_date_gmt' => get_gmt_from_date($year . '-07-15 12:00:00'),
+        ]);
+
+        if (is_wp_error($post_id) || $post_id === 0) {
+            continue;
+        }
+
+        update_post_meta($post_id, '_feicoop_publicacao_type', 'texto');
+        update_post_meta($post_id, '_feicoop_publicacao_year', (string) $year);
+    }
+
+    update_option('feicoop_cartas_seed_version', (string) wp_get_theme()->get('Version'));
+}
+
+function feicoop_maybe_seed_cartas(): void {
+    if (!is_admin() || !current_user_can('publish_posts')) {
+        return;
+    }
+
+    $theme_version = (string) wp_get_theme()->get('Version');
+    $stored_version = (string) get_option('feicoop_cartas_seed_version', '');
+
+    if ($stored_version === $theme_version) {
+        return;
+    }
+
+    feicoop_seed_cartas();
+}
+add_action('admin_init', 'feicoop_maybe_seed_cartas', 20);
+
 function feicoop_post_feature_image_html(?int $post_id = null, string $size = 'feicoop-card', string $class = ''): string {
     $post_id = $post_id !== null ? $post_id : (int) get_the_ID();
     $post_id = $post_id > 0 ? $post_id : 0;
