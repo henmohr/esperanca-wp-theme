@@ -1594,3 +1594,12 @@ blockquote {
   margin: 0 auto;
   max-width: none;
 }
+
+/* ===== Eyebrow centralizado (heroes centrados) ===== */
+/* Garante a centralização mesmo com o limite global de 68ch do <p>. */
+.hero__content--centered .hero__eyebrow {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: none;
+  text-align: center;
+}
