@@ -145,6 +145,20 @@ p {
   margin-right: auto;
 }
 
+/* Centraliza o próprio bloco do hero (max-width 40rem) e todos os filhos:
+   o justify-self do hero__content só funciona em pai grid, então usamos
+   margens automáticas + grid nos filhos para garantir a centralização. */
+.hero__content--centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero__content--centered .wrapper {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
 .hero__content > p:not(.hero__eyebrow) {
   font-size: clamp(1.08rem, 1.02rem + 0.24vw, 1.22rem);
   color: var(--gray);
