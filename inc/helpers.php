@@ -190,3 +190,43 @@ function feicoop_home_news_fields(): array {
         'text' => (string) get_theme_mod('feicoop_home_news_text', 'Acompanhe a atualização mais recente da feira, os comunicados oficiais e as matérias que também aparecem na página completa de notícias.'),
     ];
 }
+
+/**
+ * Cartas de encerramento das edições da FEICOOP (publicações do tipo texto
+ * cujo título começa com "Carta de Encerramento"), em ordem cronológica.
+ */
+function feicoop_feicoop_cartas(): array {
+    $query = new WP_Query([
+        'post_type' => 'publicacao',
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+        'meta_key' => '_feicoop_publicacao_year',
+        'orderby' => 'meta_value_num',
+        'order' => 'DESC',
+        'meta_query' => [
+            ['key' => '_feicoop_publicacao_type', 'value' => 'texto'],
+        ],
+        'no_found_rows' => true,
+    ]);
+
+    $cartas = [];
+
+    foreach ($query->posts as $post) {
+        $title = (string) get_the_title($post);
+
+        if (!str_starts_with($title, 'Carta de Encerramento')) {
+            continue;
+        }
+
+        $cartas[] = [
+            'id' => (int) $post->ID,
+            'title' => $title,
+            'url' => (string) get_permalink($post),
+            'year' => (int) get_post_meta($post->ID, '_feicoop_publicacao_year', true),
+        ];
+    }
+
+    wp_reset_postdata();
+
+    return $cartas;
+}
