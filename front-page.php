@@ -4,63 +4,40 @@ if (!defined('ABSPATH')) {
 }
 get_header();
 
-$home_hero = feicoop_home_hero_fields();
-$home_event = feicoop_home_event_fields();
-$home_registration = feicoop_home_registration_fields();
 $home_intro = feicoop_home_intro_fields();
+$home_cooesperanca = feicoop_home_cooesperanca_fields();
 $home_quicklinks = feicoop_home_quicklinks();
-$home_projects = feicoop_home_project_cards();
-$home_highlight = feicoop_home_highlight_fields();
 $home_news = feicoop_home_news_fields();
 $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_hero_title_size()) . ';"';
 ?>
 <main id="main" class="home-template">
     <section class="hero hero--noimage">
         <div class="wrapper hero__grid">
-            <header class="hero__content hero__content--centered">
-                <?php if ($home_hero['eyebrow'] !== '') : ?>
-                    <p class="hero__eyebrow"><?php echo esc_html($home_hero['eyebrow']); ?></p>
+            <header class="hero__content">
+                <?php if ($home_intro['kicker'] !== '') : ?>
+                    <p class="hero__eyebrow"><?php echo esc_html($home_intro['kicker']); ?></p>
                 <?php endif; ?>
-                <?php if ($home_hero['title'] !== '') : ?>
-                    <h1<?php echo $home_hero_title_style; ?>><?php echo esc_html($home_hero['title']); ?></h1>
+                <?php if ($home_intro['title'] !== '') : ?>
+                    <h1<?php echo $home_hero_title_style; ?>><?php echo esc_html($home_intro['title']); ?></h1>
                 <?php endif; ?>
-                <?php if ($home_hero['text'] !== '') : ?>
-                    <p><?php echo esc_html($home_hero['text']); ?></p>
+                <?php if ($home_intro['text'] !== '') : ?>
+                    <div class="hero__lead"><?php echo nl2br(esc_html($home_intro['text'])); ?></div>
                 <?php endif; ?>
                 <p class="hero__actions">
-                    <a href="<?php echo esc_url(feicoop_posts_page_url()); ?>" class="btn">Ver notícias</a>
-                    <a href="<?php echo esc_url(feicoop_programacao_archive_url()); ?>" class="btn btn--ghost">Ver programação</a>
-                    <a href="<?php echo esc_url(feicoop_programacao_pdf_url()); ?>" class="btn btn--ghost" download>Baixar programação em PDF</a>
-                    <?php if ($home_registration['button_url'] !== '' && $home_registration['button_label'] !== '') : ?>
-                        <a href="<?php echo esc_url($home_registration['button_url']); ?>" class="btn btn--ghost"><?php echo esc_html($home_registration['button_label']); ?></a>
-                    <?php endif; ?>
+                    <a href="<?php echo esc_url(feicoop_posts_page_url()); ?>" class="btn"><?php esc_html_e('Ver notícias', 'feicoop'); ?></a>
+                    <a href="<?php echo esc_url(feicoop_programacao_archive_url()); ?>" class="btn btn--ghost"><?php esc_html_e('FEICOOP', 'feicoop'); ?></a>
                 </p>
-                <dl class="hero__facts">
-                    <div class="hero__fact">
-                        <dt><?php echo esc_html($home_event['when_label']); ?></dt>
-                        <dd><?php echo esc_html($home_event['when_value']); ?></dd>
-                    </div>
-                    <div class="hero__fact">
-                        <dt><?php echo esc_html($home_event['where_label']); ?></dt>
-                        <dd><?php echo esc_html($home_event['where_value']); ?></dd>
-                    </div>
-                    <div class="hero__fact">
-                        <dt><?php echo esc_html($home_event['focus_label']); ?></dt>
-                        <dd><?php echo esc_html($home_event['focus_value']); ?></dd>
-                    </div>
-                </dl>
             </header>
             <aside class="hero__panel">
-                <?php if ($home_hero['panel_kicker'] !== '') : ?>
-                    <p class="hero__panel-kicker"><?php echo esc_html($home_hero['panel_kicker']); ?></p>
+                <?php if ($home_cooesperanca['kicker'] !== '') : ?>
+                    <p class="hero__panel-kicker"><?php echo esc_html($home_cooesperanca['kicker']); ?></p>
                 <?php endif; ?>
-                <?php if ($home_hero['panel_title'] !== '') : ?>
-                    <h2><?php echo esc_html($home_hero['panel_title']); ?></h2>
+                <?php if ($home_cooesperanca['title'] !== '') : ?>
+                    <h2><?php echo esc_html($home_cooesperanca['title']); ?></h2>
                 <?php endif; ?>
-                <?php if ($home_hero['panel_text'] !== '') : ?>
-                    <p><?php echo esc_html($home_hero['panel_text']); ?></p>
+                <?php if ($home_cooesperanca['text'] !== '') : ?>
+                    <p><?php echo esc_html($home_cooesperanca['text']); ?></p>
                 <?php endif; ?>
-                <a href="<?php echo esc_url(feicoop_posts_page_url()); ?>" class="btn">Acompanhar notícias</a>
             </aside>
         </div>
     </section>
@@ -80,7 +57,7 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
                     <?php if ($home_news['text'] !== '') : ?>
                         <p class="section__text section__text--lead"><?php echo esc_html($home_news['text']); ?></p>
                     <?php endif; ?>
-                    <a class="btn btn--ghost" href="<?php echo esc_url(feicoop_posts_page_url()); ?>">Ir para notícias</a>
+                    <a class="btn btn--ghost" href="<?php echo esc_url(feicoop_posts_page_url()); ?>"><?php esc_html_e('Ir para notícias', 'feicoop'); ?></a>
                 </div>
             </div>
             <div class="news-grid">
@@ -139,60 +116,6 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
         </div>
     </section>
 
-    <?php if (feicoop_home_registration_enabled()) : ?>
-        <?php $registration_classes = 'homepage-registration' . (($home_registration['date_label'] === '' && $home_registration['date_value'] === '') ? ' homepage-registration--single' : ''); ?>
-        <section class="section section--registration-callout">
-            <div class="wrapper">
-                <div class="<?php echo esc_attr($registration_classes); ?>">
-                    <div class="homepage-registration__content">
-                        <?php if ($home_registration['kicker'] !== '') : ?>
-                            <p class="section__kicker"><?php echo esc_html($home_registration['kicker']); ?></p>
-                        <?php endif; ?>
-                        <?php if ($home_registration['title'] !== '') : ?>
-                            <h2><?php echo esc_html($home_registration['title']); ?></h2>
-                        <?php endif; ?>
-                        <?php if ($home_registration['text'] !== '') : ?>
-                            <p class="section__text section__text--lead"><?php echo esc_html($home_registration['text']); ?></p>
-                        <?php endif; ?>
-                        <?php if ($home_registration['button_url'] !== '' && $home_registration['button_label'] !== '') : ?>
-                            <p class="homepage-registration__actions">
-                                <a class="btn" href="<?php echo esc_url($home_registration['button_url']); ?>"><?php echo esc_html($home_registration['button_label']); ?></a>
-                            </p>
-                        <?php endif; ?>
-                    </div>
-                    <?php if ($home_registration['date_label'] !== '' || $home_registration['date_value'] !== '') : ?>
-                        <aside class="homepage-registration__date" aria-label="<?php echo esc_attr($home_registration['date_label'] !== '' ? $home_registration['date_label'] : __('Data de abertura das inscrições', 'feicoop')); ?>">
-                            <?php if ($home_registration['date_label'] !== '') : ?>
-                                <span><?php echo esc_html($home_registration['date_label']); ?></span>
-                            <?php endif; ?>
-                            <?php if ($home_registration['date_value'] !== '') : ?>
-                                <strong><?php echo esc_html($home_registration['date_value']); ?></strong>
-                            <?php endif; ?>
-                        </aside>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </section>
-    <?php endif; ?>
-
-    <?php if ($home_intro['kicker'] !== '' || $home_intro['title'] !== '' || $home_intro['text'] !== '') : ?>
-        <section class="section section--intro">
-            <div class="wrapper section__grid">
-                <div>
-                    <?php if ($home_intro['kicker'] !== '') : ?>
-                        <p class="section__kicker"><?php echo esc_html($home_intro['kicker']); ?></p>
-                    <?php endif; ?>
-                    <?php if ($home_intro['title'] !== '') : ?>
-                        <h2><?php echo esc_html($home_intro['title']); ?></h2>
-                    <?php endif; ?>
-                </div>
-                <?php if ($home_intro['text'] !== '') : ?>
-                    <div class="section__text section__text--lead"><?php echo nl2br(esc_html($home_intro['text'])); ?></div>
-                <?php endif; ?>
-            </div>
-        </section>
-    <?php endif; ?>
-
     <section class="section section--quicklinks">
         <div class="wrapper quicklinks">
             <?php foreach ($home_quicklinks as $quicklink) : ?>
@@ -208,60 +131,5 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
             <?php endforeach; ?>
         </div>
     </section>
-
-    <section class="section" id="projetos">
-        <div class="wrapper">
-            <div class="section__header">
-                <p class="section__kicker"><?php esc_html_e('Projetos e redes', 'feicoop'); ?></p>
-                <h2><?php esc_html_e('Núcleos que estruturam o portal', 'feicoop'); ?></h2>
-            </div>
-            <div class="projects-grid">
-                <?php foreach ($home_projects as $project) : ?>
-                    <?php if ($project['title'] === '') : ?>
-                        <?php continue; ?>
-                    <?php endif; ?>
-                    <article class="project-card">
-                        <a href="<?php echo esc_url($project['url'] !== '' ? $project['url'] : home_url('/')); ?>">
-                            <?php if ($project['image'] !== '') : ?>
-                                <img src="<?php echo esc_url($project['image']); ?>" width="1600" height="1000" alt="<?php echo esc_attr($project['title']); ?>" loading="lazy" decoding="async">
-                            <?php endif; ?>
-                            <div class="project-card__content">
-                                <?php if ($project['eyebrow'] !== '') : ?>
-                                    <p class="project-card__eyebrow"><?php echo esc_html($project['eyebrow']); ?></p>
-                                <?php endif; ?>
-                                <h3><?php echo esc_html($project['title']); ?></h3>
-                                <?php if ($project['text'] !== '') : ?>
-                                    <p><?php echo esc_html($project['text']); ?></p>
-                                <?php endif; ?>
-                            </div>
-                        </a>
-                    </article>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </section>
-
-    <?php if ($home_highlight['kicker'] !== '' || $home_highlight['title'] !== '' || $home_highlight['text'] !== '') : ?>
-        <section class="section section--highlight">
-            <div class="wrapper callout">
-                <div>
-                    <?php if ($home_highlight['kicker'] !== '') : ?>
-                        <p class="section__kicker"><?php echo esc_html($home_highlight['kicker']); ?></p>
-                    <?php endif; ?>
-                    <?php if ($home_highlight['title'] !== '') : ?>
-                        <h2><?php echo esc_html($home_highlight['title']); ?></h2>
-                    <?php endif; ?>
-                </div>
-                <?php if ($home_highlight['text'] !== '') : ?>
-                    <div class="section__text section__text--lead">
-                        <p><?php echo esc_html($home_highlight['text']); ?></p>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </section>
-    <?php endif; ?>
-
-
-
 </main>
 <?php get_footer(); ?>

@@ -1697,3 +1697,29 @@ blockquote {
   text-align: center;
   color: var(--gray);
 }
+
+/* ===== Hero da home (projeto) ===== */
+.hero__lead {
+  max-width: 56ch;
+}
+
+/* ===== Hero da página FEICOOP (32ª FEICOOP) ===== */
+.feicoop-hero__panel {
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  padding: 1.25rem;
+  border-radius: var(--border-radius);
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(74, 135, 121, 0.14);
+  box-shadow: 0 10px 24px rgba(38, 73, 46, 0.05);
+}
+
+.feicoop-hero__panel h2 {
+  margin-top: 0.35rem;
+}
+
+.feicoop-hero__panel p:last-child {
+  margin-bottom: 0;
+}

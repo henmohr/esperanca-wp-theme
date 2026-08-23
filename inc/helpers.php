@@ -192,6 +192,17 @@ function feicoop_home_news_fields(): array {
 }
 
 /**
+ * Seção "Projeto Cooesperança" da home (em construção).
+ */
+function feicoop_home_cooesperanca_fields(): array {
+    return [
+        'kicker' => (string) get_theme_mod('feicoop_home_cooesperanca_kicker', 'Projeto Cooesperança'),
+        'title' => (string) get_theme_mod('feicoop_home_cooesperanca_title', 'Em construção'),
+        'text' => (string) get_theme_mod('feicoop_home_cooesperanca_text', 'A página do Projeto Cooesperança está em construção. Em breve você encontrará aqui as informações sobre a cooperativa, sua história, seus empreendimentos e formas de participação.'),
+    ];
+}
+
+/**
  * Cartas de encerramento das edições da FEICOOP (publicações do tipo texto
  * cujo título começa com "Carta de Encerramento"), em ordem cronológica.
  */

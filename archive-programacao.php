@@ -6,21 +6,116 @@ if (!defined('ABSPATH')) {
 get_header();
 
 $pdf_url = feicoop_programacao_pdf_url();
+$hero = feicoop_home_hero_fields();
+$event = feicoop_home_event_fields();
+$registration = feicoop_home_registration_fields();
+$highlight = feicoop_home_highlight_fields();
 ?>
 <main id="main" class="programacao-archive programacao-archive--pdf">
     <div class="hero hero--noimage">
         <header class="hero__content hero__content--centered">
             <div class="wrapper">
-                <h1><?php esc_html_e('FEICOOP', 'feicoop'); ?></h1>
-                <p class="page__desc"><?php esc_html_e('Visualização da programação oficial da FEICOOP em PDF.', 'feicoop'); ?></p>
+                <?php if ($hero['eyebrow'] !== '') : ?>
+                    <p class="hero__eyebrow"><?php echo esc_html($hero['eyebrow']); ?></p>
+                <?php endif; ?>
+                <h1><?php echo esc_html($hero['title'] !== '' ? $hero['title'] : __('FEICOOP', 'feicoop')); ?></h1>
+                <?php if ($hero['text'] !== '') : ?>
+                    <p class="page__desc"><?php echo esc_html($hero['text']); ?></p>
+                <?php endif; ?>
+
+                <?php if ($hero['panel_title'] !== '' || $hero['panel_text'] !== '') : ?>
+                    <div class="hero__panel feicoop-hero__panel">
+                        <?php if ($hero['panel_kicker'] !== '') : ?>
+                            <p class="hero__panel-kicker"><?php echo esc_html($hero['panel_kicker']); ?></p>
+                        <?php endif; ?>
+                        <?php if ($hero['panel_title'] !== '') : ?>
+                            <h2><?php echo esc_html($hero['panel_title']); ?></h2>
+                        <?php endif; ?>
+                        <?php if ($hero['panel_text'] !== '') : ?>
+                            <p><?php echo esc_html($hero['panel_text']); ?></p>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+
+                <dl class="hero__facts">
+                    <div class="hero__fact">
+                        <dt><?php echo esc_html($event['when_label']); ?></dt>
+                        <dd><?php echo esc_html($event['when_value']); ?></dd>
+                    </div>
+                    <div class="hero__fact">
+                        <dt><?php echo esc_html($event['where_label']); ?></dt>
+                        <dd><?php echo esc_html($event['where_value']); ?></dd>
+                    </div>
+                    <div class="hero__fact">
+                        <dt><?php echo esc_html($event['focus_label']); ?></dt>
+                        <dd><?php echo esc_html($event['focus_value']); ?></dd>
+                    </div>
+                </dl>
+
                 <p class="hero__actions">
-                    <a class="btn" href="<?php echo esc_url($pdf_url); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Abrir PDF', 'feicoop'); ?></a>
+                    <a class="btn" href="<?php echo esc_url($pdf_url); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Abrir programação em PDF', 'feicoop'); ?></a>
                     <a class="btn btn--ghost" href="<?php echo esc_url($pdf_url); ?>" download><?php esc_html_e('Baixar programação em PDF', 'feicoop'); ?></a>
                 </p>
                 <?php feicoop_render_back_button(home_url('/'), __('Voltar ao início', 'feicoop')); ?>
             </div>
         </header>
     </div>
+
+    <?php if (feicoop_home_registration_enabled()) : ?>
+        <?php $registration_classes = 'homepage-registration' . (($registration['date_label'] === '' && $registration['date_value'] === '') ? ' homepage-registration--single' : ''); ?>
+        <section class="section section--registration-callout">
+            <div class="wrapper">
+                <div class="<?php echo esc_attr($registration_classes); ?>">
+                    <div class="homepage-registration__content">
+                        <?php if ($registration['kicker'] !== '') : ?>
+                            <p class="section__kicker"><?php echo esc_html($registration['kicker']); ?></p>
+                        <?php endif; ?>
+                        <?php if ($registration['title'] !== '') : ?>
+                            <h2><?php echo esc_html($registration['title']); ?></h2>
+                        <?php endif; ?>
+                        <?php if ($registration['text'] !== '') : ?>
+                            <p class="section__text section__text--lead"><?php echo esc_html($registration['text']); ?></p>
+                        <?php endif; ?>
+                        <?php if ($registration['button_url'] !== '' && $registration['button_label'] !== '') : ?>
+                            <p class="homepage-registration__actions">
+                                <a class="btn" href="<?php echo esc_url($registration['button_url']); ?>"><?php echo esc_html($registration['button_label']); ?></a>
+                            </p>
+                        <?php endif; ?>
+                    </div>
+                    <?php if ($registration['date_label'] !== '' || $registration['date_value'] !== '') : ?>
+                        <aside class="homepage-registration__date" aria-label="<?php echo esc_attr($registration['date_label'] !== '' ? $registration['date_label'] : __('Data de abertura das inscrições', 'feicoop')); ?>">
+                            <?php if ($registration['date_label'] !== '') : ?>
+                                <span><?php echo esc_html($registration['date_label']); ?></span>
+                            <?php endif; ?>
+                            <?php if ($registration['date_value'] !== '') : ?>
+                                <strong><?php echo esc_html($registration['date_value']); ?></strong>
+                            <?php endif; ?>
+                        </aside>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </section>
+    <?php endif; ?>
+
+    <?php if ($highlight['kicker'] !== '' || $highlight['title'] !== '' || $highlight['text'] !== '') : ?>
+        <section class="section section--highlight">
+            <div class="wrapper callout">
+                <div>
+                    <?php if ($highlight['kicker'] !== '') : ?>
+                        <p class="section__kicker"><?php echo esc_html($highlight['kicker']); ?></p>
+                    <?php endif; ?>
+                    <?php if ($highlight['title'] !== '') : ?>
+                        <h2><?php echo esc_html($highlight['title']); ?></h2>
+                    <?php endif; ?>
+                </div>
+                <?php if ($highlight['text'] !== '') : ?>
+                    <div class="section__text section__text--lead">
+                        <p><?php echo esc_html($highlight['text']); ?></p>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </section>
+    <?php endif; ?>
 
     <div class="wrapper programacao-archive__body">
         <section class="programacao-pdf-viewer" aria-label="<?php esc_attr_e('Visualização do PDF da programação', 'feicoop'); ?>">
