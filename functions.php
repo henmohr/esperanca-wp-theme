@@ -592,14 +592,15 @@ add_action('save_post_post', 'feicoop_save_post_featured');
 /* =====================================================================
  * Galeria de fotos (template template-galeria.php)
  * ===================================================================== */
-function feicoop_gallery_metabox(WP_Post $post): void {
-    if (get_page_template_slug($post->ID) !== 'template-galeria.php') {
+function feicoop_gallery_metabox(string $post_type, WP_Post $post): void {
+    // O hook add_meta_boxes passa ($post_type, $post) — assinatura corrigida.
+    if ($post_type !== 'page' || get_page_template_slug($post->ID) !== 'template-galeria.php') {
         return;
     }
 
     add_meta_box('feicoop_gallery', __('Galeria de fotos', 'feicoop'), 'feicoop_gallery_metabox_html', 'page', 'normal', 'default');
 }
-add_action('add_meta_boxes', 'feicoop_gallery_metabox');
+add_action('add_meta_boxes', 'feicoop_gallery_metabox', 10, 2);
 
 function feicoop_gallery_metabox_html(WP_Post $post): void {
     wp_nonce_field('feicoop_gallery_save', 'feicoop_gallery_nonce');
