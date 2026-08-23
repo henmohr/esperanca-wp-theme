@@ -14,9 +14,6 @@ if (!defined('ABSPATH')) {
 <?php wp_body_open(); ?>
 <a class="skip-link screen-reader-text" href="#main"><?php esc_html_e('Pular para o conteúdo', 'feicoop'); ?></a>
 <header class="top js-header">
-    <div class="wrapper site-banner-wrap">
-        <?php feicoop_render_site_banner(); ?>
-    </div>
     <div class="wrapper top__inner">
         <button class="navbar__toggle js-toggle" aria-label="<?php esc_attr_e('Menu', 'feicoop'); ?>" aria-controls="primary-menu" aria-expanded="false">
             <span class="navbar__toggle-box">

@@ -58,123 +58,6 @@
   z-index: 43;
 }
 
-.site-banner-wrap {
-  position: relative;
-  z-index: 41;
-  padding-top: 0.2rem;
-  padding-bottom: 0.8rem;
-  /* Sem margens automáticas: como item flex do header (align-items: stretch),
-     margens auto desativam o stretch e o wrapper encolheria para a largura
-     intrínseca da imagem (banner menor nas páginas internas). */
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.site-banner {
-  display: block;
-  /* Mesma largura do carrossel da home (64rem), para o banner ter o
-     mesmo tamanho em todas as páginas. */
-  max-width: 64rem;
-  margin: 0 auto;
-}
-
-.site-banner > img {
-  display: block;
-  width: 100%;
-  height: var(--site-banner-height, auto);
-  object-fit: cover;
-  border-radius: calc(var(--border-radius) * 1.1);
-  box-shadow: 0 16px 36px rgba(38, 73, 46, 0.08);
-}
-
-.site-banner-carousel {
-  position: relative;
-  z-index: 42;
-  max-width: 64rem;
-  margin: 0 auto;
-}
-
-.site-banner-carousel__viewport {
-  overflow: hidden;
-  border-radius: calc(var(--border-radius) * 1.1);
-  box-shadow: 0 16px 36px rgba(38, 73, 46, 0.08);
-  background: rgba(255, 255, 255, 0.94);
-  height: var(--site-banner-height, 220px);
-}
-
-.site-banner-carousel__track {
-  display: flex;
-  transform: translateX(0);
-  transition: transform 0.45s ease;
-  will-change: transform;
-}
-
-.site-banner-carousel__slide {
-  flex: 0 0 100%;
-  display: block;
-}
-
-.site-banner-carousel__slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  background: rgba(255, 255, 255, 0.94);
-}
-
-.site-banner-carousel__control {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-  width: 2.3rem;
-  height: 2.3rem;
-  padding: 0;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  background: rgba(23, 24, 30, 0.42);
-  color: #fff;
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
-.site-banner-carousel__control:hover,
-.site-banner-carousel__control:focus {
-  background: rgba(23, 24, 30, 0.68);
-}
-
-.site-banner-carousel__control--prev {
-  left: 0.75rem;
-}
-
-.site-banner-carousel__control--next {
-  right: 0.75rem;
-}
-
-.site-banner-carousel__dots {
-  display: flex;
-  justify-content: center;
-  gap: 0.45rem;
-  margin-top: 0.6rem;
-}
-
-.site-banner-carousel__dot {
-  width: 0.7rem;
-  height: 0.7rem;
-  border-radius: 999px;
-  border: 0;
-  background: rgba(40, 140, 54, 0.22);
-}
-
-.site-banner-carousel__dot.is-active {
-  background: var(--color);
-}
-
-h1 {
-  max-width: 12ch;
-}
-
 h2 {
   max-width: 18ch;
 }
@@ -187,12 +70,6 @@ p {
   background: rgba(250, 249, 248, 0.92);
   border-bottom: 1px solid rgba(38, 73, 46, 0.12);
   box-shadow: 0 8px 24px rgba(38, 73, 46, 0.04);
-}
-
-/* Ao rolar, o header vira uma barra compacta: o banner do topo
-   acompanha a rolagem e só a navegação fica fixa na viewport. */
-.top.sticky .site-banner-wrap {
-  display: none;
 }
 
 .top .logo {
@@ -213,27 +90,6 @@ p {
 }
 
 @media (max-width: 56.1875em) {
-  .site-banner-wrap {
-    padding-top: 0.15rem;
-  }
-
-  .site-banner > img {
-    height: var(--site-banner-height-mobile, var(--site-banner-height, 180px));
-  }
-
-  .site-banner-carousel__viewport {
-    height: var(--site-banner-height-mobile, var(--site-banner-height, 180px));
-  }
-
-  .site-banner-carousel__control {
-    display: none;
-  }
-
-  .top__inner {
-    padding-top: 0.1rem;
-    padding-bottom: 0.1rem;
-  }
-
   .top {
     padding-top: 0;
     padding-bottom: 0;

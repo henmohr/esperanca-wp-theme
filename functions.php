@@ -176,13 +176,6 @@ function feicoop_json_ld(): void {
 }
 add_action('wp_head', 'feicoop_json_ld', 6);
 
-function feicoop_banner_fallback_slide(): array {
-    return [
-        'src' => feicoop_asset_url('assets/img/banner-topo.avif'),
-        'alt' => get_bloginfo('name'),
-    ];
-}
-
 function feicoop_sanitize_checkbox($checked): int {
     return !empty($checked) ? 1 : 0;
 }
@@ -273,34 +266,6 @@ function feicoop_home_event_fields(): array {
         'focus_label' => (string) get_theme_mod('feicoop_home_event_focus_label', __('Foco', 'feicoop')),
         'focus_value' => (string) get_theme_mod('feicoop_home_event_focus_value', __('Economia solidária, cooperativismo e redes', 'feicoop')),
     ];
-}
-
-function feicoop_home_banner_height(): int {
-    $height = (int) get_theme_mod('feicoop_home_banner_height', 220);
-
-    if ($height < 160) {
-        return 160;
-    }
-
-    if ($height > 320) {
-        return 320;
-    }
-
-    return $height;
-}
-
-function feicoop_home_banner_mobile_height(): int {
-    $height = (int) get_theme_mod('feicoop_home_banner_mobile_height', 180);
-
-    if ($height < 120) {
-        return 120;
-    }
-
-    if ($height > 240) {
-        return 240;
-    }
-
-    return $height;
 }
 
 function feicoop_register_programacao_cpt(): void {
@@ -1609,78 +1574,6 @@ function feicoop_post_feature_image_html(?int $post_id = null, string $size = 'f
     return '<img src="' . esc_url(feicoop_asset_url('assets/img/card-projeto-esperanca.avif')) . '" width="1600" height="1000" alt="' . esc_attr(get_the_title($post_id) !== '' ? get_the_title($post_id) : get_bloginfo('name')) . '"' . ($class !== '' ? ' class="' . esc_attr($class) . '"' : '') . ' loading="lazy" decoding="async">';
 }
 
-function feicoop_get_home_banner_slides(): array {
-    $front_page_id = (int) get_option('page_on_front');
-    $slides = [feicoop_banner_fallback_slide()];
-
-    if ($front_page_id <= 0) {
-        return $slides;
-    }
-
-    $raw_ids = (string) get_post_meta($front_page_id, '_feicoop_banner_carousel_ids', true);
-    $ids = array_values(array_filter(array_map('absint', preg_split('/\s*,\s*/', $raw_ids) ?: [])));
-
-    foreach ($ids as $attachment_id) {
-        $src = wp_get_attachment_image_url($attachment_id, 'feicoop-hero');
-
-        if (!$src) {
-            continue;
-        }
-
-        $alt = (string) get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
-
-        if ($alt === '') {
-            $alt = get_the_title($attachment_id);
-        }
-
-        $slides[] = [
-            'src' => $src,
-            'alt' => $alt !== '' ? $alt : get_bloginfo('name'),
-        ];
-    }
-
-    return $slides;
-}
-
-function feicoop_render_site_banner(): void {
-    $banner_height = feicoop_home_banner_height();
-    $banner_mobile_height = feicoop_home_banner_mobile_height();
-    $banner_style = ' style="--site-banner-height: ' . esc_attr((string) $banner_height) . 'px; --site-banner-height-mobile: ' . esc_attr((string) $banner_mobile_height) . 'px;"';
-
-    if (!is_front_page()) {
-        $slide = feicoop_banner_fallback_slide();
-        echo '<a class="site-banner" href="' . esc_url(home_url('/')) . '" aria-label="' . esc_attr(get_bloginfo('name')) . '"' . $banner_style . '>';
-        echo '<img src="' . esc_url($slide['src']) . '" alt="' . esc_attr($slide['alt']) . '" width="720" height="320" loading="eager" fetchpriority="high">';
-        echo '</a>';
-        return;
-    }
-
-    $slides = feicoop_get_home_banner_slides();
-    $slide_count = count($slides);
-
-    echo '<div class="site-banner-carousel js-banner-carousel"' . $banner_style . ' data-autoplay="true" data-interval="6000" data-slide-count="' . esc_attr((string) $slide_count) . '" aria-roledescription="carousel" aria-label="' . esc_attr__('Banner principal', 'feicoop') . '">';
-    echo '<div class="site-banner-carousel__viewport">';
-    echo '<div class="site-banner-carousel__track">';
-
-    foreach ($slides as $index => $slide) {
-        $active = $index === 0 ? ' is-active' : '';
-        echo '<a class="site-banner-carousel__slide' . esc_attr($active) . '" href="' . esc_url(home_url('/')) . '" aria-label="' . esc_attr(get_bloginfo('name')) . '">';
-        echo '<img src="' . esc_url($slide['src']) . '" alt="' . esc_attr($slide['alt']) . '" width="720" height="320" loading="' . ($index === 0 ? 'eager' : 'lazy') . '" fetchpriority="' . ($index === 0 ? 'high' : 'auto') . '">';
-        echo '</a>';
-    }
-
-    echo '</div>';
-    echo '</div>';
-
-    if ($slide_count > 1) {
-        echo '<button class="site-banner-carousel__control site-banner-carousel__control--prev" type="button" data-carousel-prev aria-label="' . esc_attr__('Imagem anterior', 'feicoop') . '">&#10094;</button>';
-        echo '<button class="site-banner-carousel__control site-banner-carousel__control--next" type="button" data-carousel-next aria-label="' . esc_attr__('Próxima imagem', 'feicoop') . '">&#10095;</button>';
-        echo '<div class="site-banner-carousel__dots" data-carousel-dots></div>';
-    }
-
-    echo '</div>';
-}
-
 function feicoop_get_back_link_url(string $fallback_url): string {
     $referer = wp_get_referer();
 
@@ -1794,11 +1687,6 @@ function feicoop_enqueue_assets(): void {
     wp_enqueue_style('feicoop-main', feicoop_asset_url('assets/css/main.css'), [], $theme->get('Version'));
     wp_enqueue_style('feicoop-custom', feicoop_asset_url('assets/css/feicoop-custom.css'), ['feicoop-main'], $theme->get('Version'));
 
-    // O carrossel só existe na página inicial; nos demais templates ele não age.
-    if (is_front_page()) {
-        wp_enqueue_script('feicoop-banner-carousel', feicoop_asset_url('assets/js/banner-carousel.js'), [], $theme->get('Version'), true);
-    }
-
     wp_enqueue_script('feicoop-scripts', feicoop_asset_url('assets/js/scripts.min.js'), [], $theme->get('Version'), true);
 
     wp_localize_script('feicoop-scripts', 'publiiThemeMenuConfig', [
@@ -1844,120 +1732,8 @@ function feicoop_admin_enqueue_assets(string $hook): void {
         return;
     }
 
-    // O metabox de patrocinadores só existe na página inicial.
-    $front_page_id = (int) get_option('page_on_front');
-
-    if ($front_page_id <= 0 || (int) ($_GET['post'] ?? 0) !== $front_page_id) {
-        return;
-    }
-
-    wp_enqueue_media();
-    wp_register_style('feicoop-admin-carousel', false, [], wp_get_theme()->get('Version'));
-    wp_enqueue_style('feicoop-admin-carousel');
-    wp_add_inline_style('feicoop-admin-carousel', '
-        .feicoop-banner-carousel-preview {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
-            margin: 16px 0 0;
-            padding: 0;
-            max-height: 360px;
-            overflow: auto;
-            list-style: none;
-        }
-
-        .feicoop-banner-carousel-preview li {
-            display: grid;
-            gap: 8px;
-            padding: 10px;
-            border: 1px solid #dcdcde;
-            border-radius: 6px;
-            background: #fff;
-        }
-
-        .feicoop-banner-carousel-preview img {
-            display: block;
-            width: 100%;
-            height: auto;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-
-        .feicoop-banner-carousel-remove {
-            justify-self: start;
-            color: #b32d2e;
-            cursor: pointer;
-            padding: 0;
-        }
-    ');
-    wp_enqueue_script('feicoop-admin-carousel', feicoop_asset_url('assets/js/admin-carousel.js'), ['jquery'], wp_get_theme()->get('Version'), true);
 }
 add_action('admin_enqueue_scripts', 'feicoop_admin_enqueue_assets');
-
-function feicoop_register_banner_carousel_metabox(WP_Post $post): void {
-    if ((int) $post->ID !== (int) get_option('page_on_front')) {
-        return;
-    }
-
-    add_meta_box(
-        'feicoop_banner_carousel',
-        __('Patrocinadores do topo', 'feicoop'),
-        'feicoop_render_banner_carousel_metabox',
-        'page',
-        'normal',
-        'high'
-    );
-}
-add_action('add_meta_boxes_page', 'feicoop_register_banner_carousel_metabox');
-
-function feicoop_render_banner_carousel_metabox(WP_Post $post): void {
-    $raw_ids = (string) get_post_meta($post->ID, '_feicoop_banner_carousel_ids', true);
-    $ids = array_values(array_filter(array_map('absint', preg_split('/\s*,\s*/', $raw_ids) ?: [])));
-    wp_nonce_field('feicoop_banner_carousel_save', 'feicoop_banner_carousel_nonce');
-    ?>
-    <p><?php esc_html_e('Adicione aqui os logos ou imagens dos patrocinadores. Prefira artes horizontais, com pouco espaço vazio, para caberem melhor no carrossel. Use a biblioteca de mídia para enviar novos arquivos ou escolher imagens já enviadas.', 'feicoop'); ?></p>
-    <input type="hidden" id="feicoop_banner_carousel_ids" name="feicoop_banner_carousel_ids" value="<?php echo esc_attr(implode(',', $ids)); ?>">
-    <p>
-        <button type="button" class="button button-primary" id="feicoop_banner_carousel_select"><?php esc_html_e('Enviar ou selecionar imagens', 'feicoop'); ?></button>
-        <button type="button" class="button" id="feicoop_banner_carousel_clear"><?php esc_html_e('Limpar', 'feicoop'); ?></button>
-    </p>
-    <p class="description"><?php esc_html_e('Você pode remover uma imagem por vez no preview abaixo sem apagar o restante.', 'feicoop'); ?></p>
-    <ul class="feicoop-banner-carousel-preview" id="feicoop_banner_carousel_preview">
-        <?php foreach ($ids as $attachment_id) : ?>
-            <li data-id="<?php echo esc_attr((string) $attachment_id); ?>">
-                <?php echo wp_get_attachment_image($attachment_id, 'thumbnail'); ?>
-                <button type="button" class="button-link-delete feicoop-banner-carousel-remove" data-remove-item><?php esc_html_e('Remover', 'feicoop'); ?></button>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-    <p class="description"><?php esc_html_e('Você pode enviar novos arquivos no modal da mídia, selecionar imagens existentes e reorganizar a ordem antes de salvar.', 'feicoop'); ?></p>
-    <?php
-}
-
-function feicoop_save_banner_carousel_meta(int $post_id, WP_Post $post, bool $update): void {
-    if ((int) $post->ID !== (int) get_option('page_on_front')) {
-        return;
-    }
-
-    if (!isset($_POST['feicoop_banner_carousel_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['feicoop_banner_carousel_nonce'])), 'feicoop_banner_carousel_save')) {
-        return;
-    }
-
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-        return;
-    }
-
-    if (!current_user_can('edit_page', $post_id)) {
-        return;
-    }
-
-    $raw_ids = isset($_POST['feicoop_banner_carousel_ids']) ? (string) wp_unslash($_POST['feicoop_banner_carousel_ids']) : '';
-    $ids = array_values(array_filter(array_map('absint', preg_split('/\s*,\s*/', sanitize_text_field($raw_ids)) ?: [])));
-
-    update_post_meta($post_id, '_feicoop_banner_carousel_ids', implode(',', $ids));
-}
-add_action('save_post_page', 'feicoop_save_banner_carousel_meta', 10, 3);
 
 function feicoop_add_body_classes(array $classes): array {
     $classes[] = 'feicoop-theme';
@@ -2121,50 +1897,10 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'priority' => 29,
     ]);
 
-    $wp_customize->add_section('feicoop_home_banner', [
-        'title' => __('FEICOOP Banner', 'feicoop'),
-        'description' => __('Ajusta a altura do carrossel principal e da imagem do cabeçalho nas páginas internas.', 'feicoop'),
-        'priority' => 25,
-    ]);
-
     $wp_customize->add_section('feicoop_home_event', [
         'title' => __('FEICOOP Destaques da home', 'feicoop'),
         'description' => __('Edita as informações curtas exibidas no bloco de fatos da home.', 'feicoop'),
         'priority' => 26,
-    ]);
-
-    $wp_customize->add_setting('feicoop_home_banner_height', [
-        'default' => 220,
-        'sanitize_callback' => 'absint',
-    ]);
-
-    $wp_customize->add_control('feicoop_home_banner_height', [
-        'label' => __('Altura do banner', 'feicoop'),
-        'description' => __('Use um valor em pixels. Ex.: 180, 220, 280.', 'feicoop'),
-        'section' => 'feicoop_home_banner',
-        'type' => 'number',
-        'input_attrs' => [
-            'min' => 160,
-            'max' => 320,
-            'step' => 10,
-        ],
-    ]);
-
-    $wp_customize->add_setting('feicoop_home_banner_mobile_height', [
-        'default' => 180,
-        'sanitize_callback' => 'absint',
-    ]);
-
-    $wp_customize->add_control('feicoop_home_banner_mobile_height', [
-        'label' => __('Altura do banner no mobile', 'feicoop'),
-        'description' => __('Use um valor em pixels. Ex.: 120, 160, 180.', 'feicoop'),
-        'section' => 'feicoop_home_banner',
-        'type' => 'number',
-        'input_attrs' => [
-            'min' => 120,
-            'max' => 240,
-            'step' => 10,
-        ],
     ]);
 
     $home_hero_fields = [
