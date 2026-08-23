@@ -744,7 +744,7 @@ function feicoop_theme_page_definitions(): array {
         [
             'slug' => 'feirao-colonial',
             'title' => __('Feirão EcoSol', 'feicoop'),
-            'content' => '<p>' . esc_html__('Conte nesta página como funciona o Feirão EcoSol, a comercialização e a visitação.', 'feicoop') . '</p>',
+            'content' => '<p>Descreva aqui o Feirão EcoSol: o que é, quando acontece, onde e como funciona a comercialização.</p><h2>Como participar</h2><p>Descreva aqui como produtores e grupos podem participar do Feirão EcoSol (contatos, regras, inscrição).</p><h2>Nossos empreendimentos</h2><p>Liste aqui os empreendimentos da economia solidária que participam do Feirão EcoSol.</p>',
         ],
         [
             'slug' => 'contato',
