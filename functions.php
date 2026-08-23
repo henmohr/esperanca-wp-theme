@@ -286,7 +286,7 @@ function feicoop_register_programacao_cpt(): void {
         'public' => true,
         'show_in_rest' => true,
         'has_archive' => true,
-        'rewrite' => ['slug' => 'programacao', 'with_front' => false],
+        'rewrite' => ['slug' => 'feicoop', 'with_front' => false],
         'menu_icon' => 'dashicons-calendar-alt',
         'supports' => ['title', 'editor', 'excerpt', 'thumbnail', 'page-attributes'],
     ]);
@@ -320,6 +320,38 @@ function feicoop_register_publicacao_cpt(): void {
     ]);
 }
 add_action('init', 'feicoop_register_publicacao_cpt');
+
+/* Cartas de encerramento vivem dentro da seção FEICOOP: /feicoop/carta-de-encerramento-ANO/ */
+function feicoop_carta_permalink(string $permalink, WP_Post $post): string {
+    if ($post->post_type === 'publicacao' && str_starts_with((string) $post->post_name, 'carta-de-encerramento-')) {
+        return home_url('/feicoop/' . $post->post_name . '/');
+    }
+
+    return $permalink;
+}
+add_filter('post_type_link', 'feicoop_carta_permalink', 10, 2);
+
+function feicoop_carta_rewrite_rule(): void {
+    add_rewrite_rule('^feicoop/(carta-de-encerramento-[0-9]{4})/?$', 'index.php?post_type=publicacao&name=$matches[1]', 'top');
+}
+add_action('init', 'feicoop_carta_rewrite_rule', 11);
+
+function feicoop_redirect_old_feicoop_urls(): void {
+    $path = trim((string) ($GLOBALS['wp']->request ?? ''), '/');
+
+    // Antiga URL do arquivo da programação/FEICOOP.
+    if ($path === 'programacao') {
+        wp_safe_redirect(home_url('/feicoop/'), 301);
+        exit;
+    }
+
+    // Antigas URLs das cartas (antes ficavam em /publicacao/...).
+    if (str_starts_with($path, 'publicacao/carta-de-encerramento-')) {
+        wp_safe_redirect(home_url('/feicoop/' . substr($path, strlen('publicacao/')) . '/'), 301);
+        exit;
+    }
+}
+add_action('template_redirect', 'feicoop_redirect_old_feicoop_urls');
 
 function feicoop_publicacao_metabox(): void {
     add_meta_box('feicoop_publicacao', __('Arquivo da publicação', 'feicoop'), 'feicoop_publicacao_metabox_html', 'publicacao', 'side', 'default');

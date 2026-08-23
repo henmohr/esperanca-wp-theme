@@ -34,7 +34,7 @@ function feicoop_programacao_archive_url(): string {
         return $url;
     }
 
-    return home_url('/programacao/');
+    return home_url('/feicoop/');
 }
 
 function feicoop_programacao_pdf_url(): string {

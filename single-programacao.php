@@ -13,7 +13,7 @@ get_header();
                     <div class="wrapper">
                         <p class="hero__eyebrow"><?php esc_html_e('FEICOOP', 'feicoop'); ?></p>
                         <h1><?php echo esc_html(get_the_title()); ?></h1>
-                        <?php feicoop_render_back_button(home_url('/programacao/'), __('Voltar para a FEICOOP', 'feicoop')); ?>
+                        <?php feicoop_render_back_button(home_url('/feicoop/'), __('Voltar para a FEICOOP', 'feicoop')); ?>
                     </div>
                 </header>
                 <?php if (has_post_thumbnail()) : ?>
