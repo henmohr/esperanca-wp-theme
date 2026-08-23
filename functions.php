@@ -2565,6 +2565,13 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'feicoop_home_cooesperanca_kicker' => ['label' => __('Legenda', 'feicoop'), 'section' => 'feicoop_home_cooesperanca', 'default' => $cooesperanca['kicker']],
         'feicoop_home_cooesperanca_title' => ['label' => __('Título', 'feicoop'), 'section' => 'feicoop_home_cooesperanca', 'default' => $cooesperanca['title']],
         'feicoop_home_cooesperanca_text' => ['label' => __('Texto', 'feicoop'), 'section' => 'feicoop_home_cooesperanca', 'type' => 'textarea', 'default' => $cooesperanca['text']],
+        'feicoop_site_construction_notice' => [
+            'label' => __('Aviso de construção (topo da home)', 'feicoop'),
+            'description' => __('Deixe vazio para ocultar a faixa.', 'feicoop'),
+            'section' => 'feicoop_home_cooesperanca',
+            'type' => 'textarea',
+            'default' => 'Site em construção — o portal está sendo atualizado com novas informações do Projeto Cooesperança.',
+        ],
     ]);
 }
 add_action('customize_register', 'feicoop_customize_register');

@@ -202,6 +202,10 @@ function feicoop_home_cooesperanca_fields(): array {
     ];
 }
 
+function feicoop_site_construction_notice(): string {
+    return (string) get_theme_mod('feicoop_site_construction_notice', 'Site em construção — o portal está sendo atualizado com novas informações do Projeto Cooesperança.');
+}
+
 /**
  * Cartas de encerramento das edições da FEICOOP (publicações do tipo texto
  * cujo título começa com "Carta de Encerramento"), em ordem cronológica.

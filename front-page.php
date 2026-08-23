@@ -11,6 +11,13 @@ $home_news = feicoop_home_news_fields();
 $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_hero_title_size()) . ';"';
 ?>
 <main id="main" class="home-template">
+    <?php $construction_notice = feicoop_site_construction_notice(); ?>
+    <?php if ($construction_notice !== '') : ?>
+        <div class="site-construction" role="note">
+            <p><?php echo esc_html($construction_notice); ?></p>
+        </div>
+    <?php endif; ?>
+
     <section class="hero hero--noimage">
         <div class="wrapper hero__grid">
             <header class="hero__content">

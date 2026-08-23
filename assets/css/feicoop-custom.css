@@ -1723,3 +1723,16 @@ blockquote {
 .feicoop-hero__panel p:last-child {
   margin-bottom: 0;
 }
+
+/* ===== Faixa "Site em construção" (home) ===== */
+.site-construction {
+  background: var(--highlight-color, #FFC700);
+  color: var(--dark);
+  text-align: center;
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+}
+
+.site-construction p {
+  margin: 0;
+}
