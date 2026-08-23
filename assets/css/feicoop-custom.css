@@ -1590,5 +1590,7 @@ blockquote {
 }
 
 .site-construction p {
-  margin: 0;
+  /* Centraliza o parágrafo (a regra global p limita a 68ch e alinha à esquerda). */
+  margin: 0 auto;
+  max-width: none;
 }
