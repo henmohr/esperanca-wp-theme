@@ -28,7 +28,7 @@ get_header();
                                 <span class="publicacao-card__type publicacao-card__type--pdf"><?php esc_html_e('PDF', 'feicoop'); ?></span>
                             <?php endif; ?>
                         </p>
-                        <?php feicoop_render_back_button(get_post_type_archive_link('publicacao'), __('Voltar para produções', 'feicoop')); ?>
+                        <?php feicoop_render_back_button(get_post_type_archive_link('publicacao'), __('Voltar', 'feicoop')); ?>
                     </div>
                 </header>
             </div>
