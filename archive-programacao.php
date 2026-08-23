@@ -20,33 +20,19 @@ $highlight = feicoop_home_highlight_fields();
                 <?php endif; ?>
                 <h1><?php echo esc_html($hero['title'] !== '' ? $hero['title'] : __('FEICOOP', 'feicoop')); ?></h1>
                 <?php if ($hero['text'] !== '') : ?>
-                    <p class="page__desc"><?php echo esc_html($hero['text']); ?></p>
+                    <p class="feicoop-hero__subtitle"><?php echo esc_html($hero['text']); ?></p>
                 <?php endif; ?>
 
-                <?php if ($hero['panel_title'] !== '' || $hero['panel_text'] !== '') : ?>
-                    <div class="hero__panel feicoop-hero__panel">
-                        <?php if ($hero['panel_kicker'] !== '') : ?>
-                            <p class="hero__panel-kicker"><?php echo esc_html($hero['panel_kicker']); ?></p>
-                        <?php endif; ?>
-                        <?php if ($hero['panel_title'] !== '') : ?>
-                            <h2><?php echo esc_html($hero['panel_title']); ?></h2>
-                        <?php endif; ?>
-                        <?php if ($hero['panel_text'] !== '') : ?>
-                            <p><?php echo esc_html($hero['panel_text']); ?></p>
-                        <?php endif; ?>
-                    </div>
-                <?php endif; ?>
-
-                <dl class="hero__facts">
-                    <div class="hero__fact">
+                <dl class="hero__facts feicoop-facts">
+                    <div class="feicoop-fact">
                         <dt><?php echo esc_html($event['when_label']); ?></dt>
                         <dd><?php echo esc_html($event['when_value']); ?></dd>
                     </div>
-                    <div class="hero__fact">
+                    <div class="feicoop-fact">
                         <dt><?php echo esc_html($event['where_label']); ?></dt>
                         <dd><?php echo esc_html($event['where_value']); ?></dd>
                     </div>
-                    <div class="hero__fact">
+                    <div class="feicoop-fact">
                         <dt><?php echo esc_html($event['focus_label']); ?></dt>
                         <dd><?php echo esc_html($event['focus_value']); ?></dd>
                     </div>
