@@ -28,10 +28,11 @@ fi
 
 # --- JS --------------------------------------------------------------------
 if npx --yes terser --version >/dev/null 2>&1; then
+  # Minifica os JS do tema (exceto *.min.js, que já são minificados).
   while IFS= read -r -d '' f; do
     npx --yes terser "${f}" -o "${f}.tmp" --compress --mangle
     mv "${f}.tmp" "${f}"
-  done < <(printf '%s\0' assets/js/scripts.js assets/js/banner-carousel.js)
+  done < <(find assets/js -maxdepth 1 -name '*.js' -not -name '*.min.js' -print0)
   echo "JS minificado com terser."
 else
   echo "AVISO: terser indisponível (sem npm/rede?) — JS não minificado." >&2
