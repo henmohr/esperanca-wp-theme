@@ -810,6 +810,26 @@ function feicoop_ensure_theme_page(array $definition): int {
         }
 
         $page_id = (int) $result;
+        update_post_meta($page_id, '_feicoop_seed_content', $content);
+    } else {
+        // Atualiza o conteúdo de páginas que nunca foram editadas (ainda com o
+        // placeholder do seed), para refletir mudanças de estrutura do tema em
+        // versões futuras. Páginas editadas pelo usuário nunca são sobrescritas.
+        $current_content = (string) $page->post_content;
+        $seeded_content = (string) get_post_meta($page_id, '_feicoop_seed_content', true);
+
+        if ($seeded_content === '') {
+            $is_seed_placeholder = $current_content === $content || in_array($current_content, feicoop_legacy_seed_placeholders(), true);
+            $seeded_content = $is_seed_placeholder ? $current_content : "\0edited";
+            update_post_meta($page_id, '_feicoop_seed_content', $seeded_content);
+        }
+
+        $never_edited = $seeded_content !== "\0edited" && $current_content === $seeded_content;
+
+        if ($content !== '' && $never_edited && $current_content !== $content) {
+            wp_update_post(['ID' => $page_id, 'post_content' => $content]);
+            update_post_meta($page_id, '_feicoop_seed_content', $content);
+        }
     }
 
     // Aplica o template apenas na criação, para não reverter escolhas do usuário
@@ -819,6 +839,24 @@ function feicoop_ensure_theme_page(array $definition): int {
     }
 
     return $page_id > 0 ? $page_id : 0;
+}
+
+/**
+ * Placeholders antigos do seed (versões anteriores do tema). Se uma página
+ * ainda tiver exatamente um desses textos, considera-se que nunca foi editada.
+ */
+function feicoop_legacy_seed_placeholders(): array {
+    return [
+        'Conte nesta página como funciona o Feirão EcoSol, a comercialização e a visitação.',
+        'Conte nesta página como funciona o Feirão Colonial, a comercialização e a visitação.',
+        'Apresente aqui a história do Projeto Esperança/Cooesperança, sua missão e a atuação da FEICOOP.',
+        'Use esta página para registrar a memória da FEICOOP, os marcos do movimento e a evolução da feira.',
+        'Publique aqui os canais oficiais, telefones e redes sociais do projeto.',
+        'Página inicial do portal FEICOOP.',
+        'Atualize esta página com as orientações e o cronograma das inscrições.',
+        'Página da Cooesperança (Cooperativa Mista dos Pequenos Produtores Rurais e Urbanos Vinculados ao Projeto Esperança Ltda).',
+        'Conte aqui o que é o Ponto de Cultura do Projeto Esperança/Cooesperança.',
+    ];
 }
 
 function feicoop_seed_theme_pages(): void {
