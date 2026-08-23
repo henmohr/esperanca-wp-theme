@@ -734,12 +734,12 @@ function feicoop_theme_page_definitions(): array {
         [
             'slug' => 'quem-somos',
             'title' => __('Quem somos', 'feicoop'),
-            'content' => '<p>' . esc_html__('Apresente aqui a história do Projeto Esperança/Cooesperança, sua missão e a atuação da FEICOOP.', 'feicoop') . '</p>',
+            'content' => '<p>O <strong>Projeto Esperança/Cooesperança</strong> atua em Santa Maria, no Rio Grande do Sul, articulando iniciativas de economia popular e solidária, agricultura familiar, comércio justo, cooperativismo e organização comunitária.<br><br>Ao longo de sua trajetória, consolidou-se como referência nacional e latino-americana na promoção de alternativas econômicas baseadas no trabalho associado, na solidariedade, na autogestão e no bem viver.<br><br>Mais do que organizar eventos, o projeto sustenta processos permanentes de formação, comercialização solidária, articulação em rede e valorização de experiências coletivas do campo e da cidade.<br><br><strong>Linhas de atuação:</strong></p><ul><li>Fortalecimento da economia popular e solidária</li><li>Articulação de redes e empreendimentos</li><li>Formação política e organizativa</li><li>Comercialização solidária e comércio justo</li><li>Promoção da FEICOOP e de espaços permanentes como o Feirão EcoSol</li></ul>',
         ],
         [
             'slug' => 'historia',
             'title' => __('História', 'feicoop'),
-            'content' => '<p>' . esc_html__('Use esta página para registrar a memória da FEICOOP, os marcos do movimento e a evolução da feira.', 'feicoop') . '</p>',
+            'content' => '<p>A história do Projeto Esperança/Cooesperança está ligada à construção de experiências coletivas de geração de trabalho e renda, fortalecimento da agricultura familiar e organização de empreendimentos solidários na região central do Rio Grande do Sul.<br><br>Com o tempo, esse processo deu origem a redes de comercialização, espaços permanentes de feira e grandes encontros de articulação, como a FEICOOP, que passou a reunir grupos, cooperativas, movimentos e instituições de diferentes regiões do Brasil e da América Latina.<br><br>A caminhada do projeto expressa uma aposta política e social na economia solidária como caminho concreto de inclusão, cooperação e desenvolvimento territorial.</p>',
         ],
         [
             'slug' => 'feirao-colonial',
@@ -819,7 +819,9 @@ function feicoop_ensure_theme_page(array $definition): int {
         $seeded_content = (string) get_post_meta($page_id, '_feicoop_seed_content', true);
 
         if ($seeded_content === '') {
-            $is_seed_placeholder = $current_content === $content || in_array($current_content, feicoop_legacy_seed_placeholders(), true);
+            // Compara sem as tags, pois os placeholders antigos podiam vir com <p>...</p>.
+            $current_text = trim(wp_strip_all_tags($current_content));
+            $is_seed_placeholder = $current_text === trim(wp_strip_all_tags($content)) || in_array($current_text, feicoop_legacy_seed_placeholders(), true);
             $seeded_content = $is_seed_placeholder ? $current_content : "\0edited";
             update_post_meta($page_id, '_feicoop_seed_content', $seeded_content);
         }
