@@ -1584,6 +1584,14 @@ blockquote {
   background: rgba(255, 255, 255, 0.84);
   border: 1px solid rgba(74, 135, 121, 0.14);
   box-shadow: 0 10px 24px rgba(38, 73, 46, 0.05);
+  /* O .hero__panel base usa texto branco (fundo verde); aqui o fundo é claro,
+     então o texto precisa voltar a ser escuro. */
+  color: var(--text-color);
+}
+
+.feicoop-hero__panel h2,
+.feicoop-hero__panel p {
+  color: var(--text-color);
 }
 
 .feicoop-hero__panel h2 {
