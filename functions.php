@@ -751,6 +751,22 @@ function feicoop_theme_page_definitions(): array {
             'content' => '<p>' . esc_html__('Publique aqui os canais oficiais, telefones e redes sociais do projeto.', 'feicoop') . '</p>',
         ],
         [
+            'slug' => 'cooesperanca',
+            'title' => __('A Cooesperança', 'feicoop'),
+            'content' => '<p>' . esc_html__('Página da Cooesperança (Cooperativa Mista dos Pequenos Produtores Rurais e Urbanos Vinculados ao Projeto Esperança Ltda).', 'feicoop') . '</p>',
+        ],
+        [
+            'slug' => 'ponto-de-cultura',
+            'title' => __('Ponto de Cultura', 'feicoop'),
+            'content' => '<p>' . esc_html__('Conte aqui o que é o Ponto de Cultura do Projeto Esperança/Cooesperança.', 'feicoop') . '</p>',
+        ],
+        [
+            'slug' => 'galeria',
+            'title' => __('Galeria de Fotos', 'feicoop'),
+            'template' => 'template-galeria.php',
+            'content' => '',
+        ],
+        [
             'slug' => 'inscricoes',
             'title' => __('Inscrições', 'feicoop'),
             'template' => 'template-inscricoes.php',
@@ -838,7 +854,7 @@ function feicoop_maybe_seed_theme_pages(): void {
     $stored_version = (string) get_option('feicoop_theme_pages_version', '');
 
     if ($stored_version === $theme_version) {
-        $required_slugs = ['inicio', 'quem-somos', 'historia', 'feirao-colonial', 'contato', 'inscricoes', 'noticias'];
+        $required_slugs = ['inicio', 'quem-somos', 'historia', 'feirao-colonial', 'contato', 'cooesperanca', 'ponto-de-cultura', 'galeria', 'inscricoes', 'noticias'];
         foreach ($required_slugs as $slug) {
             $existing_page = get_page_by_path($slug, OBJECT, 'page');
             if (!($existing_page instanceof WP_Post)) {
@@ -2440,11 +2456,12 @@ function feicoop_main_menu_fallback(): void {
     echo '<li class="current-menu-item"><a href="' . esc_url(home_url('/')) . '">' . esc_html__('Início', 'feicoop') . '</a></li>';
     echo '<li><a href="' . esc_url(feicoop_page_url('quem-somos', '/quem-somos.html')) . '">' . esc_html__('Quem somos', 'feicoop') . '</a></li>';
     echo '<li><a href="' . esc_url(feicoop_page_url('historia', '/historia.html')) . '">' . esc_html__('História', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_page_url('cooesperanca', '/cooesperanca.html')) . '">' . esc_html__('A Cooesperança', 'feicoop') . '</a></li>';
     echo '<li><a href="' . esc_url(feicoop_page_url('feirao-colonial', '/feirao-colonial.html')) . '">' . esc_html__('Feirão EcoSol', 'feicoop') . '</a></li>';
     echo '<li><a href="' . esc_url(feicoop_programacao_archive_url()) . '">' . esc_html__('FEICOOP', 'feicoop') . '</a></li>';
-    echo '<li><a href="' . esc_url(get_post_type_archive_link('publicacao')) . '">' . esc_html__('Produções e publicações', 'feicoop') . '</a></li>';
-    echo '<li><a href="' . esc_url(feicoop_page_url('ponto-de-cultura', '/ponto-de-cultura.html')) . '">' . esc_html__('Ponto de cultura', 'feicoop') . '</a></li>';
-    echo '<li><a href="' . esc_url(feicoop_page_url('galeria', '/galeria.html')) . '">' . esc_html__('Galeria de fotos', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_page_url('ponto-de-cultura', '/ponto-de-cultura.html')) . '">' . esc_html__('Ponto de Cultura', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(get_post_type_archive_link('publicacao')) . '">' . esc_html__('Produções e Publicações', 'feicoop') . '</a></li>';
+    echo '<li><a href="' . esc_url(feicoop_page_url('galeria', '/galeria.html')) . '">' . esc_html__('Galeria de Fotos', 'feicoop') . '</a></li>';
     echo '<li><a href="' . esc_url(feicoop_posts_page_url()) . '">' . esc_html__('Notícias', 'feicoop') . '</a></li>';
     echo '<li><a href="' . esc_url(feicoop_page_url('contato', '/contato.html')) . '">' . esc_html__('Contato', 'feicoop') . '</a></li>';
     echo '</ul>';
