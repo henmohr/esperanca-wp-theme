@@ -69,24 +69,29 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
             </div>
             <div class="news-grid">
                 <?php
+                // O acervo histórico (2013–2018) não entra no destaque da home:
+                // ele vive na própria listagem da categoria Acervo.
+                $acervo_id = function_exists('feicoop_legacy_acervo_term_id') ? feicoop_legacy_acervo_term_id() : 0;
+                $excluir_acervo = $acervo_id > 0 ? ['category__not_in' => [$acervo_id]] : [];
+
                 // Prefere um post marcado como destaque na home; senão, o mais recente.
-                $latest = new WP_Query([
+                $latest = new WP_Query(array_merge([
                     'post_type' => 'post',
                     'posts_per_page' => 1,
                     'post_status' => 'publish',
                     'meta_key' => '_feicoop_post_featured',
                     'meta_value' => '1',
                     'no_found_rows' => true,
-                ]);
+                ], $excluir_acervo));
 
                 if (!$latest->have_posts()) {
                     wp_reset_postdata();
-                    $latest = new WP_Query([
+                    $latest = new WP_Query(array_merge([
                         'post_type' => 'post',
                         'posts_per_page' => 1,
                         'post_status' => 'publish',
                         'no_found_rows' => true,
-                    ]);
+                    ], $excluir_acervo));
                 }
 
                 if ($latest->have_posts()) {

@@ -15,6 +15,24 @@ if (!defined('ABSPATH')) {
 <a class="skip-link screen-reader-text" href="#main"><?php esc_html_e('Pular para o conteúdo', 'feicoop'); ?></a>
 <header class="top js-header">
     <div class="wrapper top__inner">
+        <?php
+        // O tema declara suporte a logo (add_theme_support('custom-logo')) e tem
+        // CSS pronto para .logo > img, mas o cabeçalho nunca imprimia a marca.
+        // Sem logo definido no Personalizador, cai no nome do site.
+        $feicoop_logo_id  = (int) get_theme_mod('custom_logo');
+        $feicoop_logo_url = $feicoop_logo_id > 0
+            ? (string) wp_get_attachment_image_url($feicoop_logo_id, 'full')
+            : '';
+        $feicoop_site_name = (string) get_bloginfo('name');
+        ?>
+        <a class="logo" href="<?php echo esc_url(home_url('/')); ?>" rel="home">
+            <?php if ($feicoop_logo_url !== '') : ?>
+                <img src="<?php echo esc_url($feicoop_logo_url); ?>" alt="<?php echo esc_attr($feicoop_site_name); ?>">
+            <?php else : ?>
+                <span class="logo__mark"><?php echo esc_html($feicoop_site_name); ?></span>
+            <?php endif; ?>
+        </a>
+
         <button class="navbar__toggle js-toggle" aria-label="<?php esc_attr_e('Menu', 'feicoop'); ?>" aria-controls="primary-menu" aria-expanded="false">
             <span class="navbar__toggle-box">
                 <span class="navbar__toggle-inner" aria-hidden="true"></span>

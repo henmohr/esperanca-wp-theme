@@ -18,7 +18,21 @@ if ($news_title === '') {
             <div class="wrapper">
                 <h1<?php echo $news_title_style; ?>><?php echo esc_html($news_title); ?></h1>
                 <p class="page__desc"><?php esc_html_e('Acompanhe as publicações mais recentes do portal FEICOOP.', 'feicoop'); ?></p>
-                <?php feicoop_render_back_button(home_url('/'), __('Voltar ao início', 'feicoop')); ?>
+                <?php
+                // O acervo histórico não entra neste feed (para não afogar as
+                // notícias recentes), então precisa de um caminho explícito.
+                $acervo_page = get_page_by_path('acervo', OBJECT, 'page');
+                ?>
+                <p class="hero__actions hero__actions--back">
+                    <?php if ($acervo_page instanceof WP_Post) : ?>
+                        <a class="btn btn--ghost" href="<?php echo esc_url((string) get_permalink($acervo_page)); ?>">
+                            <?php esc_html_e('Ver acervo histórico', 'feicoop'); ?>
+                        </a>
+                    <?php endif; ?>
+                    <a class="btn btn--ghost" href="<?php echo esc_url(home_url('/')); ?>">
+                        <?php esc_html_e('Voltar ao início', 'feicoop'); ?>
+                    </a>
+                </p>
             </div>
         </header>
     </div>

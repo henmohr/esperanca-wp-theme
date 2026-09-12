@@ -4,6 +4,7 @@ if (!defined('ABSPATH')) {
 }
 
 require_once __DIR__ . '/inc/helpers.php';
+require_once __DIR__ . '/inc/legacy-content.php';
 
 function feicoop_setup(): void {
     load_theme_textdomain('feicoop', get_template_directory() . '/languages');

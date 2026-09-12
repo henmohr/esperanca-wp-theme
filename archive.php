@@ -8,7 +8,13 @@ get_header();
     <div class="hero hero--noimage">
         <header class="hero__content hero__content--centered">
             <div class="wrapper">
-                <h1><?php echo esc_html(get_the_archive_title()); ?></h1>
+                <?php
+                // O WordPress embrulha o título do arquivo em <span> desde o 5.5
+                // (general-template.php). Escapar a string inteira fazia as tags
+                // aparecerem como texto: "Categoria: <span>Acervo</span>".
+                // Aqui permitimos apenas o span do core e escapamos o resto.
+                ?>
+                <h1><?php echo wp_kses(get_the_archive_title(), ['span' => []]); ?></h1>
                 <p class="page__desc"><?php echo wp_kses_post(get_the_archive_description()); ?></p>
             </div>
         </header>

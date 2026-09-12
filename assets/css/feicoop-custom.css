@@ -79,6 +79,22 @@ p {
 
 .logo__mark {
   background: transparent;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Em telas estreitas o nome do site não cabe numa linha. */
+@media (max-width: 75em) {
+  .logo__mark {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 56.1875em) {
+  .logo__mark {
+    white-space: normal;
+  }
 }
 
 .logo > img {
