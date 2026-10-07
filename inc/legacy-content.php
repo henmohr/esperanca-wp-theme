@@ -28,6 +28,24 @@ const FEICOOP_LEGACY_INDEX_SLUG = 'acervo';
 const FEICOOP_LEGACY_BATCH = 15;
 
 /**
+ * Verifica se os ativos pesados do acervo (imagens e anexos) estão presentes.
+ *
+ * Esses arquivos somam ~73 MB e são distribuídos num pacote separado
+ * (esperanca-wp-theme-legacy.zip) para não inflar o tamanho do tema. Eles só
+ * são necessários na primeira importação; depois ficam na biblioteca de mídia.
+ *
+ * @return bool
+ */
+function feicoop_legacy_assets_present(): bool {
+    $base = get_template_directory();
+    $img = $base . '/' . FEICOOP_LEGACY_IMG_DIR;
+    $files = $base . '/' . FEICOOP_LEGACY_FILE_DIR;
+
+    return is_dir($img) && (bool) glob($img . '*')
+        && is_dir($files) && (bool) glob($files . '*');
+}
+
+/**
  * Carrega o manifesto do conteúdo legado.
  *
  * @return array<int, array<string, string>>
@@ -822,8 +840,15 @@ function feicoop_legacy_backfill_thumbnails(int $limite = 0): int {
 
 /**
  * Semeia o legado junto com o restante do tema, na ativação.
+ *
+ * Se os ativos pesados ainda não estiverem no tema (pacote separado), adia:
+ * o admin_init retoma a importação assim que eles forem colocados.
  */
 function feicoop_legacy_seed_on_switch(): void {
+    if (!feicoop_legacy_assets_present()) {
+        return;
+    }
+
     feicoop_seed_legacy_content();
 }
 add_action('after_switch_theme', 'feicoop_legacy_seed_on_switch', 20);
@@ -841,6 +866,13 @@ function feicoop_maybe_seed_legacy_content(): void {
 
     $versao = (string) wp_get_theme()->get('Version');
     $estado = get_option('feicoop_legacy_seeded');
+
+    // Nunca importou ainda e os ativos pesados não estão no tema: adia até
+    // que o pacote separado seja colocado via cPanel/FTP. (O aviso fica em
+    // feicoop_legacy_assets_missing_notice.)
+    if (!is_array($estado) && !feicoop_legacy_assets_present()) {
+        return;
+    }
 
     if (is_array($estado) && ($estado['versao'] ?? '') === $versao) {
         // O acervo já está importado; garante só o backfill das imagens.
@@ -886,3 +918,26 @@ function feicoop_legacy_admin_notice(): void {
     );
 }
 add_action('admin_notices', 'feicoop_legacy_admin_notice');
+
+/**
+ * Aviso no painel enquanto o pacote de acervo não foi colocado no tema.
+ *
+ * Os PDFs/imagens antigos (~73 MB) vêm num ZIP separado para não inflar o
+ * tema. Enquanto ele não estiver em assets/legacy/, a importação fica adiada.
+ */
+function feicoop_legacy_assets_missing_notice(): void {
+    if (!is_admin() || !current_user_can('manage_options')) {
+        return;
+    }
+
+    // Já importado ou ativos presentes: não há o que avisar.
+    if (is_array(get_option('feicoop_legacy_seeded')) || feicoop_legacy_assets_present()) {
+        return;
+    }
+
+    printf(
+        '<div class="notice notice-warning"><p>%s</p></div>',
+        esc_html__('Acervo do site antigo: para importar as páginas, imagens e anexos, envie o arquivo esperanca-wp-theme-legacy.zip para a pasta do tema (em wp-content/themes/) e extraia dentro dela. Depois recarregue esta página.', 'feicoop')
+    );
+}
+add_action('admin_notices', 'feicoop_legacy_assets_missing_notice');

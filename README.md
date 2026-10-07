@@ -7,13 +7,19 @@ WordPress theme ported from the Publii FEICOOP theme.
 
 ## Download
 
-To get a ZIP package ready to upload in WordPress:
+O release contém dois arquivos:
 
-1. Open the repository on GitHub.
-2. Go to the [Releases page](https://github.com/henmohr/esperanca-wp-theme/releases) and download the latest ZIP asset, or run the `Package theme` workflow in `Actions`.
-3. If you want to build it locally, run `scripts/package-theme.sh`.
+- **`esperanca-wp-theme.zip`** — o tema (~5 MB), pronto para instalar.
+- **`esperanca-wp-theme-legacy.zip`** — o acervo do site antigo (PDFs e imagens, ~73 MB), mantido à parte para não estourar o limite de upload do WordPress.
 
-The ZIP includes the theme root files only, so it can be uploaded directly in `Appearance > Themes > Add New > Upload Theme` in WordPress.
+Para instalar:
+
+1. Baixe os dois ZIPs na [página de Releases](https://github.com/henmohr/esperanca-wp-theme/releases).
+2. Envie `esperanca-wp-theme.zip` em `Appearance > Themes > Add New > Upload Theme`.
+3. Envie `esperanca-wp-theme-legacy.zip` via cPanel (File Manager) ou FTP para a pasta do tema (`wp-content/themes/esperanca-wp-theme/`) e extraia dentro dela.
+4. Ative o tema (ou recarregue o painel) — o acervo antigo é importado automaticamente em lotes.
+
+Para gerar os pacotes localmente: `scripts/package-theme.sh` (tema) e `scripts/package-legacy.sh` (acervo).
 
 ## Atualizações automáticas
 
@@ -21,7 +27,7 @@ O tema se auto atualiza a partir dos releases do GitHub, sem depender de plugins
 
 - A biblioteca [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker) (em `inc/plugin-update-checker/`) consulta o release mais recente do repositório.
 - Quando a versão publicada é maior que a instalada, o aviso aparece em `Appearance > Themes`, com o botão "Atualizar agora" — igual a um tema do WordPress.org.
-- A atualização baixa o `esperanca-wp-theme.zip` anexado ao release.
+- A atualização baixa apenas o `esperanca-wp-theme.zip` (tema) do release. O pacote do acervo não é rebaixado, pois o conteúdo já fica na biblioteca de mídia após a primeira importação.
 
 ### Como lançar uma nova versão
 

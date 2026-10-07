@@ -36,12 +36,39 @@ jobs:
           set -euo pipefail
           bash scripts/package-theme.sh
 
-      - name: Upload artifact
+      - name: Build acervo package (PDFs/imagens antigos)
+        run: |
+          set -euo pipefail
+          bash scripts/package-legacy.sh
+
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: esperanca-wp-theme-${{ github.sha }}
-          path: dist/esperanca-wp-theme.zip
+          path: |
+            dist/esperanca-wp-theme.zip
+            dist/esperanca-wp-theme-legacy.zip
           if-no-files-found: error
+
+      - name: Remove ZIPs antigos do release (mesmo nome)
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            TAG="$GITHUB_REF_NAME"
+          else
+            TAG="v$(grep -m1 '^Version:' style.css | awk '{print $2}' | tr -d '\r')"
+          fi
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            for f in esperanca-wp-theme.zip esperanca-wp-theme-legacy.zip; do
+              if gh release view "$TAG" --json assets --jq '.assets[].name' | grep -qx "$f"; then
+                echo "Removendo asset existente: $f"
+                gh release delete-asset "$TAG" "$f" -y || true
+              fi
+            done
+          fi
 
       - name: Publish release (automática na main ou via tag v*)
         if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
@@ -51,10 +78,13 @@ jobs:
           tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('v{0}', steps.version.outputs.ver) }}
           name: ${{ startsWith(github.ref, 'refs/tags/') && format('esperanca-wp-theme {0}', github.ref_name) || format('esperanca-wp-theme v{0}', steps.version.outputs.ver) }}
           body: |
-            ZIP do tema pronto para instalar em **Aparência > Temas > Adicionar novo > Enviar tema**.
+            - **esperanca-wp-theme.zip** — tema pronto para instalar em **Aparência > Temas > Adicionar novo > Enviar tema**.
+            - **esperanca-wp-theme-legacy.zip** — acervo do site antigo (PDFs/imagens). Extraia dentro da pasta do tema via cPanel/FTP.
 
             Gerado automaticamente pelo workflow **Package theme**.
-          files: dist/esperanca-wp-theme.zip
+          files: |
+            dist/esperanca-wp-theme.zip
+            dist/esperanca-wp-theme-legacy.zip
           # Atualiza a release da mesma tag se já existir (novo push sem bump de versão).
           update_existing: true
         env:

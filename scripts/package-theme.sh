@@ -11,6 +11,8 @@ rm -f "${ZIP_FILE}"
 rm -rf "${STAGING_DIR}"
 
 # Copia o tema para um staging (excluindo git, dist e afins).
+# Os ativos pesados do acervo (assets/legacy/*) vão num pacote separado
+# (scripts/package-legacy.sh) para manter o tema leve e fácil de enviar.
 mkdir -p "${STAGING_DIR}"
 cd "${ROOT_DIR}"
 tar \
@@ -19,6 +21,8 @@ tar \
   --exclude="./dist" \
   --exclude="./.DS_Store" \
   --exclude="./scripts" \
+  --exclude="./assets/legacy/files" \
+  --exclude="./assets/legacy/img" \
   -cf - . | (cd "${STAGING_DIR}" && tar -xf -)
 
 # Minifica CSS/JS no staging (não altera os fontes do tema).
