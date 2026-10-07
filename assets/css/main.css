@@ -1254,7 +1254,6 @@ textarea {
 }
 .feed__date {
   color: var(--gray);
-  font-style: italic;
 }
 .feed__author + .feed__date::before {
   content: "";
@@ -1313,7 +1312,6 @@ textarea {
 .content__updated {
   color: var(--gray);
   font-size: 0.8789062495rem;
-  font-style: italic;
 }
 .content__actions {
   align-items: baseline;

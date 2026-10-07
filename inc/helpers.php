@@ -112,6 +112,7 @@ function feicoop_home_quicklink_defaults(): array {
         ['url' => feicoop_page_url('quem-somos', '/quem-somos.html'), 'kicker' => 'Institucional', 'label' => 'Quem somos'],
         ['url' => feicoop_page_url('historia', '/historia.html'), 'kicker' => 'Memória', 'label' => 'História'],
         ['url' => feicoop_page_url('feirao-colonial', '/feirao-colonial.html'), 'kicker' => 'Comercialização', 'label' => 'Feirão EcoSol'],
+        ['url' => feicoop_programacao_archive_url(), 'kicker' => 'Evento anual', 'label' => 'FEICOOP'],
     ];
 }
 
@@ -192,13 +193,13 @@ function feicoop_home_news_fields(): array {
 }
 
 /**
- * Seção "Projeto Cooesperança" da home (em construção).
+ * Seção "A Cooesperança" da home (destaque no painel do hero).
  */
 function feicoop_home_cooesperanca_fields(): array {
     return [
-        'kicker' => (string) get_theme_mod('feicoop_home_cooesperanca_kicker', 'Projeto Cooesperança'),
-        'title' => (string) get_theme_mod('feicoop_home_cooesperanca_title', 'Em construção'),
-        'text' => (string) get_theme_mod('feicoop_home_cooesperanca_text', 'A página do Projeto Cooesperança está em construção. Em breve você encontrará aqui as informações sobre a cooperativa, sua história, seus empreendimentos e formas de participação.'),
+        'kicker' => (string) get_theme_mod('feicoop_home_cooesperanca_kicker', 'A Cooesperança'),
+        'title' => (string) get_theme_mod('feicoop_home_cooesperanca_title', 'Cooperativa Mista dos Pequenos Produtores'),
+        'text' => (string) get_theme_mod('feicoop_home_cooesperanca_text', 'Atuação em economia solidária, agricultura familiar e agroindústria, gerando trabalho e renda para pequenos produtores de Santa Maria e região.'),
     ];
 }
 

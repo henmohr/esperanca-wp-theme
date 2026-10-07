@@ -15,6 +15,7 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
     <?php if ($construction_notice !== '') : ?>
         <div class="site-construction" role="note">
             <p><?php echo esc_html($construction_notice); ?></p>
+            <button type="button" class="site-construction__close" aria-label="<?php esc_attr_e('Fechar aviso', 'feicoop'); ?>">&times;</button>
         </div>
     <?php endif; ?>
 
@@ -51,8 +52,8 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
 
     <section class="section" id="noticias">
         <div class="wrapper">
-            <div class="news-summary">
-                <div class="section__header">
+            <div class="section__header section__header--row">
+                <div>
                     <?php if ($home_news['kicker'] !== '') : ?>
                         <p class="section__kicker"><?php echo esc_html($home_news['kicker']); ?></p>
                     <?php endif; ?>
@@ -60,59 +61,40 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
                         <h2><?php echo esc_html($home_news['title']); ?></h2>
                     <?php endif; ?>
                 </div>
-                <div class="news-summary__actions">
-                    <?php if ($home_news['text'] !== '') : ?>
-                        <p class="section__text section__text--lead"><?php echo esc_html($home_news['text']); ?></p>
-                    <?php endif; ?>
-                    <a class="btn btn--ghost" href="<?php echo esc_url(feicoop_posts_page_url()); ?>"><?php esc_html_e('Ir para notícias', 'feicoop'); ?></a>
-                </div>
+                <a class="btn btn--ghost" href="<?php echo esc_url(feicoop_posts_page_url()); ?>"><?php esc_html_e('Ver todas', 'feicoop'); ?></a>
             </div>
-            <div class="news-grid">
+
+            <div class="news-grid news-grid--3">
                 <?php
-                // O acervo histórico (2013–2018) não entra no destaque da home:
-                // ele vive na própria listagem da categoria Acervo.
+                // O acervo histórico (2013–2018) não entra na home.
                 $acervo_id = function_exists('feicoop_legacy_acervo_term_id') ? feicoop_legacy_acervo_term_id() : 0;
                 $excluir_acervo = $acervo_id > 0 ? ['category__not_in' => [$acervo_id]] : [];
 
-                // Prefere um post marcado como destaque na home; senão, o mais recente.
                 $latest = new WP_Query(array_merge([
                     'post_type' => 'post',
-                    'posts_per_page' => 1,
+                    'posts_per_page' => 3,
                     'post_status' => 'publish',
-                    'meta_key' => '_feicoop_post_featured',
-                    'meta_value' => '1',
                     'no_found_rows' => true,
                 ], $excluir_acervo));
-
-                if (!$latest->have_posts()) {
-                    wp_reset_postdata();
-                    $latest = new WP_Query(array_merge([
-                        'post_type' => 'post',
-                        'posts_per_page' => 1,
-                        'post_status' => 'publish',
-                        'no_found_rows' => true,
-                    ], $excluir_acervo));
-                }
 
                 if ($latest->have_posts()) {
                     while ($latest->have_posts()) {
                         $latest->the_post();
                         $is_featured = (bool) get_post_meta(get_the_ID(), '_feicoop_post_featured', true);
                         ?>
-                        <article id="post-<?php the_ID(); ?>" <?php post_class('news-featured'); ?>>
-                            <a class="news-featured__image" href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1"><?php echo wp_kses_post(feicoop_post_feature_image_html(get_the_ID(), 'feicoop-card')); ?></a>
-                            <div class="news-featured__content">
+                        <article id="post-<?php the_ID(); ?>" <?php post_class('news-card'); ?>>
+                            <a class="news-card__image" href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1"><?php echo wp_kses_post(feicoop_post_feature_image_html(get_the_ID(), 'feicoop-card')); ?></a>
+                            <div class="news-card__content">
                                 <div class="feed__meta">
                                     <time class="feed__date" datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date()); ?></time>
-                                    <span class="feed__author"><?php echo esc_html(get_the_author()); ?></span>
                                 </div>
-                                <h3 class="news-featured__title">
+                                <h3 class="news-card__title">
                                     <?php if ($is_featured) : ?>
                                         <span class="news-featured__badge"><?php esc_html_e('Destaque', 'feicoop'); ?></span>
                                     <?php endif; ?>
                                     <a href="<?php the_permalink(); ?>"><?php echo esc_html(get_the_title()); ?></a>
                                 </h3>
-                                <div class="news-featured__excerpt"><?php echo wp_kses_post(feicoop_excerpt()); ?></div>
+                                <div class="news-card__excerpt"><?php echo wp_kses_post(feicoop_excerpt()); ?></div>
                                 <a class="btn" href="<?php the_permalink(); ?>"><?php esc_html_e('Ler notícia', 'feicoop'); ?></a>
                             </div>
                         </article>
