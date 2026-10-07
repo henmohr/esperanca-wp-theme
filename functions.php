@@ -770,6 +770,11 @@ function feicoop_theme_page_definitions(): array {
             'content' => '<p>A história do Projeto Esperança/Cooesperança está ligada à construção de experiências coletivas de geração de trabalho e renda, fortalecimento da agricultura familiar e organização de empreendimentos solidários na região central do Rio Grande do Sul.<br><br>Com o tempo, esse processo deu origem a redes de comercialização, espaços permanentes de feira e grandes encontros de articulação, como a FEICOOP, que passou a reunir grupos, cooperativas, movimentos e instituições de diferentes regiões do Brasil e da América Latina.<br><br>A caminhada do projeto expressa uma aposta política e social na economia solidária como caminho concreto de inclusão, cooperação e desenvolvimento territorial.</p>',
         ],
         [
+            'slug' => 'a-feicoop',
+            'title' => __('A FEICOOP', 'feicoop'),
+            'content' => feicoop_feicoop_history_default(),
+        ],
+        [
             'slug' => 'feirao-colonial',
             'title' => __('Feirão EcoSol', 'feicoop'),
             'content' => '<p>O Feirão EcoSol é um espaço permanente de comercialização solidária, circulação de alimentos e encontro entre consumidores e produtores. Ele expressa, na prática, os princípios da economia solidária e da agroecologia. Além da venda direta, o Feirão fortalece vínculos comunitários, amplia a renda dos empreendimentos e torna visível a produção da agricultura familiar e do cooperativismo popular. Destaques: Comercialização sem intermediários; Valorização da agricultura familiar; Consumo ético e consciente; Presença permanente no calendário do projeto.</p><h2>Como participar</h2><p>Descreva aqui como produtores e grupos podem participar do Feirão EcoSol (contatos, regras, inscrição).</p><h2>Nossos empreendimentos</h2><p>Liste aqui os empreendimentos da economia solidária que participam do Feirão EcoSol.</p>',
@@ -2455,21 +2460,7 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'feicoop_home_highlight_text' => ['label' => __('Texto', 'feicoop'), 'section' => 'feicoop_home_highlight', 'type' => 'textarea', 'default' => $highlight['text']],
     ]);
 
-    $wp_customize->add_section('feicoop_feicoop_history', [
-        'title' => __('FEICOOP — História', 'feicoop'),
-        'description' => __('Texto da seção "A trajetória da FEICOOP" exibida na página /feicoop/. Aceita HTML (títulos h2/h3 e parágrafos).', 'feicoop'),
-        'priority' => 31,
-    ]);
 
-    feicoop_customize_add_fields($wp_customize, [
-        'feicoop_feicoop_history' => [
-            'label' => __('Conteúdo da seção', 'feicoop'),
-            'section' => 'feicoop_feicoop_history',
-            'type' => 'textarea',
-            'default' => feicoop_feicoop_history_default(),
-            'sanitize_callback' => 'wp_kses_post',
-        ],
-    ]);
 
     $wp_customize->add_section('feicoop_home_news', [
         'title' => __('FEICOOP Home — Notícias', 'feicoop'),

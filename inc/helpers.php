@@ -298,9 +298,4 @@ function feicoop_feicoop_history_default(): string {
 HTML;
 }
 
-/**
- * Conteúdo (editável no Personalizador) da seção "A trajetória da FEICOOP".
- */
-function feicoop_feicoop_history_html(): string {
-    return (string) get_theme_mod('feicoop_feicoop_history', feicoop_feicoop_history_default());
-}
+
