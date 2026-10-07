@@ -30,7 +30,7 @@ $feicoopThemeUpdateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::bui
 $feicoopThemeUpdateChecker->setBranch('main');
 
 // Baixa só o ZIP do tema (esperanca-wp-theme.zip) do release, ignorando o
-// pacote separado do acervo (esperanca-wp-theme-legacy.zip).
+// pacote separado do acervo (esperanca-wp-theme-legacy.tar.gz).
 $feicoopThemeUpdateChecker->getVcsApi()->enableReleaseAssets('/esperanca-wp-theme\.zip$/i');
 
 function feicoop_setup(): void {

@@ -31,7 +31,7 @@ const FEICOOP_LEGACY_BATCH = 15;
  * Verifica se os ativos pesados do acervo (imagens e anexos) estão presentes.
  *
  * Esses arquivos somam ~73 MB e são distribuídos num pacote separado
- * (esperanca-wp-theme-legacy.zip) para não inflar o tamanho do tema. Eles só
+ * (esperanca-wp-theme-legacy.tar.gz) para não inflar o tamanho do tema. Eles só
  * são necessários na primeira importação; depois ficam na biblioteca de mídia.
  *
  * @return bool
@@ -937,7 +937,7 @@ function feicoop_legacy_assets_missing_notice(): void {
 
     printf(
         '<div class="notice notice-warning"><p>%s</p></div>',
-        esc_html__('Acervo do site antigo: para importar as páginas, imagens e anexos, envie o arquivo esperanca-wp-theme-legacy.zip para a pasta do tema (em wp-content/themes/) e extraia dentro dela. Depois recarregue esta página.', 'feicoop')
+        esc_html__('Acervo do site antigo: para importar as páginas, imagens e anexos, envie o arquivo esperanca-wp-theme-legacy.tar.gz para a pasta do tema (em wp-content/themes/) e extraia dentro dela. Depois recarregue esta página.', 'feicoop')
     );
 }
 add_action('admin_notices', 'feicoop_legacy_assets_missing_notice');

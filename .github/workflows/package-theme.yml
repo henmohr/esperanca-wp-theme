@@ -47,7 +47,7 @@ jobs:
           name: esperanca-wp-theme-${{ github.sha }}
           path: |
             dist/esperanca-wp-theme.zip
-            dist/esperanca-wp-theme-legacy.zip
+            dist/esperanca-wp-theme-legacy.tar.gz
           if-no-files-found: error
 
       - name: Remove ZIPs antigos do release (mesmo nome)
@@ -62,7 +62,7 @@ jobs:
             TAG="v$(grep -m1 '^Version:' style.css | awk '{print $2}' | tr -d '\r')"
           fi
           if gh release view "$TAG" >/dev/null 2>&1; then
-            for f in esperanca-wp-theme.zip esperanca-wp-theme-legacy.zip; do
+            for f in esperanca-wp-theme.zip esperanca-wp-theme-legacy.zip esperanca-wp-theme-legacy.tar.gz; do
               if gh release view "$TAG" --json assets --jq '.assets[].name' | grep -qx "$f"; then
                 echo "Removendo asset existente: $f"
                 gh release delete-asset "$TAG" "$f" -y || true
@@ -79,12 +79,12 @@ jobs:
           name: ${{ startsWith(github.ref, 'refs/tags/') && format('esperanca-wp-theme {0}', github.ref_name) || format('esperanca-wp-theme v{0}', steps.version.outputs.ver) }}
           body: |
             - **esperanca-wp-theme.zip** — tema pronto para instalar em **Aparência > Temas > Adicionar novo > Enviar tema**.
-            - **esperanca-wp-theme-legacy.zip** — acervo do site antigo (PDFs/imagens). Extraia dentro da pasta do tema via cPanel/FTP.
+            - **esperanca-wp-theme-legacy.tar.gz** — acervo do site antigo (PDFs/imagens). Extraia dentro da pasta do tema via cPanel/FTP.
 
             Gerado automaticamente pelo workflow **Package theme**.
           files: |
             dist/esperanca-wp-theme.zip
-            dist/esperanca-wp-theme-legacy.zip
+            dist/esperanca-wp-theme-legacy.tar.gz
           # Atualiza a release da mesma tag se já existir (novo push sem bump de versão).
           update_existing: true
         env:

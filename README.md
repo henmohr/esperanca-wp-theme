@@ -10,13 +10,13 @@ WordPress theme ported from the Publii FEICOOP theme.
 O release contém dois arquivos:
 
 - **`esperanca-wp-theme.zip`** — o tema (~5 MB), pronto para instalar.
-- **`esperanca-wp-theme-legacy.zip`** — o acervo do site antigo (PDFs e imagens, ~73 MB), mantido à parte para não estourar o limite de upload do WordPress.
+- **`esperanca-wp-theme-legacy.tar.gz`** — o acervo do site antigo (PDFs e imagens, ~73 MB), mantido à parte para não estourar o limite de upload do WordPress.
 
 Para instalar:
 
 1. Baixe os dois ZIPs na [página de Releases](https://github.com/henmohr/esperanca-wp-theme/releases).
 2. Envie `esperanca-wp-theme.zip` em `Appearance > Themes > Add New > Upload Theme`.
-3. Envie `esperanca-wp-theme-legacy.zip` via cPanel (File Manager) ou FTP para a pasta do tema (`wp-content/themes/esperanca-wp-theme/`) e extraia dentro dela.
+3. Envie `esperanca-wp-theme-legacy.tar.gz` via cPanel (File Manager) ou FTP para a pasta do tema (`wp-content/themes/esperanca-wp-theme/`) e extraia dentro dela.
 4. Ative o tema (ou recarregue o painel) — o acervo antigo é importado automaticamente em lotes.
 
 Para gerar os pacotes localmente: `scripts/package-theme.sh` (tema) e `scripts/package-legacy.sh` (acervo).
