@@ -39,8 +39,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: feicoop-wp-template-${{ github.sha }}
-          path: dist/feicoop-wp-template.zip
+          name: esperanca-wp-theme-${{ github.sha }}
+          path: dist/esperanca-wp-theme.zip
           if-no-files-found: error
 
       - name: Publish release (automática na main ou via tag v*)
@@ -49,12 +49,12 @@ jobs:
         with:
           # Na main usa a versão do style.css; em tags v* usa o próprio nome da tag.
           tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('v{0}', steps.version.outputs.ver) }}
-          name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('FEICOOP v{0}', steps.version.outputs.ver) }}
+          name: ${{ startsWith(github.ref, 'refs/tags/') && format('esperanca-wp-theme {0}', github.ref_name) || format('esperanca-wp-theme v{0}', steps.version.outputs.ver) }}
           body: |
             ZIP do tema pronto para instalar em **Aparência > Temas > Adicionar novo > Enviar tema**.
 
             Gerado automaticamente pelo workflow **Package theme**.
-          files: dist/feicoop-wp-template.zip
+          files: dist/esperanca-wp-theme.zip
           # Atualiza a release da mesma tag se já existir (novo push sem bump de versão).
           update_existing: true
         env:

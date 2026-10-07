@@ -29,7 +29,7 @@ $feicoopThemeUpdateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::bui
 // Branch estável do repositório.
 $feicoopThemeUpdateChecker->setBranch('main');
 
-// Baixa o ZIP anexado ao release (feicoop-wp-template.zip) em vez do
+// Baixa o ZIP anexado ao release (esperanca-wp-theme.zip) em vez do
 // "Source code (zip)" gerado pelo GitHub.
 $feicoopThemeUpdateChecker->getVcsApi()->enableReleaseAssets('/\.zip$/i');
 

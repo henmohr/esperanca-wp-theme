@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUT_DIR="${ROOT_DIR}/dist"
-ZIP_FILE="${OUT_DIR}/feicoop-wp-template.zip"
+ZIP_FILE="${OUT_DIR}/esperanca-wp-theme.zip"
 STAGING_DIR="${OUT_DIR}/staging"
 
 mkdir -p "${OUT_DIR}"

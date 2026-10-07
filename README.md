@@ -1,16 +1,16 @@
-# feicoop-wp-template
+# esperanca-wp-theme
 
 WordPress theme ported from the Publii FEICOOP theme.
 
-[![Package theme](https://github.com/henmohr/feicoop-wp-template/actions/workflows/package-theme.yml/badge.svg?branch=main)](https://github.com/henmohr/feicoop-wp-template/actions/workflows/package-theme.yml)
-[![Releases](https://img.shields.io/github/v/release/henmohr/feicoop-wp-template?label=release)](https://github.com/henmohr/feicoop-wp-template/releases)
+[![Package theme](https://github.com/henmohr/esperanca-wp-theme/actions/workflows/package-theme.yml/badge.svg?branch=main)](https://github.com/henmohr/esperanca-wp-theme/actions/workflows/package-theme.yml)
+[![Releases](https://img.shields.io/github/v/release/henmohr/esperanca-wp-theme?label=release)](https://github.com/henmohr/esperanca-wp-theme/releases)
 
 ## Download
 
 To get a ZIP package ready to upload in WordPress:
 
 1. Open the repository on GitHub.
-2. Go to the [Releases page](https://github.com/henmohr/feicoop-wp-template/releases) and download the latest ZIP asset, or run the `Package theme` workflow in `Actions`.
+2. Go to the [Releases page](https://github.com/henmohr/esperanca-wp-theme/releases) and download the latest ZIP asset, or run the `Package theme` workflow in `Actions`.
 3. If you want to build it locally, run `scripts/package-theme.sh`.
 
 The ZIP includes the theme root files only, so it can be uploaded directly in `Appearance > Themes > Add New > Upload Theme` in WordPress.
@@ -21,7 +21,7 @@ O tema se auto atualiza a partir dos releases do GitHub, sem depender de plugins
 
 - A biblioteca [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker) (em `inc/plugin-update-checker/`) consulta o release mais recente do repositório.
 - Quando a versão publicada é maior que a instalada, o aviso aparece em `Appearance > Themes`, com o botão "Atualizar agora" — igual a um tema do WordPress.org.
-- A atualização baixa o `feicoop-wp-template.zip` anexado ao release.
+- A atualização baixa o `esperanca-wp-theme.zip` anexado ao release.
 
 ### Como lançar uma nova versão
 
