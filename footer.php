@@ -20,6 +20,7 @@ if ($footer_legal !== '') {
     $footer_legal_lines[] = $footer_legal;
 }
 ?>
+<!-- Tema FEICOOP v<?php echo esc_html((string) wp_get_theme()->get('Version')); ?> -->
 <footer class="<?php echo is_singular('post') ? 'footer footer--glued' : 'footer'; ?>">
     <div class="wrapper footer__grid">
         <div>
