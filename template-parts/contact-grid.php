@@ -49,6 +49,11 @@ $contact = feicoop_home_contact_fields();
                     <svg width="20" height="20" aria-hidden="true"><use xlink:href="<?php echo esc_url(feicoop_asset_url('assets/svg/svg-map.svg#facebook')); ?>"></use></svg>
                 </a>
             <?php endif; ?>
+            <?php if ($contact['instagram'] !== '') : ?>
+                <a class="contact-social" href="<?php echo esc_url($contact['instagram']); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e('Instagram Feirão EcoSol', 'feicoop'); ?>">
+                    <svg width="20" height="20" aria-hidden="true"><use xlink:href="<?php echo esc_url(feicoop_asset_url('assets/svg/svg-map.svg#instagram')); ?>"></use></svg>
+                </a>
+            <?php endif; ?>
             <?php if ($contact['youtube'] !== '') : ?>
                 <a class="contact-social" href="<?php echo esc_url($contact['youtube']); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e('YouTube', 'feicoop'); ?>">
                     <svg width="20" height="20" aria-hidden="true"><use xlink:href="<?php echo esc_url(feicoop_asset_url('assets/svg/svg-map.svg#youtube')); ?>"></use></svg>

@@ -2336,6 +2336,11 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
             'default' => 'https://www.facebook.com/share/18i1BbrmgR/',
             'sanitize_callback' => 'esc_url_raw',
         ],
+        'instagram' => [
+            'label' => __('Instagram Feirão EcoSol', 'feicoop'),
+            'default' => 'https://www.instagram.com/feirao.ecosol/',
+            'sanitize_callback' => 'esc_url_raw',
+        ],
         'youtube' => [
             'label' => __('YouTube', 'feicoop'),
             'default' => 'https://www.youtube.com/channel/UC9fE3YsQNza8UpiYULNHIZw',
