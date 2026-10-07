@@ -2428,6 +2428,7 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         $quicklink_fields["feicoop_home_quicklink_{$number}_label"] = ['label' => sprintf(__('Atalho %d — rótulo', 'feicoop'), $number), 'section' => 'feicoop_home_quicklinks', 'default' => $default['label']];
         $quicklink_fields["feicoop_home_quicklink_{$number}_kicker"] = ['label' => sprintf(__('Atalho %d — legenda', 'feicoop'), $number), 'section' => 'feicoop_home_quicklinks', 'default' => $default['kicker']];
         $quicklink_fields["feicoop_home_quicklink_{$number}_url"] = ['label' => sprintf(__('Atalho %d — URL', 'feicoop'), $number), 'section' => 'feicoop_home_quicklinks', 'type' => 'url', 'default' => $default['url']];
+        $quicklink_fields["feicoop_home_quicklink_{$number}_image"] = ['label' => sprintf(__('Atalho %d — imagem', 'feicoop'), $number), 'section' => 'feicoop_home_quicklinks', 'type' => 'image', 'default' => $default['image'] ?? ''];
     }
 
     feicoop_customize_add_fields($wp_customize, $quicklink_fields);

@@ -109,10 +109,10 @@ function feicoop_home_intro_fields(): array {
 
 function feicoop_home_quicklink_defaults(): array {
     return [
-        ['url' => feicoop_page_url('quem-somos', '/quem-somos.html'), 'kicker' => 'Institucional', 'label' => 'Quem somos'],
-        ['url' => feicoop_page_url('historia', '/historia.html'), 'kicker' => 'Memória', 'label' => 'História'],
-        ['url' => feicoop_page_url('feirao-colonial', '/feirao-colonial.html'), 'kicker' => 'Comercialização', 'label' => 'Feirão EcoSol'],
-        ['url' => feicoop_programacao_archive_url(), 'kicker' => 'Evento anual', 'label' => 'FEICOOP'],
+        ['url' => feicoop_page_url('quem-somos', '/quem-somos.html'), 'kicker' => 'Institucional', 'label' => 'Quem somos', 'image' => feicoop_asset_url('assets/img/card-projeto-esperanca.avif')],
+        ['url' => feicoop_page_url('historia', '/historia.html'), 'kicker' => 'Memória', 'label' => 'História', 'image' => feicoop_asset_url('assets/img/card-rede-esperanca.avif')],
+        ['url' => feicoop_page_url('feirao-colonial', '/feirao-colonial.html'), 'kicker' => 'Comercialização', 'label' => 'Feirão EcoSol', 'image' => feicoop_asset_url('assets/img/card-feirao-colonial.avif')],
+        ['url' => feicoop_programacao_archive_url(), 'kicker' => 'Evento anual', 'label' => 'FEICOOP', 'image' => feicoop_asset_url('assets/img/card-feicoop.avif')],
     ];
 }
 
@@ -126,6 +126,7 @@ function feicoop_home_quicklinks(): array {
             'url' => (string) get_theme_mod("feicoop_home_quicklink_{$number}_url", $default['url']),
             'kicker' => (string) get_theme_mod("feicoop_home_quicklink_{$number}_kicker", $default['kicker']),
             'label' => (string) get_theme_mod("feicoop_home_quicklink_{$number}_label", $default['label']),
+            'image' => (string) get_theme_mod("feicoop_home_quicklink_{$number}_image", $default['image'] ?? ''),
         ];
     }
 

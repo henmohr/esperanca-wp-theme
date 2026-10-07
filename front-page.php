@@ -117,10 +117,15 @@ $home_hero_title_style = ' style="--hero-title-size: ' . esc_attr(feicoop_home_h
                     <?php continue; ?>
                 <?php endif; ?>
                 <a class="quicklink" href="<?php echo esc_url($quicklink['url']); ?>">
-                    <?php if ($quicklink['kicker'] !== '') : ?>
-                        <span class="quicklink__kicker"><?php echo esc_html($quicklink['kicker']); ?></span>
+                    <?php if (!empty($quicklink['image'])) : ?>
+                        <span class="quicklink__media"><img src="<?php echo esc_url($quicklink['image']); ?>" alt="" loading="lazy" decoding="async"></span>
                     <?php endif; ?>
-                    <strong><?php echo esc_html($quicklink['label']); ?></strong>
+                    <span class="quicklink__content">
+                        <?php if ($quicklink['kicker'] !== '') : ?>
+                            <span class="quicklink__kicker"><?php echo esc_html($quicklink['kicker']); ?></span>
+                        <?php endif; ?>
+                        <strong><?php echo esc_html($quicklink['label']); ?></strong>
+                    </span>
                 </a>
             <?php endforeach; ?>
         </div>
