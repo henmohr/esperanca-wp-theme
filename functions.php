@@ -135,7 +135,11 @@ function feicoop_seo_meta(): void {
 
     echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
 }
-add_action('wp_head', 'feicoop_seo_meta', 5);
+// O tema só injeta meta description/Open Graph quando não há plugin de SEO
+// ativo (ex.: Yoast), para não duplicar as tags no <head>.
+if (!defined('WPSEO_VERSION') && !defined('RANK_MATH_VERSION')) {
+    add_action('wp_head', 'feicoop_seo_meta', 5);
+}
 
 function feicoop_json_ld(): void {
     if (is_admin() || is_feed() || is_robots()) {
