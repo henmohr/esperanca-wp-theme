@@ -777,6 +777,7 @@ function feicoop_theme_page_definitions(): array {
         [
             'slug' => 'contato',
             'title' => __('Contato', 'feicoop'),
+            'template' => 'template-contato.php',
             'content' => '<p>' . esc_html__('Publique aqui os canais oficiais, telefones e redes sociais do projeto.', 'feicoop') . '</p>',
         ],
         [
@@ -862,9 +863,10 @@ function feicoop_ensure_theme_page(array $definition): int {
         }
     }
 
-    // Aplica o template apenas na criação, para não reverter escolhas do usuário
-    // quando o seed roda novamente em versões futuras do tema.
-    if (!$page_existed && $page_id > 0 && $template !== '') {
+    // Aplica o template na criação ou quando a página ainda está com o conteúdo
+    // do seed (nunca editada no painel). Páginas editadas pelo usuário não têm
+    // o template alterado.
+    if ($page_id > 0 && $template !== '' && (!$page_existed || ($never_edited ?? false))) {
         update_post_meta($page_id, '_wp_page_template', $template);
     }
 
@@ -2332,11 +2334,6 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'facebook' => [
             'label' => __('Facebook', 'feicoop'),
             'default' => 'https://www.facebook.com/share/18i1BbrmgR/',
-            'sanitize_callback' => 'esc_url_raw',
-        ],
-        'instagram' => [
-            'label' => __('Instagram Feirão EcoSol', 'feicoop'),
-            'default' => 'https://www.instagram.com/feirao.ecosol/',
             'sanitize_callback' => 'esc_url_raw',
         ],
         'youtube' => [
