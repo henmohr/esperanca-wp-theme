@@ -6,6 +6,33 @@ if (!defined('ABSPATH')) {
 require_once __DIR__ . '/inc/helpers.php';
 require_once __DIR__ . '/inc/legacy-content.php';
 
+/*
+ * Atualizações automáticas do tema a partir dos releases do GitHub.
+ *
+ * A biblioteca Plugin Update Checker (PUC) consulta o release mais recente do
+ * repositório. Quando a "Version" do style.css publicado lá for maior que a
+ * versão instalada, o WordPress mostra o aviso de atualização em
+ * Aparência > Temas e permite atualizar com um clique (como um tema do .org).
+ *
+ * IMPORTANTE: para um novo release ser detectado, o número em "Version" no
+ * style.css precisa ser incrementado antes do push/tag. O workflow "Package
+ * theme" gera o release automaticamente a partir desse número.
+ */
+require_once __DIR__ . '/inc/plugin-update-checker/plugin-update-checker.php';
+
+$feicoopThemeUpdateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+    'https://github.com/henmohr/esperanca-wp-theme/', // repositório com os releases
+    __FILE__,                                          // functions.php (o PUC detecta que é um tema)
+    ''                                                 // slug vazio: usa o nome da pasta do tema
+);
+
+// Branch estável do repositório.
+$feicoopThemeUpdateChecker->setBranch('main');
+
+// Baixa o ZIP anexado ao release (feicoop-wp-template.zip) em vez do
+// "Source code (zip)" gerado pelo GitHub.
+$feicoopThemeUpdateChecker->getVcsApi()->enableReleaseAssets('/\.zip$/i');
+
 function feicoop_setup(): void {
     load_theme_textdomain('feicoop', get_template_directory() . '/languages');
 

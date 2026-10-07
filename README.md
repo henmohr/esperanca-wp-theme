@@ -15,6 +15,24 @@ To get a ZIP package ready to upload in WordPress:
 
 The ZIP includes the theme root files only, so it can be uploaded directly in `Appearance > Themes > Add New > Upload Theme` in WordPress.
 
+## Atualizações automáticas
+
+O tema se auto atualiza a partir dos releases do GitHub, sem depender de plugins externos.
+
+- A biblioteca [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker) (em `inc/plugin-update-checker/`) consulta o release mais recente do repositório.
+- Quando a versão publicada é maior que a instalada, o aviso aparece em `Appearance > Themes`, com o botão "Atualizar agora" — igual a um tema do WordPress.org.
+- A atualização baixa o `feicoop-wp-template.zip` anexado ao release.
+
+### Como lançar uma nova versão
+
+1. Incremente o número em `Version` no `style.css`.
+2. Envie o commit para a branch `main` (ou crie uma tag `vX.Y.Z`).
+3. O workflow `Package theme` cria ou atualiza o release automaticamente com o ZIP.
+
+> **Importante:** o número do `style.css` precisa ser incrementado a cada lançamento. A comparação de versão é feita pelo `Version` do `style.css` publicado no release — se ele não mudar, o WordPress não detecta atualização.
+
+A verificação usa a API pública do GitHub (sem token) e roda no máximo a cada 12 horas; também é disparada ao visitar a tela de temas ou de atualizações.
+
 ## Configurar a página de notícias
 
 Este tema usa a página de posts do WordPress como o arquivo principal de notícias.
