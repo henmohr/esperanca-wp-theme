@@ -1831,3 +1831,35 @@ blockquote {
   margin: 0;
   color: var(--text-color);
 }
+
+/* Seção "A trajetória da FEICOOP" na página /feicoop/. */
+.section--feicoop-history {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.feicoop-history {
+  max-width: 48rem;
+}
+
+.feicoop-history h2 {
+  margin-top: 2.2rem;
+  margin-bottom: 0.9rem;
+  max-width: none;
+}
+
+.feicoop-history h2:first-child {
+  margin-top: 0;
+}
+
+.feicoop-history h3 {
+  margin-top: 1.8rem;
+  margin-bottom: 0.6rem;
+}
+
+.feicoop-history p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+  color: var(--text-color, #333);
+  max-width: none;
+}

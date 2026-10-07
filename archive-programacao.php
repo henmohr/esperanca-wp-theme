@@ -47,6 +47,8 @@ $highlight = feicoop_home_highlight_fields();
         </header>
     </div>
 
+    <?php get_template_part('template-parts/feicoop', 'history'); ?>
+
     <?php if (feicoop_home_registration_enabled()) : ?>
         <?php $registration_classes = 'homepage-registration' . (($registration['date_label'] === '' && $registration['date_value'] === '') ? ' homepage-registration--single' : ''); ?>
         <section class="section section--registration-callout">
