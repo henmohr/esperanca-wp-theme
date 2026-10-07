@@ -2455,6 +2455,22 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'feicoop_home_highlight_text' => ['label' => __('Texto', 'feicoop'), 'section' => 'feicoop_home_highlight', 'type' => 'textarea', 'default' => $highlight['text']],
     ]);
 
+    $wp_customize->add_section('feicoop_feicoop_history', [
+        'title' => __('FEICOOP — História', 'feicoop'),
+        'description' => __('Texto da seção "A trajetória da FEICOOP" exibida na página /feicoop/. Aceita HTML (títulos h2/h3 e parágrafos).', 'feicoop'),
+        'priority' => 31,
+    ]);
+
+    feicoop_customize_add_fields($wp_customize, [
+        'feicoop_feicoop_history' => [
+            'label' => __('Conteúdo da seção', 'feicoop'),
+            'section' => 'feicoop_feicoop_history',
+            'type' => 'textarea',
+            'default' => feicoop_feicoop_history_default(),
+            'sanitize_callback' => 'wp_kses_post',
+        ],
+    ]);
+
     $wp_customize->add_section('feicoop_home_news', [
         'title' => __('FEICOOP Home — Notícias', 'feicoop'),
         'description' => __('Cabeçalho da seção de notícias da home.', 'feicoop'),
