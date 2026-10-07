@@ -88,7 +88,7 @@ function feicoop_home_contact_fields(): array {
         'email' => (string) get_theme_mod('feicoop_home_contact_email', 'projeto@esperancacooesperanca.org.br'),
         'whatsapp' => (string) get_theme_mod('feicoop_home_contact_whatsapp', '5555999744567'),
         'address' => (string) get_theme_mod('feicoop_home_contact_address', "Rua Heitor Campos, s/n\nMedianeira, Santa Maria - RS\nCEP 97060-290"),
-        'facebook' => (string) get_theme_mod('feicoop_home_contact_facebook', 'https://www.facebook.com/share/18i1BbrmgR/'),
+        'facebook' => (string) get_theme_mod('feicoop_home_contact_facebook', 'https://www.facebook.com/feicoop'),
         'instagram' => (string) get_theme_mod('feicoop_home_contact_instagram', 'https://www.instagram.com/feirao.ecosol/'),
         'youtube' => (string) get_theme_mod('feicoop_home_contact_youtube', 'https://www.youtube.com/channel/UC9fE3YsQNza8UpiYULNHIZw'),
     ];
@@ -204,7 +204,8 @@ function feicoop_home_cooesperanca_fields(): array {
 }
 
 function feicoop_site_construction_notice(): string {
-    return (string) get_theme_mod('feicoop_site_construction_notice', 'Site em construção — o portal está sendo atualizado com novas informações do Projeto Cooesperança.');
+    // Vazio por padrão: o aviso "Site em construção" foi removido do ar.
+    return (string) get_theme_mod('feicoop_site_construction_notice', '');
 }
 
 /**

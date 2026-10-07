@@ -2333,7 +2333,7 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         ],
         'facebook' => [
             'label' => __('Facebook', 'feicoop'),
-            'default' => 'https://www.facebook.com/share/18i1BbrmgR/',
+            'default' => 'https://www.facebook.com/feicoop',
             'sanitize_callback' => 'esc_url_raw',
         ],
         'instagram' => [
@@ -2539,5 +2539,19 @@ function feicoop_main_menu_fallback(): void {
 }
 
 function feicoop_footer_menu_fallback(): void {
-    echo '<ul><li><a href="' . esc_url(home_url('/')) . '">' . esc_html__('Home', 'feicoop') . '</a></li></ul>';
+    $links = [
+        ['label' => __('Início', 'feicoop'), 'url' => home_url('/')],
+        ['label' => __('Quem somos', 'feicoop'), 'url' => feicoop_page_url('quem-somos', '/quem-somos.html')],
+        ['label' => __('História', 'feicoop'), 'url' => feicoop_page_url('historia', '/historia.html')],
+        ['label' => __('Feirão EcoSol', 'feicoop'), 'url' => feicoop_page_url('feirao-colonial', '/feirao-colonial.html')],
+        ['label' => __('FEICOOP', 'feicoop'), 'url' => feicoop_programacao_archive_url()],
+        ['label' => __('Notícias', 'feicoop'), 'url' => feicoop_posts_page_url()],
+        ['label' => __('Contato', 'feicoop'), 'url' => feicoop_page_url('contato', '/contato.html')],
+    ];
+
+    echo '<ul>';
+    foreach ($links as $link) {
+        echo '<li><a href="' . esc_url($link['url']) . '">' . esc_html($link['label']) . '</a></li>';
+    }
+    echo '</ul>';
 }
