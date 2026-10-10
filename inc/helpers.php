@@ -101,7 +101,7 @@ function feicoop_home_contact_fields(): array {
  */
 function feicoop_home_intro_fields(): array {
     return [
-        'kicker' => (string) get_theme_mod('feicoop_home_intro_kicker', 'Projeto Esperança/Cooesperança'),
+        'kicker' => (string) get_theme_mod('feicoop_home_intro_kicker', ''),
         'title' => (string) get_theme_mod('feicoop_home_intro_title', 'Organização popular, economia solidária e articulação em rede'),
         'text' => (string) get_theme_mod('feicoop_home_intro_text', "O Projeto Esperança/Cooesperança articula experiências de economia popular e solidária, agricultura familiar, comércio justo e cooperativismo em Santa Maria e na região central do Rio Grande do Sul.\n\nSeu trabalho conecta grupos urbanos e rurais, promove circulação de renda no território e fortalece iniciativas coletivas comprometidas com a autogestão, a cooperação e o bem viver."),
     ];
