@@ -258,7 +258,7 @@ function feicoop_sanitize_hero_title_size($value): string {
 }
 
 function feicoop_home_hero_title_size(): string {
-    $size = (float) get_theme_mod('feicoop_home_hero_title_size', 2.1);
+    $size = (float) get_theme_mod('feicoop_home_hero_title_size', 1);
 
     if ($size < 2.1) {
         $size = 2.1;
