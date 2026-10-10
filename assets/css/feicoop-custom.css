@@ -226,6 +226,14 @@ button {
   margin-top: 0;
 }
 
+/* Remove a margem lateral/vertical que o .btn + .btn (main.css) aplica ao
+   segundo botão. O espaçamento já é controlado pelo gap do flex; sem isso o
+   "FEICOOP" ficava deslocado para a direita quando os botões empilhavam. */
+.hero__actions .btn + .btn {
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
 .home-template .hero__actions .btn,
 .hero__panel .btn,
 .news-summary__actions .btn,
@@ -555,6 +563,14 @@ button {
 
   .hero__actions {
     align-items: stretch;
+    flex-wrap: nowrap;
+  }
+
+  .home-template .hero__actions .btn {
+    min-width: 0;
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+    white-space: nowrap;
   }
 
   .inscricoes-hero {
