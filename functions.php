@@ -326,6 +326,26 @@ function feicoop_register_programacao_cpt(): void {
 add_action('init', 'feicoop_register_programacao_cpt');
 
 /* =====================================================================
+ * Blocos dinâmicos da página FEICOOP (editáveis no editor de blocos)
+ * ===================================================================== */
+function feicoop_block_category(array $categories): array {
+    return array_merge($categories, [
+        [
+            'slug' => 'feicoop',
+            'title' => __('FEICOOP', 'feicoop'),
+        ],
+    ]);
+}
+add_filter('block_categories_all', 'feicoop_block_category');
+
+function feicoop_register_blocks(): void {
+    register_block_type(get_template_directory() . '/blocks/programacao-pdf');
+    register_block_type(get_template_directory() . '/blocks/feicoop-history');
+    register_block_type(get_template_directory() . '/blocks/cartas-encerramento');
+}
+add_action('init', 'feicoop_register_blocks');
+
+/* =====================================================================
  * Produções e publicações (CPT publicacao: PDFs e vídeos)
  * ===================================================================== */
 function feicoop_register_publicacao_cpt(): void {
@@ -779,6 +799,14 @@ function feicoop_theme_page_definitions(): array {
             'content' => feicoop_feicoop_history_default(),
         ],
         [
+            // Página que alimenta a URL /feicoop/ (arquivo do CPT programacao).
+            // Editável no editor de blocos; não aparece nos menus.
+            'slug' => 'feicoop-pagina',
+            'title' => __('FEICOOP', 'feicoop'),
+            'template' => 'template-empty.php',
+            'content' => feicoop_feicoop_page_content(),
+        ],
+        [
             'slug' => 'feirao-colonial',
             'title' => __('Feirão EcoSol', 'feicoop'),
             'content' => '<p>O Feirão EcoSol é um espaço permanente de comercialização solidária, circulação de alimentos e encontro entre consumidores e produtores. Ele expressa, na prática, os princípios da economia solidária e da agroecologia. Além da venda direta, o Feirão fortalece vínculos comunitários, amplia a renda dos empreendimentos e torna visível a produção da agricultura familiar e do cooperativismo popular. Destaques: Comercialização sem intermediários; Valorização da agricultura familiar; Consumo ético e consciente; Presença permanente no calendário do projeto.</p><h2>Como participar</h2><p>Descreva aqui como produtores e grupos podem participar do Feirão EcoSol (contatos, regras, inscrição).</p><h2>Nossos empreendimentos</h2><p>Liste aqui os empreendimentos da economia solidária que participam do Feirão EcoSol.</p>',
@@ -934,7 +962,7 @@ function feicoop_maybe_seed_theme_pages(): void {
     $stored_version = (string) get_option('feicoop_theme_pages_version', '');
 
     if ($stored_version === $theme_version) {
-        $required_slugs = ['inicio', 'quem-somos', 'historia', 'feirao-colonial', 'contato', 'cooesperanca', 'ponto-de-cultura', 'galeria', 'inscricoes', 'noticias'];
+        $required_slugs = ['inicio', 'quem-somos', 'historia', 'a-feicoop', 'feicoop-pagina', 'feirao-colonial', 'contato', 'cooesperanca', 'ponto-de-cultura', 'galeria', 'inscricoes', 'noticias'];
         foreach ($required_slugs as $slug) {
             $existing_page = get_page_by_path($slug, OBJECT, 'page');
             if (!($existing_page instanceof WP_Post)) {
@@ -2072,6 +2100,23 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'title' => __('FEICOOP Inscrições', 'feicoop'),
         'description' => __('Mostra ou oculta a seção de inscrições da home e permite editar seus textos e botão.', 'feicoop'),
         'priority' => 35,
+    ]);
+
+    $wp_customize->add_section('feicoop_programacao', [
+        'title' => __('FEICOOP Programação (PDF)', 'feicoop'),
+        'description' => __('Define o PDF exibido na página FEICOOP. Deixe vazio para usar o PDF incluído no tema.', 'feicoop'),
+        'priority' => 36,
+    ]);
+
+    $wp_customize->add_setting('feicoop_programacao_pdf_url', [
+        'default' => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ]);
+
+    $wp_customize->add_control('feicoop_programacao_pdf_url', [
+        'label' => __('URL do PDF da programação', 'feicoop'),
+        'section' => 'feicoop_programacao',
+        'type' => 'url',
     ]);
 
     $wp_customize->add_section('feicoop_home_hero', [

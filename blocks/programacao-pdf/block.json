@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "feicoop/programacao-pdf",
+  "title": "Programação em PDF",
+  "category": "feicoop",
+  "icon": "media-document",
+  "description": "Botões e visualizador do PDF da programação da FEICOOP.",
+  "textdomain": "feicoop",
+  "supports": {
+    "html": false,
+    "align": false,
+    "multiple": false
+  },
+  "render": "file:./render.php"
+}

@@ -1901,3 +1901,47 @@ blockquote {
   color: var(--text-color, #333);
   max-width: none;
 }
+
+/* ===== Página FEICOOP editável por blocos (archive-programacao.php) ===== */
+.feicoop-page-entry {
+  max-width: var(--entry-width);
+  padding-top: clamp(1.5rem, 1rem + 1.5vw, 3rem);
+  padding-bottom: 3rem;
+}
+
+/* Centraliza a chamada do topo (eyebrow, título e subtítulo). */
+.feicoop-page-entry > .hero__eyebrow,
+.feicoop-page-entry > .wp-block-heading,
+.feicoop-page-entry > .feicoop-hero__subtitle {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.feicoop-page-entry .feicoop-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 2.5rem;
+}
+
+.feicoop-page-entry .feicoop-facts > p {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(74, 135, 121, 0.16);
+  border-radius: calc(var(--border-radius) * 1.2);
+  box-shadow: 0 10px 24px rgba(38, 73, 46, 0.06);
+  text-align: center;
+  max-width: none;
+}
+
+.feicoop-page-entry .feicoop-facts strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--color);
+  font-family: var(--heading-font);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}

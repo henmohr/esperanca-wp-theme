@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "feicoop/feicoop-history",
+  "title": "A trajetória da FEICOOP",
+  "category": "feicoop",
+  "icon": "book-alt",
+  "description": "Exibe o conteúdo da página 'A FEICOOP' (trajetória e eixos da feira).",
+  "textdomain": "feicoop",
+  "supports": {
+    "html": false,
+    "align": false,
+    "multiple": false
+  },
+  "render": "file:./render.php"
+}

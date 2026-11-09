@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "feicoop/cartas-encerramento",
+  "title": "Cartas de encerramento",
+  "category": "feicoop",
+  "icon": "admin-page",
+  "description": "Lista as cartas de encerramento das edições da FEICOOP.",
+  "textdomain": "feicoop",
+  "supports": {
+    "html": false,
+    "align": false,
+    "multiple": false
+  },
+  "render": "file:./render.php"
+}

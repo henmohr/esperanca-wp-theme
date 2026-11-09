@@ -5,6 +5,24 @@ if (!defined('ABSPATH')) {
 
 get_header();
 
+/**
+ * A página /feicoop/ (arquivo do CPT programacao) renderiza o conteúdo da
+ * Página "FEICOOP" (slug feicoop-pagina), editável no editor de blocos
+ * (Gutenberg). As partes dinâmicas (PDF, trajetória e cartas) são blocos do
+ * tema renderizados no servidor. O markup legado abaixo permanece como
+ * fallback caso a página não exista ou esteja vazia.
+ */
+$feicoop_page = get_page_by_path('feicoop-pagina', OBJECT, 'page');
+$feicoop_content = $feicoop_page instanceof WP_Post ? (string) $feicoop_page->post_content : '';
+?>
+<?php if (trim(wp_strip_all_tags($feicoop_content)) !== '') : ?>
+<main id="main" class="programacao-archive programacao-archive--blocks">
+    <div class="wrapper feicoop-page-entry">
+        <?php echo apply_filters('the_content', $feicoop_content); ?>
+    </div>
+</main>
+<?php else : ?>
+<?php
 $pdf_url = feicoop_programacao_pdf_url();
 $hero = feicoop_home_hero_fields();
 $event = feicoop_home_event_fields();
@@ -135,4 +153,5 @@ $highlight = feicoop_home_highlight_fields();
         <?php endif; ?>
     </div>
 </main>
+<?php endif; ?>
 <?php get_footer(); ?>
