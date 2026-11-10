@@ -56,10 +56,22 @@ $contact = function_exists('feicoop_home_contact_fields') ? feicoop_home_contact
             <strong class="footer__title"><?php esc_html_e('Redes sociais', 'feicoop'); ?></strong>
             <p class="footer__socials">
                 <?php if (!empty($contact['facebook'])) : ?>
-                    <a href="<?php echo esc_url($contact['facebook']); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Facebook', 'feicoop'); ?></a>
+                    <a href="<?php echo esc_url($contact['facebook']); ?>" target="_blank" rel="noopener noreferrer">
+                        <svg width="20" height="20" aria-hidden="true"><use xlink:href="<?php echo esc_url(feicoop_asset_url('assets/svg/svg-map.svg#facebook')); ?>"></use></svg>
+                        <span><?php esc_html_e('Facebook', 'feicoop'); ?></span>
+                    </a>
+                <?php endif; ?>
+                <?php if (!empty($contact['instagram'])) : ?>
+                    <a href="<?php echo esc_url($contact['instagram']); ?>" target="_blank" rel="noopener noreferrer">
+                        <svg width="20" height="20" aria-hidden="true"><use xlink:href="<?php echo esc_url(feicoop_asset_url('assets/svg/svg-map.svg#instagram')); ?>"></use></svg>
+                        <span><?php esc_html_e('Instagram', 'feicoop'); ?></span>
+                    </a>
                 <?php endif; ?>
                 <?php if (!empty($contact['youtube'])) : ?>
-                    <a href="<?php echo esc_url($contact['youtube']); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('YouTube', 'feicoop'); ?></a>
+                    <a href="<?php echo esc_url($contact['youtube']); ?>" target="_blank" rel="noopener noreferrer">
+                        <svg width="20" height="20" aria-hidden="true"><use xlink:href="<?php echo esc_url(feicoop_asset_url('assets/svg/svg-map.svg#youtube')); ?>"></use></svg>
+                        <span><?php esc_html_e('YouTube', 'feicoop'); ?></span>
+                    </a>
                 <?php endif; ?>
             </p>
         </div>
