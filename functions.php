@@ -2119,6 +2119,23 @@ function feicoop_customize_register(WP_Customize_Manager $wp_customize): void {
         'type' => 'url',
     ]);
 
+    $wp_customize->add_section('feicoop_feicoop_bi', [
+        'title' => __('FEICOOP em dados (BI)', 'feicoop'),
+        'description' => __('Define o link do painel de dados exibido na página FEICOOP.', 'feicoop'),
+        'priority' => 37,
+    ]);
+
+    $wp_customize->add_setting('feicoop_feicoop_bi_url', [
+        'default' => 'https://projeto-esperanca-cooesperanca.github.io/feicoop-em-dados/',
+        'sanitize_callback' => 'esc_url_raw',
+    ]);
+
+    $wp_customize->add_control('feicoop_feicoop_bi_url', [
+        'label' => __('URL do painel de dados (BI)', 'feicoop'),
+        'section' => 'feicoop_feicoop_bi',
+        'type' => 'url',
+    ]);
+
     $wp_customize->add_section('feicoop_home_hero', [
         'title' => __('FEICOOP Hero', 'feicoop'),
         'description' => __('Edita a chamada principal do topo da home e o texto do painel lateral.', 'feicoop'),

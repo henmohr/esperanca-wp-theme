@@ -47,6 +47,10 @@ function feicoop_programacao_pdf_url(): string {
     return feicoop_asset_url('programacao-feicoop-2026.pdf');
 }
 
+function feicoop_feicoop_bi_url(): string {
+    return (string) get_theme_mod('feicoop_feicoop_bi_url', 'https://projeto-esperanca-cooesperanca.github.io/feicoop-em-dados/');
+}
+
 function feicoop_template_meta(int $post_id, string $key, string $default = ''): string {
     $value = get_post_meta($post_id, $key, true);
 
@@ -296,6 +300,42 @@ function feicoop_feicoop_history_default(): string {
 <p>No eixo de Arte, Cultura e Diversidade estão inseridas apresentações e manifestações artísticas, como música, dança, teatro, ritmos e muito mais. Na FEICOOP sempre se estrutura um palco, com ornamentações que representam povos e nações, alimentos e alimentação — que é um direito garantido à população, mas que em muitas situações acaba não atingindo todos e todas — e elementos que são a identidade visual do movimento de Economia Solidária. O palco é espaço de fala, usado para dar voz às etnias e às variedades de estilos artísticos contidos nas apresentações que seguem durante toda a programação da feira, além de discursos e debates importantes.</p>
 
 <p>Este espaço é um local rico em cultura e arte, muitas vezes animado e festivo, porém em alguns momentos também é usado para debates e reflexões acerca dos desafios encontrados no campo, na cidade e em outros locais de moradia e garantia de renda e sustento de muitas famílias.</p>
+
+<h2>FEICOOP: uma experiência aprendente e ensinante</h2>
+
+<p>Ao longo de sua trajetória, a FEICOOP construiu uma metodologia de organização fundamentada na participação coletiva, na aprendizagem compartilhada e na autogestão, na qual todos e todas aprendem ao fazer e também ao ensinar. Esse processo valoriza a troca de conhecimentos, experiências, saberes populares, histórias de vida e diferentes formas de organização.</p>
+
+<p>Organizar a FEICOOP significa participar ativamente do movimento da Economia Solidária, assumindo compromissos com a cooperação, a solidariedade e o fortalecimento coletivo dos empreendimentos e de seus integrantes. Nesse sentido, a própria organização da Feira constitui uma grande escola de participação, democracia e autogestão, na qual o planejamento, as decisões e as responsabilidades são compartilhados.</p>
+
+<p>Essa metodologia se concretiza em diferentes momentos de construção coletiva, com destaque para:</p>
+
+<p><strong>a) Plenárias e reuniões de planejamento:</strong> reúnem voluntários e voluntárias, representantes de empreendimentos, movimentos sociais, instituições parceiras e demais pessoas comprometidas com a realização da FEICOOP. São espaços democráticos de diálogo, avaliação e construção de propostas, nos quais são debatidas questões organizativas e temáticas sociais, econômicas, ambientais e culturais que orientarão as atividades da Feira. As reuniões ocorrem semanalmente, ao longo do ano, junto ao Projeto Esperança/COOESPERANÇA.</p>
+
+<p><strong>b) Equipes de trabalho e mutirões:</strong> organizadas de acordo com as necessidades da Feira e as habilidades e disponibilidades dos participantes, assumem coletivamente as responsabilidades pelo planejamento, pela estruturação dos espaços e pela realização das atividades. Os mutirões, realizados antes, durante e após a FEICOOP, expressam na prática os princípios da cooperação, da ajuda mútua e da autogestão, fortalecendo os vínculos entre as pessoas e organizações envolvidas.</p>
+
+<p><strong>c) Mística:</strong> presente ao longo da organização da FEICOOP, tem sua maior expressão na abertura da Feira, por meio de manifestações artísticas e culturais que fortalecem o pertencimento, a solidariedade e o compromisso com a transformação social. Como memória viva dessa prática, permanece o provérbio africano: “Muita gente pequena, em lugares pequenos, fazendo coisas pequenas, mudarão a face da Terra”, simbolizando a força da ação coletiva.</p>
+
+<p><strong>d) As Cartas da FEICOOP:</strong> desde 2005, ao final de cada edição da Feira, é escrita a Carta da FEICOOP, um documento oficial com os números da edição e, principalmente, a conjuntura sociopolítica do país e do mundo daquele ano. Com isso, as Cartas contextualizam os desafios e as conquistas populares pela Economia Solidária. As Cartas da FEICOOP são, assim, documentos históricos e simbólicos, de função educativa e política, elaborados coletivamente ao final de cada edição do evento.</p>
+
+<h2>Como ocorre a organização da FEICOOP?</h2>
+
+<p>Diferentemente de uma feira comercial convencional, a FEICOOP não tem como finalidade central a obtenção de lucro pela organização do evento. A proposta está voltada à promoção do comércio justo e solidário, à valorização do trabalho coletivo, ao fortalecimento dos empreendimentos econômicos solidários e à construção de relações econômicas mais democráticas. Para organizar a estrutura orçamentária, é necessário um planejamento técnico que envolve uma comissão organizadora que discute os principais itens que exigem empenho de recurso financeiro. Entre estes itens estão incluídos:</p>
+
+<ul>
+<li><strong>Infraestrutura:</strong> montagem de espaços de comercialização, instalações elétricas, equipamentos, mobiliário, limpeza e manutenção.</li>
+<li><strong>Logística:</strong> transporte de materiais, organização dos espaços e apoio à participação dos empreendimentos.</li>
+<li><strong>Comunicação e divulgação:</strong> produção de materiais gráficos, identidade visual, publicidade e divulgação institucional.</li>
+<li><strong>Alimentação:</strong> estruturas de apoio aos participantes, expositores e equipes de organização.</li>
+<li><strong>Gestão administrativa:</strong> documentação, contratação de serviços, controle financeiro e prestação de contas.</li>
+</ul>
+
+<p>Um dos aspectos mais relevantes da dimensão orçamentária da FEICOOP é sua relação com a organização coletiva. As decisões sobre prioridades, necessidades e aplicação dos recursos devem estar articuladas aos espaços de participação e às instâncias organizativas da feira. O financiamento da FEICOOP envolve a captação de diferentes fontes de recursos, articuladas por meio de parcerias e da mobilização coletiva.</p>
+
+<p>A realização da FEICOOP conta com o apoio e financiamento principalmente do poder público, instituições parceiras, entidades e organizações de Economia Solidária. Entre os mecanismos de financiamento público, destacam-se as emendas parlamentares, recursos ministeriais e patrocínios que possibilitam a destinação de recursos orçamentários para ações e projetos de interesse público. No contexto da FEICOOP, esses recursos viabilizam o custeio das despesas necessárias à realização do evento, fortalecendo sua infraestrutura e suas condições de funcionamento. A obtenção desses recursos está relacionada à articulação institucional com representantes do Poder Legislativo e Executivo, tanto na esfera municipal quanto nas esferas estadual e federal, observadas as competências e os instrumentos orçamentários de cada ente.</p>
+
+<p>A participação das emendas parlamentares na realização da FEICOOP evidencia a relação entre a economia solidária e as políticas públicas de apoio à organização socioprodutiva. Ao contribuir para a viabilização de um espaço de comercialização e articulação de empreendimentos coletivos, o financiamento público pode favorecer a geração de trabalho e renda, a valorização da agricultura familiar, a inclusão socioprodutiva e o desenvolvimento territorial sustentável. Entretanto, para dimensionar efetivamente essa contribuição, é necessário identificar os valores destinados, os recursos executados e as despesas financiadas em cada edição da feira.</p>
+
+<p>Sob a perspectiva da Economia Solidária, o orçamento da FEICOOP não deve ser compreendido exclusivamente como um instrumento de controle de receitas e despesas, mas também como uma dimensão estratégica de organização coletiva. A definição de prioridades, a mobilização de parceiros e a distribuição dos recursos disponíveis estão relacionadas à capacidade de articulação das organizações envolvidas na realização da feira. Dessa forma, a sustentabilidade financeira depende tanto da obtenção de recursos quanto da construção de mecanismos de planejamento, participação e transparência.</p>
 HTML;
 }
 
@@ -309,6 +349,7 @@ HTML;
  */
 function feicoop_feicoop_page_content(): string {
     $inscricoes_url = esc_url(feicoop_page_url('inscricoes', '/inscricoes/'));
+    $bi_url = esc_url(feicoop_feicoop_bi_url());
 
     return <<<HTML
 <!-- wp:paragraph {"className":"hero__eyebrow"} -->
@@ -336,8 +377,6 @@ function feicoop_feicoop_page_content(): string {
 <p><strong>Foco:</strong> Economia solidária, cooperativismo e redes</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-
-<!-- wp:feicoop/programacao-pdf /-->
 
 <!-- wp:feicoop/feicoop-history /-->
 
@@ -373,6 +412,22 @@ function feicoop_feicoop_page_content(): string {
 <!-- wp:paragraph {"className":"section__text section__text--lead"} -->
 <p class="section__text section__text--lead">A FEICOOP reúne iniciativas do campo e da cidade em torno da cooperação, da comercialização solidária e da troca de saberes entre grupos e comunidades.</p>
 <!-- /wp:paragraph --></section>
+<!-- /wp:group -->
+
+<!-- wp:group {"tagName":"section","className":"section section--feicoop-bi","layout":{"type":"constrained"}} -->
+<section class="wp-block-group section section--feicoop-bi"><!-- wp:heading -->
+<h2 class="wp-block-heading">FEICOOP em dados</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Painel público e anonimizado com as inscrições da 32ª FEICOOP: estados, municípios, perfil dos empreendimentos e categorias.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="{$bi_url}" target="_blank" rel="noopener noreferrer">Abrir painel de dados</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></section>
 <!-- /wp:group -->
 
 <!-- wp:feicoop/cartas-encerramento /-->

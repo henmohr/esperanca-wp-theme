@@ -23,7 +23,6 @@ $feicoop_content = $feicoop_page instanceof WP_Post ? (string) $feicoop_page->po
 </main>
 <?php else : ?>
 <?php
-$pdf_url = feicoop_programacao_pdf_url();
 $hero = feicoop_home_hero_fields();
 $event = feicoop_home_event_fields();
 $registration = feicoop_home_registration_fields();
@@ -56,10 +55,6 @@ $highlight = feicoop_home_highlight_fields();
                     </div>
                 </dl>
 
-                <p class="hero__actions">
-                    <a class="btn" href="<?php echo esc_url($pdf_url); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Abrir programação em PDF', 'feicoop'); ?></a>
-                    <a class="btn btn--ghost" href="<?php echo esc_url($pdf_url); ?>" download><?php esc_html_e('Baixar programação em PDF', 'feicoop'); ?></a>
-                </p>
                 <?php feicoop_render_back_button(home_url('/'), __('Voltar ao início', 'feicoop')); ?>
             </div>
         </header>
@@ -124,13 +119,10 @@ $highlight = feicoop_home_highlight_fields();
     <?php endif; ?>
 
     <div class="wrapper programacao-archive__body">
-        <section class="programacao-pdf-viewer" aria-label="<?php esc_attr_e('Visualização do PDF da programação', 'feicoop'); ?>">
-            <object class="programacao-pdf-viewer__frame" data="<?php echo esc_url($pdf_url); ?>" type="application/pdf">
-                <p>
-                    <?php esc_html_e('Seu navegador não conseguiu exibir o PDF embutido.', 'feicoop'); ?>
-                    <a href="<?php echo esc_url($pdf_url); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Abra o arquivo em uma nova aba', 'feicoop'); ?></a>
-                </p>
-            </object>
+        <section class="section section--feicoop-bi" aria-label="<?php esc_attr_e('FEICOOP em dados', 'feicoop'); ?>">
+            <h2><?php esc_html_e('FEICOOP em dados', 'feicoop'); ?></h2>
+            <p><?php esc_html_e('Painel público e anonimizado com as inscrições da 32ª FEICOOP: estados, municípios, perfil dos empreendimentos e categorias.', 'feicoop'); ?></p>
+            <p><a class="btn" href="<?php echo esc_url(feicoop_feicoop_bi_url()); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Abrir painel de dados', 'feicoop'); ?></a></p>
         </section>
 
         <?php
