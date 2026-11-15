@@ -21,7 +21,7 @@ require_once __DIR__ . '/inc/legacy-content.php';
 require_once __DIR__ . '/inc/plugin-update-checker/plugin-update-checker.php';
 
 $feicoopThemeUpdateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
-    'https://github.com/henmohr/esperanca-wp-theme/', // repositório com os releases
+    'https://github.com/Projeto-Esperanca-COOESPERANCA/esperanca-wp-theme/', // repositório com os releases
     __FILE__,                                          // functions.php (o PUC detecta que é um tema)
     ''                                                 // slug vazio: usa o nome da pasta do tema
 );
